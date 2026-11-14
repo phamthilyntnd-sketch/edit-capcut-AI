@@ -1,0 +1,27 @@
+{
+  "_huong_dan": "Ví dụ thật: dung dịch vệ sinh MANGINO WOMEN của SANTAV. Logo/brief KHÔNG kèm trong repo — đặt đường dẫn trên máy của bạn.",
+  "ten": "SANTAV",
+  "mau_chinh": "#6CBE45",
+  "mau_dam": "#2F6B1F",
+  "mau_vien": "#4F8F33",
+  "logo": "",
+  "logo_chu": "SANTAV",
+  "cta": "GIỎ HÀNG",
+  "nhan_qc": {
+    "tag": "Hợp tác quảng cáo",
+    "phaply": "MANGINO WOMEN – Dung dịch vệ sinh phụ nữ · Công ty Cổ phần SANTAV"
+  },
+  "tu_cam": "viêm,nấm ngứa,kháng khuẩn,pH,khí hư,niêm mạc,điều trị,tốt nhất,số 1",
+  "mau_san_pham": ["#6CBE45", "#3F8F3A"],
+  "tu_vung": "SANTAV, Mangino Women, Fosibio Costi, chiết xuất lá xoài, Mangiferin, lô hội, bạc hà, vùng kín, giỏ hàng",
+  "nganh": "my-pham",
+  "nganh_tra_loi": {
+    "co": {"ban_hang": true, "kol": true, "kol_da_dung": true, "dung_ai": false, "nguoi_trong_hinh_dong_y": true},
+    "gia_tri": {"san_pham": "Mangino Women", "don_vi_cong_bo": "Công ty Cổ phần SANTAV"}
+  },
+  "facts": {
+    "mangiferin": {"gia_tri": "Mangiferin 0,5%", "nguon": "Brief / nhãn Mangino Women", "da_xac_nhan": true},
+    "dung_tich": {"gia_tri": "120ml, 250ml, 60ml", "nguon": "Brief - thông tin sản phẩm", "da_xac_nhan": true}
+  },
+  "brief": ""
+}

@@ -1,0 +1,280 @@
+{
+  "_huong_dan": "Cấu hình 1 video thật (MAN T-5 của SANTAV) — mọi mốc giây là thời gian trên clip A-roll gốc. Xem SKILL.md mục Quy trình.",
+  "draft": "SANTAV MAN T-5",
+  "title": "MAN T-5 - NHUNG LUU Y TRUOC KHI MUA",
+  "aroll": "IMG_4933.mp4",
+  "transcript": "v2.wav.json",
+  "out_mp4": "D:/footage/MAN T-5/MAN T-5_FINAL.mp4",
+  "out_thumb": "D:/footage/MAN T-5/MAN T-5_thumbnail.png",
+  "keeps": [
+    [
+      5.4,
+      10.03
+    ],
+    [
+      19.2,
+      34.96
+    ],
+    [
+      40.56,
+      60.39
+    ],
+    [
+      68.12,
+      91.59
+    ]
+  ],
+  "skip_segments": [
+    1,
+    12,
+    18
+  ],
+  "fix": {
+    "Manzino Women": "MANGINO WOMEN",
+    "Manzino": "MANGINO",
+    "chiếc suất": "chiết xuất",
+    "dò hàng": "giỏ hàng",
+    "2 dung tích": "2 dung tích",
+    "Rõ hàng": "Giỏ hàng"
+  },
+  "thumb": [
+    "NHỮNG LƯU Ý TRƯỚC KHI MUA",
+    "DUNG DỊCH VỆ SINH"
+  ],
+  "thumb_dur": 2.0,
+  "broll": [
+    {
+      "file": "IMG_4934.mp4",
+      "src": [
+        19.32,
+        24.9
+      ],
+      "tim_trong": [
+        0,
+        22
+      ],
+      "from": "auto"
+    },
+    {
+      "file": "IMG_4934.mp4",
+      "src": [
+        28.9,
+        33.6
+      ],
+      "tim_trong": [
+        25,
+        46.5
+      ],
+      "san_pham": true,
+      "from": "auto"
+    },
+    {
+      "file": "IMG_4937.mp4",
+      "src": [
+        46.3,
+        49.2
+      ],
+      "tim_trong": [
+        2,
+        36
+      ],
+      "san_pham": true,
+      "from": "auto"
+    },
+    {
+      "file": "IMG_4937.mp4",
+      "src": [
+        51.2,
+        53.9
+      ],
+      "tim_trong": [
+        71,
+        80
+      ],
+      "san_pham": true,
+      "from": "auto",
+      "tranh": [
+        [
+          58,
+          71
+        ]
+      ]
+    },
+    {
+      "file": "IMG_4934.mp4",
+      "src": [
+        55.84,
+        59.3
+      ],
+      "tim_trong": [
+        25,
+        46.5
+      ],
+      "from": "auto"
+    },
+    {
+      "file": "IMG_5798.mp4",
+      "src": [
+        68.12,
+        72.9
+      ],
+      "tim_trong": [
+        0,
+        21
+      ],
+      "from": "auto"
+    },
+    {
+      "file": "IMG_5797.mp4",
+      "src": [
+        74.4,
+        76.9
+      ],
+      "tim_trong": [
+        18,
+        50
+      ],
+      "from": "auto",
+      "tranh": [
+        [
+          0,
+          18
+        ]
+      ]
+    },
+    {
+      "file": "IMG_4937.mp4",
+      "src": [
+        79.0,
+        83.2
+      ],
+      "tim_trong": [
+        44,
+        60
+      ],
+      "san_pham": true,
+      "from": "auto"
+    }
+  ],
+  "callouts": [],
+  "cta_src": [
+    85.74,
+    91.59
+  ],
+  "phu_de": false,
+  "nhac": false,
+  "hieu_ung_capcut": [
+    {
+      "slug": "mini-zoom",
+      "at": 0,
+      "dur": 0.7
+    },
+    {
+      "slug": "mini-zoom",
+      "khi": "chưa đủ để đánh giá",
+      "sau": 22,
+      "dur": 0.6
+    },
+    {
+      "slug": "white-flash",
+      "khi": "Chẳng hạn như",
+      "sau": 49,
+      "dur": 0.35
+    },
+    {
+      "slug": "gleam",
+      "khi": "2 dung tích",
+      "sau": 75.8,
+      "dur": 1.0
+    }
+  ],
+  "nhan": [
+    {
+      "khi": "thảo dược",
+      "sau": 5,
+      "kieu": "chinh",
+      "chu": [
+        "Thảo dược",
+        "là đủ chưa?"
+      ]
+    },
+    {
+      "khi": "chưa đủ để đánh giá",
+      "sau": 22,
+      "kieu": "chinh",
+      "chu": [
+        "Nghe giới thiệu",
+        "là chưa đủ!"
+      ],
+      "den": 26.9
+    },
+    {
+      "khi": "Điều đầu tiên",
+      "sau": 26,
+      "kieu": "nen",
+      "chu": [
+        "1. Xem bảng thành phần"
+      ],
+      "den": 28.85
+    },
+    {
+      "khi": "Tiếp theo là công dụng",
+      "sau": 40,
+      "kieu": "nen",
+      "chu": [
+        "2. Công dụng &",
+        "hướng dẫn sử dụng"
+      ]
+    },
+    {
+      "khi": "Hãy đọc kỹ",
+      "sau": 44,
+      "kieu": "chinh",
+      "chu": [
+        "Đọc kỹ công dụng",
+        "trước khi mua"
+      ],
+      "den": 46.25
+    },
+    {
+      "khi": "Manzino Women này đây",
+      "sau": 49,
+      "kieu": "nen",
+      "chu": [
+        "MANGINO WOMEN"
+      ],
+      "san_pham": true,
+      "den": 51.15
+    },
+    {
+      "khi": "lá xoài",
+      "sau": 51,
+      "kieu": "nen",
+      "chu": [
+        "Lá xoài · Lô hội · Bạc hà"
+      ],
+      "den": 55.8
+    },
+    {
+      "khi": "hỗ trợ làm sạch",
+      "sau": 72.5,
+      "kieu": "nen",
+      "chu": [
+        "Làm sạch nhẹ nhàng",
+        "Sạch thoáng, tươi mát"
+      ],
+      "den": 74.35
+    },
+    {
+      "khi": "2 dung tích",
+      "sau": 76.5,
+      "kieu": "chinh",
+      "chu": [
+        "120ML | 250ML"
+      ],
+      "den": 78.95
+    }
+  ],
+  "thumb_size": 52,
+  "thuong_hieu": "santav"
+}

@@ -1,0 +1,24 @@
+{
+  "_huong_dan": "Hồ sơ thương hiệu MẪU. Chép thành thuong-hieu/<ma>.json rồi sửa; khoá nào không ghi sẽ lấy từ file này. Dự án chọn bằng \"thuong_hieu\": \"<ma>\" trong cau-hinh.json.",
+  "ten": "THƯƠNG HIỆU",
+  "mau_chinh": "#6CBE45",
+  "mau_dam": "#2F6B1F",
+  "mau_vien": "#4F8F33",
+  "logo": "",
+  "logo_chu": "LOGO",
+  "cta": "GIỎ HÀNG",
+  "nhan_qc": {
+    "tag": "Hợp tác quảng cáo",
+    "phaply": "TÊN SẢN PHẨM – Mô tả ngắn · Tên đơn vị công bố"
+  },
+  "tu_cam": "điều trị,chữa khỏi,tốt nhất,số 1,cam kết 100%",
+  "mau_san_pham": ["#6CBE45"],
+  "tu_vung": "giỏ hàng",
+  "nganh": "my-pham",
+  "nganh_tra_loi": {
+    "co": {"ban_hang": true, "kol": true, "kol_da_dung": true, "dung_ai": false, "nguoi_trong_hinh_dong_y": true},
+    "gia_tri": {"san_pham": "", "don_vi_cong_bo": ""}
+  },
+  "facts": {},
+  "brief": ""
+}

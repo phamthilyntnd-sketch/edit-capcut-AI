@@ -11,7 +11,7 @@ description: Dựng video bán hàng / review / KOC dọc 9:16 từ footage thô
 Cách làm việc với người dùng: **hỏi hết 1 lần ngay đầu, sau đó làm tới xong không hỏi nữa.** Trả lời tiếng Việt, ngắn, không thuật ngữ.
 
 - `SK` = thư mục skill này. `PY` = Python có faster-whisper, numpy, pillow, onnxruntime (`SK/.venv/Scripts/python.exe` nếu cài theo README). Luôn chạy `PY -I`.
-- Lần đầu trên máy: `PY -I SK/scripts/kiem_may.py` phải in SẴN SÀNG. Tiếng nhấn: `PY -I SK/scripts/tao_sfx.py` (tự tổng hợp, không bản quyền).
+- Cài máy mới: bấm đúp `SK/cai-dat/CAI-DAT.cmd` (tự cài + tải mọi thứ theo `cai-dat/lien-ket.json`). Kiểm: `PY -I SK/scripts/kiem_may.py` phải in SẴN SÀNG. Tiếng nhấn: `PY -I SK/scripts/tao_sfx.py` (tự tổng hợp, không bản quyền).
 - Mỗi video = 1 thư mục dự án `<nơi làm việc>/projects/<du-an>/` (raw/, transcript.json, cau-hinh.json, du-an.json…).
 
 ## Hồ sơ thương hiệu (`SK/thuong-hieu/<ma>.json`) — làm 1 lần cho mỗi khách

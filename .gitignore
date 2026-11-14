@@ -10,3 +10,4 @@ projects/
 *.MOV
 *.npz
 thuong-hieu/*.local.json
+models/

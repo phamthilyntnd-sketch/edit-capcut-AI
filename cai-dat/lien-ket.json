@@ -1,0 +1,29 @@
+{
+  "_huong_dan": "Mọi thứ bộ cài tự tải về. Sửa ở đây nếu link đổi — nhân sự KHÔNG phải tự tìm/tải gì.",
+  "skill_repo": "https://github.com/phamthilyntnd-sketch/edit-capcut-AI.git",
+  "thu_muc_skill": "%USERPROFILE%\\.claude\\skills\\edit-capcut-ai",
+  "winget": {
+    "git": "Git.Git",
+    "python": "Python.Python.3.12",
+    "node": "OpenJS.NodeJS.LTS",
+    "ffmpeg": "Gyan.FFmpeg",
+    "chrome": "Google.Chrome"
+  },
+  "npm": ["capcut-cli"],
+  "pip_requirements": "requirements.txt",
+  "mo_hinh": {
+    "u2net_human_seg": {
+      "url": "https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net_human_seg.onnx",
+      "luu_vao": "models/u2net_human_seg.onnx",
+      "ghi_chu": "tách người để chữ không che nhân vật (U-2-Net, Apache-2.0; bản phát hành của rembg, MIT)"
+    },
+    "whisper": {
+      "ten": "large-v3-turbo",
+      "ghi_chu": "faster-whisper tự tải từ Hugging Face lần đầu (~1,6 GB) — bộ cài tải sẵn để máy không phải chờ khi dựng"
+    }
+  },
+  "capcut": {
+    "tai_ve": "https://www.capcut.com/download",
+    "ghi_chu": "CapCut desktop cần cài 1 lần (bộ cài mở trang tải nếu máy chưa có)"
+  }
+}

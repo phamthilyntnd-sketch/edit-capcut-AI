@@ -13,24 +13,24 @@ Claude tự làm:
 
 Nhạc nền **không** tự chèn: bạn chọn nhạc có quyền thương mại trong thư viện CapCut (TikTok yêu cầu với video quảng cáo).
 
-## Cài đặt (Windows)
+## Cài đặt cho máy nhân sự (Windows) — 1 file, tự động
 
-1. Cần có: [Claude Code](https://claude.com/claude-code), **CapCut** desktop, **Google Chrome**, **Python 3.10+**, **Node.js**, **ffmpeg** (`winget install Gyan.FFmpeg`), **Git**.
-2. Lấy skill về thư mục skill của Claude:
-   ```bash
-   git clone https://github.com/phamthilyntnd-sketch/edit-capcut-AI.git "%USERPROFILE%\.claude\skills\edit-capcut-ai"
-   ```
-3. Cài thư viện Python (trong thư mục skill):
-   ```bash
-   cd "%USERPROFILE%\.claude\skills\edit-capcut-ai"
-   py -3 -m venv .venv
-   .venv\Scripts\pip install -r requirements.txt
-   npm i -g capcut-cli
-   .venv\Scripts\python scripts\tao_sfx.py
-   .venv\Scripts\python scripts\kiem_may.py
-   ```
-   Dòng cuối phải in **SẴN SÀNG**. Lần đầu dựng, Whisper sẽ tự tải mô hình nghe tiếng Việt (~1,5 GB).
-4. (Tuỳ chọn) để chữ né được cả **người**: đặt file mô hình `u2net_human_seg.onnx` và ghi đường dẫn vào `may.json` (chép từ `may.json.mau`). Không có thì chữ vẫn né sản phẩm.
+1. Người quản lý **mời tài khoản GitHub của nhân sự** vào repo riêng tư này (Settings → Collaborators).
+2. Gửi cho nhân sự đúng **1 file `cai-dat/CAI-DAT.cmd`** (Zalo / email / Drive nội bộ).
+3. Nhân sự **bấm đúp** file đó. Bộ cài tự làm hết (link tải nằm trong `cai-dat/lien-ket.json`, không ai phải tự đi tải):
+   - cài Git, Python 3.12, Node.js, ffmpeg, Chrome nếu máy chưa có (qua winget);
+   - tải skill về `%USERPROFILE%\.claude\skills\edit-capcut-ai` (lần đầu hiện cửa sổ đăng nhập GitHub);
+   - tạo môi trường Python riêng `.venv`, cài thư viện, cài `capcut-cli`;
+   - tải sẵn mô hình tách người (u2net, ~170 MB) và mô hình nghe tiếng Việt (Whisper large-v3-turbo, ~1,6 GB);
+   - tạo bộ tiếng nhấn, kiểm máy → in **XONG**.
+   CapCut desktop: nếu chưa có, bộ cài mở trang tải — cài xong mở CapCut 1 lần rồi bấm lại `CAI-DAT.cmd`.
+4. **Cập nhật** khi skill có bản mới: bấm lại `CAI-DAT.cmd` (chỉ tải phần thay đổi, giữ cấu hình máy).
+5. Kiểm nhanh không cài gì: `powershell -ExecutionPolicy Bypass -File cai-dat\cai-dat.ps1 -KiemTra`
+
+Máy đã có Git có thể cài bằng 1 lệnh thay cho bước 2–3:
+```bash
+git clone https://github.com/phamthilyntnd-sketch/edit-capcut-AI.git "%USERPROFILE%\.claude\skills\edit-capcut-ai" && powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\.claude\skills\edit-capcut-ai\cai-dat\cai-dat.ps1"
+```
 
 ## Dùng
 
@@ -50,6 +50,7 @@ Nhạc nền **không** tự chèn: bạn chọn nhạc có quyền thương m�
 | `scripts/chuan_bi.py` | Chuyển footage, phiên âm, bảng ảnh, tra brief |
 | `scripts/tram.py` · `bo_cuc.py` · `chu.py` · `cap_nhat.py` | Chọn cảnh trám đẹp · bố cục chữ né người/sản phẩm · chữ CapCut thật · cập nhật tại chỗ |
 | `scripts/tao_sfx.py` · `kiem_may.py` | Tạo bộ tiếng nhấn · kiểm máy |
+| `cai-dat/` | Bộ cài tự động (`CAI-DAT.cmd`, `cai-dat.ps1`) + danh sách link tải (`lien-ket.json`) |
 | `thuong-hieu/` | Hồ sơ thương hiệu (mẫu + ví dụ) |
 | `fonts/` | Be Vietnam Pro (SIL Open Font License — xem `fonts/OFL.txt`) |
 | `vi-du/cau-hinh-mau.json` | Cấu hình 1 video mẫu |

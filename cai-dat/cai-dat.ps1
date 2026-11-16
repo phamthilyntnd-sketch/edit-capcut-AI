@@ -33,6 +33,13 @@ function CaiWinget($id, $ten) {
 }
 
 Buoc "1. Phần mềm nền"
+# Claude (app desktop có tab Code) hoặc Claude Code dòng lệnh — skill chạy trong đó
+$coClaude = (CoLenh claude) -or [bool](Get-AppxPackage -Name "*Claude*" -ErrorAction SilentlyContinue) -or (Test-Path "$env:LOCALAPPDATA\AnthropicClaude")
+if ($coClaude) { Ok "Claude (desktop / Claude Code)" } else {
+    $claudeId = if ($LK -and $LK.winget.claude) { $LK.winget.claude } else { "Anthropic.Claude" }
+    CaiWinget $claudeId "Claude desktop (có tab Code)"
+    if (-not $KiemTra) { Canh "Mở app Claude, đăng nhập tài khoản công ty, rồi vào tab Code" }
+}
 if (CoLenh git) { Ok "Git" } else { CaiWinget "Git.Git" "Git" }
 $py = $null
 foreach ($c in @("py", "python")) { if (CoLenh $c) { $py = $c; break } }
@@ -100,9 +107,21 @@ if (Test-Path $venvPy) {
     & $venvPy -I (Join-Path $ThuMuc "scripts\kiem_may.py")
     $kq = $LASTEXITCODE
 } else { $kq = 1 }
+Buoc "7. Lối tắt cập nhật trên Desktop"
+$cmdFile = Join-Path $ThuMuc "cai-dat\CAI-DAT.cmd"
+if (-not $KiemTra -and (Test-Path $cmdFile)) {
+    try {
+        $lnk = Join-Path ([Environment]::GetFolderPath("Desktop")) "Cap nhat skill edit-capcut-AI.lnk"
+        $ws = New-Object -ComObject WScript.Shell
+        $sc = $ws.CreateShortcut($lnk); $sc.TargetPath = $cmdFile; $sc.WorkingDirectory = $ThuMuc; $sc.Save()
+        Ok "Desktop: 'Cap nhat skill edit-capcut-AI' (bấm đúp khi có bản mới)"
+    } catch { Canh "Không tạo được lối tắt (không ảnh hưởng)" }
+}
+
 Write-Host ""
 if ($kq -eq 0) {
-    Write-Host "XONG. Mở Claude Code và nói: 'Dựng video trong thư mục <...> cho thương hiệu <...> thành project CapCut' (hoặc /edit-capcut-ai)." -ForegroundColor Green
+    Write-Host "XONG. TẮT HẲN rồi MỞ LẠI Claude (hoặc Claude Code) để nhận skill." -ForegroundColor Green
+    Write-Host "Sau đó nói: 'Dựng video trong thư mục <...> cho thương hiệu <...> thành project CapCut' (hoặc gõ /edit-capcut-ai)." -ForegroundColor Green
 } else {
     Write-Host "Còn thiếu mục bắt buộc ở trên — sửa theo gợi ý rồi chạy lại bộ cài." -ForegroundColor Yellow
 }

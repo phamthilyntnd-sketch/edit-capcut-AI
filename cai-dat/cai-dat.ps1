@@ -49,9 +49,15 @@ if (CoLenh ffmpeg) { Ok "ffmpeg" } else { CaiWinget "Gyan.FFmpeg" "ffmpeg" }
 $coChrome = (Test-Path "$env:ProgramFiles\Google\Chrome\Application\chrome.exe") -or (Test-Path "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe") -or (Test-Path "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe")
 if ($coChrome) { Ok "Chrome/Edge" } else { CaiWinget "Google.Chrome" "Google Chrome" }
 $capcutDrafts = Join-Path $env:LOCALAPPDATA "CapCut\User Data\Projects\com.lveditor.draft"
-if (Test-Path $capcutDrafts) { Ok "CapCut desktop" } else {
-    Canh "Chưa thấy CapCut desktop -> mở trang tải; cài xong mở CapCut 1 lần rồi chạy lại bộ cài này"
-    if (-not $KiemTra) { Start-Process "https://www.capcut.com/download" }
+if (Test-Path $capcutDrafts) { Ok "CapCut desktop" } elseif ($KiemTra) { Canh "Chưa có CapCut desktop" } else {
+    CaiWinget "ByteDance.CapCut" "CapCut desktop"
+    # mở CapCut 1 lần để nó tạo thư mục project (không tự tắt — người dùng tự đóng)
+    $ccApp = Get-StartApps | Where-Object { $_.Name -eq "CapCut" } | Select-Object -First 1
+    if ($ccApp) { Start-Process "explorer.exe" "shell:AppsFolder\$($ccApp.AppID)" }
+    Write-Host "   Đang chờ CapCut mở lần đầu (tối đa 2 phút)..."
+    for ($i = 0; $i -lt 60 -and -not (Test-Path $capcutDrafts); $i++) { Start-Sleep 2 }
+    if (Test-Path $capcutDrafts) { Ok "CapCut desktop (đã mở lần đầu — đăng nhập/đóng tuỳ bạn)" }
+    else { Canh "CapCut chưa tạo thư mục project: mở CapCut, tạo 1 project trống, đóng, rồi chạy lại bộ cài"; Start-Process "https://www.capcut.com/download" }
 }
 
 Buoc "2. Skill từ GitHub -> $ThuMuc"
@@ -118,10 +124,43 @@ if (-not $KiemTra -and (Test-Path $cmdFile)) {
     } catch { Canh "Không tạo được lối tắt (không ảnh hưởng)" }
 }
 
+Buoc "8. Chuẩn bị EDIT THỬ"
+$lam = Join-Path ([Environment]::GetFolderPath("MyDocuments")) "Edit-CapCut-AI"
+$thu = Join-Path $lam "footage\video-thu"
+$cau = "Dựng video trong thư mục `"$thu`" cho thương hiệu santav thành project CapCut. Đây là video edit thử."
+if (-not $KiemTra) {
+    New-Item -ItemType Directory -Force $thu | Out-Null
+    $hd = @"
+EDIT THỬ VIDEO ĐẦU TIÊN — 3 bước
+=================================
+1. Chép vào thư mục footage\video-thu (ngay cạnh file này):
+   - 1 clip người nói (quay dọc, nói hết kịch bản)
+   - vài clip cảnh trám sản phẩm (mỗi clip từ 5 giây)
+2. Mở app AI (Claude) -> tab Code -> chọn thư mục làm việc:
+   $lam
+3. Dán câu dưới (đã chép sẵn vào bộ nhớ, chỉ cần Ctrl+V) rồi Enter:
+
+   $cau
+
+AI hỏi những gì còn thiếu 1 lần, rồi tự dựng tới xong. Khi AI nhắc "đóng CapCut" thì tắt hẳn CapCut.
+Khách khác: đổi "santav" thành tên hồ sơ thương hiệu của khách.
+"@
+    Set-Content -Path (Join-Path $lam "BAT-DAU-EDIT-THU.txt") -Value $hd -Encoding UTF8
+    try { Set-Clipboard -Value $cau } catch {}
+    Ok "Thư mục làm việc: $lam (bỏ footage vào footage\video-thu)"
+}
+
 Write-Host ""
 if ($kq -eq 0) {
-    Write-Host "XONG. TẮT HẲN rồi MỞ LẠI Claude (hoặc Claude Code) để nhận skill." -ForegroundColor Green
-    Write-Host "Sau đó nói: 'Dựng video trong thư mục <...> cho thương hiệu <...> thành project CapCut' (hoặc gõ /edit-capcut-ai)." -ForegroundColor Green
+    Write-Host "XONG. TẮT HẲN rồi MỞ LẠI app AI (Claude) để nhận skill." -ForegroundColor Green
+    Write-Host "EDIT THỬ: bỏ footage vào $thu, mở app AI -> tab Code -> chọn thư mục $lam, dán câu (đã chép sẵn, Ctrl+V):" -ForegroundColor Green
+    Write-Host "   $cau" -ForegroundColor Green
+    if (-not $KiemTra) {
+        Start-Process "explorer.exe" "`"$lam`""
+        Start-Process "notepad.exe" "`"$(Join-Path $lam 'BAT-DAU-EDIT-THU.txt')`""
+        $claudeApp = Get-StartApps | Where-Object { $_.Name -eq "Claude" } | Select-Object -First 1
+        if ($claudeApp) { Start-Process "explorer.exe" "shell:AppsFolder\$($claudeApp.AppID)" }
+    }
 } else {
     Write-Host "Còn thiếu mục bắt buộc ở trên — sửa theo gợi ý rồi chạy lại bộ cài." -ForegroundColor Yellow
 }

@@ -45,6 +45,15 @@ def tai_thuong_hieu(project_dir=None, ma=None):
     if not th:
         print(f"! Không đọc được hồ sơ thương hiệu {p} -> dùng mẫu chung")
     out = _gop(mau, th)
+    # TỪ CẤM = cơ bản (luật QC, theo ngành — thuong-hieu/tu-cam-co-ban.json) + riêng của khách ("tu_cam" trong hồ sơ).
+    # Nhân sự không phải điền lại từ cấm cơ bản; hồ sơ khách chỉ ghi thêm từ cấm riêng của brief (nếu có).
+    cb = _doc(SKILL / "thuong-hieu" / "tu-cam-co-ban.json")
+    rieng = th.get("tu_cam", "")
+    rieng = rieng if isinstance(rieng, list) else [x for x in str(rieng).split(",")]
+    tat_ca = cb.get("chung", []) + cb.get("nganh", {}).get(out.get("nganh", ""), []) + rieng
+    out["tu_cam"] = ",".join(dict.fromkeys(x.strip() for x in tat_ca if x and x.strip()))
+    if cb.get("cau_bat_buoc", {}).get(out.get("nganh", "")) and not out.get("cau_bat_buoc"):
+        out["cau_bat_buoc"] = cb["cau_bat_buoc"][out["nganh"]]
     cfg_logo = _doc(Path(project_dir) / "cau-hinh.json").get("logo") if project_dir else None
     if cfg_logo:                       # logo riêng của dự án (đường dẫn trên máy, không đưa lên repo)
         out["logo"] = cfg_logo

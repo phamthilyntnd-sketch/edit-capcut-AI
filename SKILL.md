@@ -35,8 +35,18 @@ rồi dựng LẦN LƯỢT từng video (mỗi video 1 dự án `projects/<ma>`,
 ghi lại và làm tiếp video sau. Cuối cùng báo 1 bảng: video · project CapCut · ảnh thumbnail · chỗ đã tự quyết · lỗi (nếu có).
 Chạy các bước nặng (chuẩn bị footage, dựng) dưới nền; kiểm ổ đĩa ≥ 2 GB × số video trước khi bắt đầu.
 
+**Nhiều thương hiệu trong 1 lệnh** (mẫu "DỰNG NHIỀU THƯƠNG HIỆU": mỗi dòng thêm cột thương hiệu): mỗi video dùng hồ sơ
+của đúng thương hiệu dòng đó (`"thuong_hieu"` trong cau-hinh.json của từng dự án — dung.py nạp hồ sơ theo từng dự án). Kiểm
+ngay đầu: thương hiệu nào chưa có hồ sơ → hỏi gộp 1 lần theo mẫu hồ sơ (có thể nhiều khối hồ sơ trong 1 tin nhắn).
+
+**Từ cấm KHÔNG cần nhân sự điền**: `thuong-hieu/tu-cam-co-ban.json` = từ cấm cơ bản theo luật quảng cáo ("chung") + theo
+ngành ("nganh": my-pham, thuc-pham-chuc-nang, me-va-be, thuc-pham, gia-dung) + câu bắt buộc của ngành; `thuong_hieu.py` tự
+gộp với `tu_cam` RIÊNG của khách (chỉ ghi khi brief có thêm). `dung.py` quét chữ trên màn hình + lời nói giữ lại, in
+"!! TỪ CẤM…": chữ trên màn hình có từ cấm → BẮT BUỘC sửa chữ; lời nói có từ cấm → cắt câu đó (nếu không làm gãy ý) hoặc
+ghi vào báo cáo cuối. Sửa / thêm từ cấm cơ bản: chỉ sửa file json này.
+
 **Hồ sơ thương hiệu chưa có** → nhân sự dán mẫu "HỒ SƠ THƯƠNG HIỆU" (mã · tên IN HOA · sản phẩm + đơn vị công bố · ngành ·
-màu chính/màu đậm · logo · nút kêu gọi · màu bao bì · tên riêng hay nghe sai · từ cấm · số liệu được phép + nguồn · brief ·
+màu chính/màu đậm · logo · nút kêu gọi · màu bao bì · tên riêng hay nghe sai · (từ cấm RIÊNG nếu brief có) · số liệu được phép + nguồn · brief ·
 hoạt chất in nghiêng) → tạo `thuong-hieu/<ma>.json` từ `_mau.json` rồi làm tiếp, không hỏi thêm.
 
 ## Chung

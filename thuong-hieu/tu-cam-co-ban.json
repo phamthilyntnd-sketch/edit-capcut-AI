@@ -1,0 +1,14 @@
+{
+  "_huong_dan": "TỪ CẤM CƠ BẢN theo luật quảng cáo Việt Nam (Luật Quảng cáo 2012, NĐ 38/2021, quy định quảng cáo mỹ phẩm / thực phẩm chức năng / sản phẩm cho trẻ nhỏ). Skill TỰ GỘP: 'chung' + nhóm theo 'nganh' của hồ sơ thương hiệu + 'tu_cam' riêng của khách (nếu có). Nhân sự KHÔNG cần điền lại. Sửa / thêm ở đây là áp cho mọi khách cùng ngành.",
+  "chung": ["tốt nhất", "số 1", "số một", "duy nhất", "hàng đầu", "đứng đầu", "rẻ nhất", "vượt trội nhất", "100%", "cam kết 100%", "tuyệt đối", "an toàn tuyệt đối", "vĩnh viễn", "thần kỳ", "thần thánh", "kỳ diệu", "không tác dụng phụ", "không có tác dụng phụ", "chữa khỏi", "khỏi bệnh", "điều trị", "đặc trị", "bác sĩ khuyên dùng", "chuyên gia khuyên dùng", "được Bộ Y tế chứng nhận"],
+  "nganh": {
+    "my-pham": ["chữa", "trị mụn", "trị nám", "trị thâm", "trị sẹo", "trị viêm", "viêm", "nấm", "nấm ngứa", "kháng khuẩn", "diệt khuẩn", "sát khuẩn", "tiêu diệt vi khuẩn", "khí hư", "niêm mạc", "phục hồi da tổn thương", "tái tạo tế bào", "thải độc", "giải độc", "trắng da vĩnh viễn", "trắng bật tông", "hết mụn", "hết nám", "giảm cân", "tan mỡ", "nở ngực", "mọc tóc", "kích trắng"],
+    "thuc-pham-chuc-nang": ["chữa", "chữa bệnh", "trị bệnh", "phòng bệnh", "phòng ngừa bệnh", "thay thế thuốc", "thay thuốc", "không cần dùng thuốc", "khỏi hẳn", "dứt điểm", "hết bệnh", "tiêu diệt tế bào ung thư", "hạ huyết áp", "hạ đường huyết", "bổ thận tráng dương"],
+    "me-va-be": ["thay thế sữa mẹ", "tốt hơn sữa mẹ", "giống sữa mẹ", "như sữa mẹ", "tăng chiều cao vượt trội", "thông minh vượt trội"],
+    "thuc-pham": ["chữa", "chữa bệnh", "trị bệnh", "giảm cân", "thải độc"],
+    "gia-dung": ["diệt 100% vi khuẩn", "diệt sạch vi khuẩn", "an toàn tuyệt đối"]
+  },
+  "cau_bat_buoc": {
+    "thuc-pham-chuc-nang": "Thực phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh."
+  }
+}

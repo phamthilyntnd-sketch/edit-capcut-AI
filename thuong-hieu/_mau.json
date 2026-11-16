@@ -11,7 +11,8 @@
     "tag": "Hợp tác quảng cáo",
     "phaply": "TÊN SẢN PHẨM – Mô tả ngắn · Tên đơn vị công bố"
   },
-  "tu_cam": "điều trị,chữa khỏi,tốt nhất,số 1,cam kết 100%",
+  "tu_cam": "",
+  "_tu_cam": "CHỈ ghi từ cấm RIÊNG của khách (theo brief). Từ cấm cơ bản theo luật + ngành đã có sẵn trong tu-cam-co-ban.json, tự gộp.",
   "mau_san_pham": ["#6CBE45"],
   "tu_vung": "giỏ hàng",
   "nganh": "my-pham",

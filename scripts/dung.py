@@ -1097,6 +1097,20 @@ def main():
     if bo:  # chữ tuyệt đối không che người / sản phẩm: không còn chỗ trống thì bỏ chữ đó
         print("Bỏ chữ nhấn vì không còn chỗ trống (sẽ che người/sản phẩm):", [n["chu"] for n in bo])
         nhans = [n for n in nhans if n not in bo]
+    # TỪ CẤM (cơ bản theo luật + ngành, tự gộp với từ cấm riêng của khách): quét CHỮ TRÊN MÀN HÌNH và LỜI NÓI giữ lại
+    cam = [c.strip().lower() for c in str(cfg.get("cam", CAM)).split(",") if c.strip()]
+    def _trung(text):
+        t = re.sub(r"<[^>]+>", "", text).lower()
+        return [c for c in cam if re.search(rf"(?<!\w){re.escape(c)}(?!\w)", t)]
+    tren_man = list(cfg.get("thumb", [])) + [l for n in nhans for l in n["chu"]] + [TH.get("cta", "")]
+    hit_chu = sorted({c for x in tren_man for c in _trung(x)})
+    hit_loi = [(c["a"], c["text"], _trung(c["text"])) for c in cues if _trung(c["text"])]
+    if hit_chu:
+        print("!! TỪ CẤM TRONG CHỮ TRÊN MÀN HÌNH (phải sửa chữ):", ", ".join(hit_chu))
+    for t_, tx, hs in hit_loi:
+        print(f"!! TỪ CẤM TRONG LỜI NÓI @{t_:.1f}s: {', '.join(hs)} — \"{tx}\" (cắt câu này hoặc báo người dùng)")
+    if TH.get("cau_bat_buoc"):
+        print("Câu bắt buộc của ngành (nên có trong dòng pháp lý / mô tả):", TH["cau_bat_buoc"])
     # tiếng nhấn tính SAU khi đã bỏ chữ không còn chỗ (trước đây chữ bị bỏ vẫn còn tiếng pop "trống")
     sfx = sfx_events(cfg, broll, calls, cta_a, total, nhans, trans)
     if sfx:

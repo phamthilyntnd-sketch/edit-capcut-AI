@@ -87,7 +87,9 @@ AI chỉ hỏi **1 lần ngay đầu** những mục bắt buộc còn thiếu (
 
 ① Hồ sơ thương hiệu (1 lần mỗi khách):
 ```
-Tạo hồ sơ thương hiệu mới, không hỏi lại:
+Tạo hồ sơ thương hiệu mới.
+Cần hỏi gì thì hỏi gộp 1 lần ngay bây giờ. Sau khi tôi trả lời: làm xong 100%, không hỏi lại nữa.
+
 - Mã hồ sơ (viết liền, không dấu): [santav]
 - Tên thương hiệu (IN HOA): [SANTAV]
 - Sản phẩm + đơn vị công bố: [MANGINO WOMEN – Dung dịch vệ sinh phụ nữ · Công ty Cổ phần SANTAV]
@@ -104,7 +106,7 @@ Tạo hồ sơ thương hiệu mới, không hỏi lại:
 ② Dựng 1 hoặc nhiều video (đóng CapCut trước khi dán):
 ```
 Dựng hàng loạt thành project CapCut, thương hiệu: [santav].
-CapCut đã đóng. Không hỏi lại giữa chừng — chỗ không chắc thì tự quyết và ghi vào báo cáo cuối.
+CapCut đã đóng. Cần hỏi gì thì hỏi gộp 1 lần ngay bây giờ. Sau khi tôi trả lời: dựng hoàn thành 100% tất cả video, không hỏi lại nữa — chỗ không chắc thì tự quyết và ghi vào báo cáo cuối.
 Xuất MP4 xem thử: [không]
 
 Thư mục | Mã video | Người nói | Thumbnail (dòng 1 / dòng 2) | Ghi chú
@@ -117,7 +119,8 @@ Thư mục | Mã video | Người nói | Thumbnail (dòng 1 / dòng 2) | Ghi ch�
 
 ① Hồ sơ cho các thương hiệu mới (chép thêm 1 khối cho mỗi khách):
 ```
-Tạo các hồ sơ thương hiệu sau, không hỏi lại:
+Tạo các hồ sơ thương hiệu sau.
+Cần hỏi gì thì hỏi gộp 1 lần ngay bây giờ. Sau khi tôi trả lời: làm xong 100%, không hỏi lại nữa.
 
 === Khách 1 ===
 - Mã hồ sơ: [santav]  · Tên (IN HOA): [SANTAV]  · Ngành: [mỹ phẩm]
@@ -138,7 +141,7 @@ Tạo các hồ sơ thương hiệu sau, không hỏi lại:
 ② Dựng nhiều thương hiệu trong 1 lệnh:
 ```
 Dựng hàng loạt thành project CapCut, mỗi video theo đúng thương hiệu ghi ở dòng đó.
-CapCut đã đóng. Không hỏi lại giữa chừng — chỗ không chắc thì tự quyết và ghi vào báo cáo cuối.
+CapCut đã đóng. Cần hỏi gì thì hỏi gộp 1 lần ngay bây giờ. Sau khi tôi trả lời: dựng hoàn thành 100% tất cả video, không hỏi lại nữa — chỗ không chắc thì tự quyết và ghi vào báo cáo cuối.
 Xuất MP4 xem thử: [không]
 
 Thương hiệu | Thư mục | Mã video | Người nói | Thumbnail (dòng 1 / dòng 2) | Ghi chú

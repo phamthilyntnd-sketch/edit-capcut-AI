@@ -13,33 +13,21 @@ Claude tự làm:
 
 Nhạc nền **không** tự chèn: bạn chọn nhạc có quyền thương mại trong thư viện CapCut (TikTok yêu cầu với video quảng cáo).
 
-## Cài đặt cho máy nhân sự (Windows) — 1 file, tự động
+## Cài đặt (repo RIÊNG TƯ — chỉ người được mời mới dùng được)
 
-> **Quy trình chuẩn cho máy mới, từng bước + xử lý lỗi: [HUONG-DAN-MAY-MOI.md](HUONG-DAN-MAY-MOI.md)**
+**Hướng dẫn đầy đủ: [HUONG-DAN-CAI-DAT.md](HUONG-DAN-CAI-DAT.md)** (quản lý cấp quyền + nhân sự cài + xử lý lỗi) · **Cách edit: [HUONG-DAN-EDIT.md](HUONG-DAN-EDIT.md)**
 
-Repo công khai → mở PowerShell, dán 1 lệnh là xong (không cần gửi file):
-```
-powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/phamthilyntnd-sketch/edit-capcut-AI/main/cai-dat/tai-va-cai.ps1 | iex"
-```
-
-Hoặc (dùng được cả khi repo riêng tư):
-1. Repo riêng tư: người quản lý **mời tài khoản GitHub của nhân sự** (Settings → Collaborators).
-2. Gửi cho nhân sự đúng **1 file `cai-dat/CAI-DAT.cmd`** (Zalo / email / Drive nội bộ).
-3. Nhân sự **bấm đúp** file đó. Bộ cài tự làm hết (link tải nằm trong `cai-dat/lien-ket.json`, không ai phải tự đi tải):
+Tóm tắt:
+1. **Quản lý** mời tài khoản GitHub của nhân sự: Settings → Collaborators → *Add people*. Gửi nhân sự file `cai-dat/CAI-DAT.cmd`.
+2. **Nhân sự** bấm *Accept invitation* trong email GitHub, rồi **bấm đúp `CAI-DAT.cmd`**, đăng nhập GitHub đúng tài khoản được mời (cửa sổ đăng nhập, hoặc mã ở github.com/login/device). Bộ cài tự làm hết (link tải trong `cai-dat/lien-ket.json`):
    - cài app Claude (có tab Code), Git, Python 3.12, Node.js, ffmpeg, Chrome nếu máy chưa có (qua winget);
-   - tải skill về `%USERPROFILE%\.claude\skills\edit-capcut-ai` (lần đầu hiện cửa sổ đăng nhập GitHub);
+   - tải skill về `%USERPROFILE%\.claude\skills\edit-capcut-ai`;
    - tạo môi trường Python riêng `.venv`, cài thư viện, cài `capcut-cli`;
    - tải sẵn mô hình tách người (u2net, ~170 MB) và mô hình nghe tiếng Việt (Whisper large-v3-turbo, ~1,6 GB);
-   - tạo bộ tiếng nhấn, kiểm máy, tạo lối tắt Desktop "Cap nhat skill edit-capcut-AI" → in **XONG**;
-   - **tắt hẳn rồi mở lại Claude** để nhận skill.
-   CapCut desktop: nếu chưa có, bộ cài mở trang tải — cài xong mở CapCut 1 lần rồi bấm lại `CAI-DAT.cmd`.
-4. **Cập nhật** khi skill có bản mới: bấm lại `CAI-DAT.cmd` (chỉ tải phần thay đổi, giữ cấu hình máy).
-5. Kiểm nhanh không cài gì: `powershell -ExecutionPolicy Bypass -File cai-dat\cai-dat.ps1 -KiemTra`
-
-Máy đã có Git có thể cài bằng 1 lệnh thay cho bước 2–3:
-```bash
-git clone https://github.com/phamthilyntnd-sketch/edit-capcut-AI.git "%USERPROFILE%\.claude\skills\edit-capcut-ai" && powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\.claude\skills\edit-capcut-ai\cai-dat\cai-dat.ps1"
-```
+   - tạo bộ tiếng nhấn, kiểm máy, tạo lối tắt Desktop "Cap nhat skill edit-capcut-AI" → in **XONG**.
+3. **Tắt hẳn rồi mở lại Claude** → tab Code → gõ `/edit-capcut-ai`.
+4. **Cập nhật**: bấm đúp lối tắt "Cap nhat skill edit-capcut-AI" trên Desktop.
+5. **Gỡ quyền** người nghỉ: Settings → Collaborators → *Remove*.
 
 ## Dùng
 

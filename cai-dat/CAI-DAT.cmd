@@ -2,8 +2,10 @@
 chcp 65001 >nul
 rem ================================================================
 rem  CAI DAT SKILL edit-capcut-AI - bam dup file nay la xong.
-rem  Tu cai Git (neu thieu), tai skill tu GitHub, roi chay bo cai day du
-rem  (Python, Node.js, ffmpeg, capcut-cli, mo hinh, tieng nhan, kiem may).
+rem  Repo RIENG TU: tai khoan GitHub cua ban phai duoc quan ly moi
+rem  va ban da bam "Accept invitation" trong email truoc khi chay.
+rem  Tu cai Git (neu thieu), dang nhap GitHub, tai skill, roi chay bo cai
+rem  day du (Claude, Python, Node.js, ffmpeg, capcut-cli, mo hinh, kiem may).
 rem  Chay lai bat cu luc nao de CAP NHAT skill.
 rem ================================================================
 set "REPO=https://github.com/phamthilyntnd-sketch/edit-capcut-AI.git"
@@ -16,19 +18,45 @@ if errorlevel 1 (
   set "PATH=%PATH%;%ProgramFiles%\Git\cmd"
 )
 
+if exist "%DICH%\.git" goto CAPNHAT
+
+echo.
+echo == Tai skill tu GitHub (repo rieng tu)
+echo    Neu hien cua so dang nhap GitHub: chon "Sign in with your browser"
+echo    va dang nhap DUNG tai khoan da duoc moi vao repo.
+git clone "%REPO%" "%DICH%"
+if exist "%DICH%\cai-dat\cai-dat.ps1" goto CAI
+goto DANGNHAP
+
+:CAPNHAT
+echo == Cap nhat skill...
+git -C "%DICH%" pull --ff-only
+if errorlevel 1 goto DANGNHAP
+goto CAI
+
+:DANGNHAP
+echo.
+echo == Chua vao duoc repo. Dang nhap GitHub bang MA:
+echo    1. Mo trinh duyet: https://github.com/login/device  (dang nhap tai khoan da duoc moi)
+echo    2. Nhap MA hien ben duoi, bam Continue roi Authorize, roi quay lai cua so nay.
+echo.
+git credential-manager github login --device --no-ui
 if exist "%DICH%\.git" (
-  echo == Cap nhat skill...
   git -C "%DICH%" pull --ff-only
 ) else (
-  echo == Tai skill tu GitHub (repo rieng tu: neu hien cua so dang nhap GitHub, dang nhap tai khoan da duoc moi)...
   git clone "%REPO%" "%DICH%"
 )
-if not exist "%DICH%\cai-dat\cai-dat.ps1" (
-  echo [LOI] Khong tai duoc skill. Kiem tra mang / quyen truy cap repo roi chay lai.
-  pause
-  exit /b 1
-)
+if exist "%DICH%\cai-dat\cai-dat.ps1" goto CAI
+echo.
+echo [LOI] Van khong tai duoc skill. Kiem tra:
+echo   - May co mang khong?
+echo   - Tai khoan GitHub da duoc QUAN LY MOI vao repo va ban da bam "Accept invitation" trong email chua?
+echo   - Ban dang nhap DUNG tai khoan do chua?
+echo Xong roi bam dup lai file nay. Van loi: chup man hinh gui quan ly.
+pause
+exit /b 1
 
+:CAI
 powershell -NoProfile -ExecutionPolicy Bypass -File "%DICH%\cai-dat\cai-dat.ps1" -ThuMuc "%DICH%"
 echo.
 pause

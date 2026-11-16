@@ -2,7 +2,6 @@
   "_huong_dan": "Mọi thứ bộ cài tự tải về. Sửa ở đây nếu link đổi — nhân sự KHÔNG phải tự tìm/tải gì.",
   "skill_repo": "https://github.com/phamthilyntnd-sketch/edit-capcut-AI.git",
   "thu_muc_skill": "%USERPROFILE%\\.claude\\skills\\edit-capcut-ai",
-  "cai_mot_lenh": "powershell -ExecutionPolicy Bypass -c \"irm https://raw.githubusercontent.com/phamthilyntnd-sketch/edit-capcut-AI/main/cai-dat/tai-va-cai.ps1 | iex\"",
   "winget": {
     "claude": "Anthropic.Claude",
     "git": "Git.Git",

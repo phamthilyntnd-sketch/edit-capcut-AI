@@ -6,11 +6,40 @@ description: Dựng video bán hàng / review / KOC dọc 9:16 từ footage thô
 # Edit video bán hàng thành project CapCut (edit-capcut-ai)
 
 Đầu vào: 1 thư mục footage (1 clip người nói = A-roll, vài clip cận sản phẩm/minh hoạ = cảnh trám), kịch bản/brief (nếu có).
-Đầu ra: project CapCut (chữ, chuyển cảnh, hiệu ứng, tiếng nhấn sửa được) + `<MÃ>_FINAL.mp4` xem thử + `<MÃ>_thumbnail.png`.
+Đầu ra: project CapCut (chữ, chuyển cảnh, hiệu ứng, tiếng nhấn sửa được) + `<MÃ>_thumbnail.png` (+ `<MÃ>_FINAL.mp4` xem thử chỉ khi được yêu cầu).
 
 Cách làm việc với người dùng: **hỏi hết 1 lần ngay đầu, sau đó làm tới xong không hỏi nữa.** Trả lời tiếng Việt, ngắn, không thuật ngữ.
-Câu hỏi 1 lần (chỉ hỏi cái chưa biết): thư mục footage · thương hiệu · mã video / kịch bản · chữ thumbnail · **người nói là NAM hay NỮ** (→ `"nguoi_noi"`: nam = KHÔNG mịn da / không hiệu ứng làm đẹp kiểu nữ) · có cần MP4 xem thử không (mặc định KHÔNG — nhân sự tự xuất trong CapCut).
 
+## Câu hỏi đầu (1 lần duy nhất) và lệnh hàng loạt
+Đọc yêu cầu → đối chiếu bảng dưới → gom MỌI mục còn thiếu vào **1 lượt hỏi** (AskUserQuestion / 1 tin nhắn). Mục có mặc
+định thì KHÔNG hỏi, tự dùng mặc định và ghi vào báo cáo cuối. Sau lượt hỏi đó: **làm tới xong, không hỏi lại** — chỗ không
+chắc thì tự quyết theo quy tắc của skill và liệt kê ở báo cáo cuối ("chỗ đã tự quyết"). Ngoại lệ duy nhất: CapCut đang mở
+khi tới bước ghi project → nhờ đóng (không tự tắt).
+
+| # | Thông tin | Bắt buộc? | Mặc định nếu không nói |
+|---|---|---|---|
+| 1 | Thư mục footage (mỗi video 1 thư mục) | bắt buộc | — |
+| 2 | Thương hiệu (mã hồ sơ `thuong-hieu/<ma>.json`) | bắt buộc | chưa có hồ sơ → hỏi theo mẫu hồ sơ ở dưới |
+| 3 | Người nói NAM hay NỮ (`nguoi_noi`; nam = không mịn da) | bắt buộc | — |
+| 4 | Mã video / tên project | không | tên thư mục footage |
+| 5 | Chữ thumbnail (dòng 1 dải màu / dòng 2 chữ to) | không | tự rút từ câu hook đầu hoặc brief, ≤ 14 ký tự/dòng |
+| 6 | Kịch bản / brief | không | brief trong hồ sơ thương hiệu; không có thì theo lời nói |
+| 7 | Clip người nói | không | clip dài nhất |
+| 8 | Câu kêu gọi (nút giỏ hàng hiện từ đâu) | không | câu có "giỏ hàng / mua ngay / link" cuối video |
+| 9 | MP4 xem thử | không | KHÔNG (nhân sự tự xuất trong CapCut) |
+| 10 | Ghi chú riêng (clip không dùng, chữ bắt buộc…) | không | không có |
+
+**Lệnh hàng loạt** (nhân sự dán mẫu "DỰNG HÀNG LOẠT" trong sổ tay — danh sách nhiều video, mỗi dòng: thư mục | mã |
+nam/nữ | thumbnail | ghi chú): kiểm đủ mục bắt buộc cho TẤT CẢ video ngay đầu, hỏi 1 lần nếu thiếu, nhờ đóng CapCut 1 lần,
+rồi dựng LẦN LƯỢT từng video (mỗi video 1 dự án `projects/<ma>`, `--moi` lần đầu), không dừng giữa chừng; video nào lỗi thì
+ghi lại và làm tiếp video sau. Cuối cùng báo 1 bảng: video · project CapCut · ảnh thumbnail · chỗ đã tự quyết · lỗi (nếu có).
+Chạy các bước nặng (chuẩn bị footage, dựng) dưới nền; kiểm ổ đĩa ≥ 2 GB × số video trước khi bắt đầu.
+
+**Hồ sơ thương hiệu chưa có** → nhân sự dán mẫu "HỒ SƠ THƯƠNG HIỆU" (mã · tên IN HOA · sản phẩm + đơn vị công bố · ngành ·
+màu chính/màu đậm · logo · nút kêu gọi · màu bao bì · tên riêng hay nghe sai · từ cấm · số liệu được phép + nguồn · brief ·
+hoạt chất in nghiêng) → tạo `thuong-hieu/<ma>.json` từ `_mau.json` rồi làm tiếp, không hỏi thêm.
+
+## Chung
 - `SK` = thư mục skill này. `PY` = Python có faster-whisper, numpy, pillow, onnxruntime (`SK/.venv/Scripts/python.exe` nếu cài theo README). Luôn chạy `PY -I`.
 - Cài máy mới: bấm đúp `SK/cai-dat/CAI-DAT.cmd` (tự cài + tải mọi thứ theo `cai-dat/lien-ket.json`). Kiểm: `PY -I SK/scripts/kiem_may.py` phải in SẴN SÀNG. Tiếng nhấn: `PY -I SK/scripts/tao_sfx.py` (tự tổng hợp, không bản quyền).
 - Mỗi video = 1 thư mục dự án `<nơi làm việc>/projects/<du-an>/` (raw/, transcript.json, cau-hinh.json, du-an.json…).

@@ -78,3 +78,37 @@ Sửa nhỏ (đổi 1 chữ, dời 1 chữ) có thể tự làm luôn trong CapC
 - Ổ C: phải còn ≥ 2 GB (mỗi project CapCut ~0,5–1 GB). Xuất xong, đăng xong thì có thể xoá project cũ trong CapCut.
 - CapCut hiện chữ thành "Input text": nói *"máy này CapCut lỗi chữ, dùng chữ dạng ảnh"*.
 - Kẹt ở đâu: chụp màn hình gửi quản lý, hoặc hỏi thẳng Claude *"vì sao…"*.
+
+## Mẫu lệnh (dán vào app AI, sửa phần trong [ ])
+
+AI chỉ hỏi **1 lần ngay đầu** những mục bắt buộc còn thiếu (thư mục footage, thương hiệu, người nói nam/nữ), rồi tự làm tới xong, không hỏi lại. Mục khác có mặc định.
+
+**Mẫu A — Hồ sơ thương hiệu (1 lần mỗi khách):**
+```
+Tạo hồ sơ thương hiệu mới, không hỏi lại:
+- Mã hồ sơ (viết liền, không dấu): [santav]
+- Tên thương hiệu (IN HOA): [SANTAV]
+- Sản phẩm + đơn vị công bố: [MANGINO WOMEN – Dung dịch vệ sinh phụ nữ · Công ty Cổ phần SANTAV]
+- Ngành: [mỹ phẩm]
+- Màu chữ chính / màu đậm: [#6CBE45] / [#2F6B1F]
+- Logo PNG nền trong: [D:\khach\santav\logo.png]
+- Nút kêu gọi: [GIỎ HÀNG]
+- Màu bao bì sản phẩm: [xanh lá, trắng]
+- Tên riêng hay bị nghe sai: [Mangino Women, Mangiferin, lô hội]
+- Tên hoạt chất in nghiêng: [Mangiferin]
+- Từ cấm / không được nói: [viêm, nấm ngứa, kháng khuẩn, điều trị]
+- Số liệu được phép + nguồn: [Mangiferin 0,5% – nhãn chai]
+- Brief / kịch bản: [D:\khach\santav\brief.docx hoặc link Google Sheet]
+```
+
+**Mẫu B — Dựng 1 video hoặc hàng loạt (mỗi video 1 dòng; đóng CapCut trước khi dán):**
+```
+Dựng hàng loạt thành project CapCut, thương hiệu: [santav].
+CapCut đã đóng. Không hỏi lại giữa chừng — chỗ không chắc thì tự quyết và ghi vào báo cáo cuối.
+Xuất MP4 xem thử: [không]
+
+Thư mục | Mã video | Người nói | Thumbnail (dòng 1 / dòng 2) | Ghi chú
+[D:\footage\O-5] | [MAN O-5] | [nữ] | [LO CHO CẢ NHÀ / ĐỪNG QUÊN LO MÌNH] | [ ]
+[D:\footage\T-5] | [MAN T-5] | [nữ] | [NHỮNG LƯU Ý TRƯỚC KHI MUA / DUNG DỊCH VỆ SINH] | [ ]
+[D:\footage\C-6] | [MAN C-6] | [nam] | [để AI tự đặt] | [không dùng clip IMG_5799]
+```

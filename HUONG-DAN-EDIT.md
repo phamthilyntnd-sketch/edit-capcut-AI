@@ -1,6 +1,6 @@
 # Hướng dẫn EDIT VIDEO với skill edit-capcut-AI
 
-Bạn nói bằng lời thường, Claude tự dựng thành **project CapCut sửa được** + file MP4 xem thử.
+Bạn nói bằng lời thường, Claude tự dựng thành **project CapCut sửa được** + ảnh thumbnail. Bạn tự xuất video trong CapCut (muốn có MP4 xem thử thì nói thêm).
 Bạn chỉ cần: chuẩn bị footage → nói yêu cầu → xem → góp ý → chọn nhạc → xuất.
 
 Chưa cài skill? Làm **HUONG-DAN-CAI-DAT.md** trước.
@@ -30,7 +30,7 @@ Claude hỏi thêm những gì thiếu (màu bao bì sản phẩm, tên riêng h
    > Dựng video trong thư mục `D:\footage\SANTAV-O5` cho thương hiệu **santav** thành project CapCut. Mã video **MAN O-5**, kịch bản trong brief.
 
    hoặc gõ `/edit-capcut-ai` rồi trả lời câu hỏi.
-3. Claude **hỏi hết 1 lần** những gì còn thiếu (thumbnail ghi gì, clip nào là người nói…) → rồi tự làm tới xong, không hỏi nữa. Mất khoảng 10–30 phút tuỳ độ dài, cứ để máy chạy.
+3. Claude **hỏi hết 1 lần** những gì còn thiếu (thumbnail ghi gì, clip nào là người nói, người nói là nam hay nữ — nam thì không làm mịn da…) → rồi tự làm tới xong, không hỏi nữa. Mất khoảng 10–30 phút tuỳ độ dài, cứ để máy chạy.
 4. Khi Claude nhắc **"đóng CapCut"**: tắt hẳn CapCut (cả biểu tượng cạnh đồng hồ) rồi trả lời *"Đã đóng CapCut"*. Claude không tự tắt CapCut của bạn.
 
 Claude tự làm:
@@ -44,7 +44,7 @@ Claude tự làm:
 ## 4. Nhận kết quả
 Claude báo:
 - **Project CapCut** tên `<THƯƠNG HIỆU> <MÃ>` — mở CapCut là thấy trong danh sách project.
-- **MP4 xem thử** + **ảnh thumbnail** trong thư mục footage (bản MP4 chỉ gần đúng; bản chuẩn là project CapCut).
+- **Ảnh thumbnail** trong thư mục footage. MP4 xem thử chỉ làm khi bạn yêu cầu — bản chuẩn là project CapCut, bạn tự xuất.
 - Những chỗ Claude **đoán** (nghe không rõ tên, số) → bạn kiểm lại.
 
 ⚠️ Project CapCut dùng video trong thư mục `projects\<tên dự án>\raw\` của thư mục làm việc → **không xoá / di chuyển** thư mục đó khi chưa xuất xong.

@@ -57,24 +57,32 @@ def frame_score(a):
     mo = np.where(m < 1.0, 0.5, np.where(m > 15, 0.0, 1.0))  # đứng im trơ / lia, rung mạnh bị trừ
     br = a["thumbs"].astype(np.float32).mean(axis=(1, 2, 3)) / 255 if "thumbs" in a else np.full(len(s), 0.5)
     ex = np.clip(1 - np.abs(br - 0.55) / 0.35, 0, 1)        # sáng vừa ~0.55 là đẹp nhất
-    bad = (a["sharp"] < 200) | (a["content"] < 0.05) | (m > 22) | (br < 0.18) | (br > 0.92)
+    # góp ý 16/11 "cảnh trám lấy chưa đẹp": ngưỡng nét chặt hơn (250)
+    bad = (a["sharp"] < 250) | (a["content"] < 0.05) | (m > 22) | (br < 0.18) | (br > 0.92)
     return 0.35 * s + 0.35 * c + 0.15 * mo + 0.15 * ex, bad
 
 
+BIEN = 0.5   # bỏ 0,5s đầu/cuối mỗi clip: lúc bấm quay / dừng máy hay rung, chưa vào cảnh
+
+
 def pick(a, dur, used=(), within=None, avoid=()):
-    """Đoạn dài `dur` giây có điểm TB cao nhất, không chứa khung hỏng, không trùng đoạn đã dùng / vùng tránh."""
+    """Đoạn dài `dur` giây có điểm TB cao nhất, không chứa khung hỏng, không trùng đoạn đã dùng / vùng tránh,
+    tránh 0,5s đầu/cuối clip, và ƯU TIÊN ĐOẠN ỔN ĐỊNH (chuyển động đều, không giật cục giữa chừng)."""
     sc, bad = frame_score(a)
     n, w = len(sc), max(1, int(round(dur * FPS_T)))
-    lo, hi = 0, n - w
+    b = int(BIEN * FPS_T)
+    lo, hi = (b, n - w - b) if n - w - 2 * b >= 0 else (0, n - w)
     if within:
         lo, hi = max(lo, int(within[0] * FPS_T)), min(hi, int(within[1] * FPS_T) - w)
+    mo = np.asarray(a["motion"], np.float32)
     best = None
     for i in range(lo, hi + 1):
         t0, t1 = i / FPS_T, (i + w) / FPS_T
-        if any(t0 < b and t1 > a_ for a_, b in list(used) + list(avoid)):
+        if any(t0 < b_ and t1 > a_ for a_, b_ in list(used) + list(avoid)):
             continue
         nb = bad[i:i + w].sum()
-        v = sc[i:i + w].mean() - 0.5 * nb / w
+        giat = float(np.std(mo[i:i + w])) / 10.0           # chuyển động lúc nhanh lúc chậm = máy giật / đổi cảnh
+        v = sc[i:i + w].mean() - 0.5 * nb / w - 0.1 * min(giat, 1.0)
         if best is None or v > best[0]:
             best = (v, t0)
     if best is None:
@@ -82,16 +90,34 @@ def pick(a, dur, used=(), within=None, avoid=()):
     return round(best[1], 2), round(float(best[0]), 3)
 
 
+def _font(px):
+    from PIL import ImageFont
+    try:
+        import thuong_hieu as th
+        return ImageFont.truetype(str(th.FONTS / "be-vietnam-pro-600.ttf"), px)
+    except Exception:
+        return ImageFont.load_default()
+
+
 def sheet(choices, out_png):
-    """choices: [(nhãn, analyze-dict, from, dur)] -> ảnh đầu|giữa|cuối mỗi đoạn."""
-    rows = []
-    for lab, a, f0, d in choices:
+    """choices: [(nhãn, analyze-dict, from, dur[, lời đang nói])] -> ảnh đầu|giữa|cuối mỗi đoạn + LỜI ĐANG NÓI lúc đó,
+    để soát cảnh trám có KHỚP LỜI không (góp ý 16/11 "cảnh trám lấy chưa chuẩn")."""
+    import textwrap
+    rows, LW = [], 330
+    f1, f2 = _font(13), _font(14)
+    for ch in choices:
+        lab, a, f0, d = ch[:4]
+        loi = ch[4] if len(ch) > 4 else ""
         th = a["thumbs"]
         idx = [min(len(th) - 1, int((f0 + x) * FPS_T)) for x in (0.1, d / 2, max(0.1, d - 0.2))]
-        row = Image.new("RGB", (3 * 90 + 170, 160), (25, 25, 25))
+        row = Image.new("RGB", (3 * 90 + LW, 160), (25, 25, 25))
         for k, i in enumerate(idx):
-            row.paste(Image.fromarray(th[i]), (170 + k * 90, 0))
-        ImageDraw.Draw(row).text((4, 4), lab, fill=(255, 230, 0))
+            row.paste(Image.fromarray(th[i]), (LW + k * 90, 0))
+        dr = ImageDraw.Draw(row)
+        dr.text((6, 4), lab, fill=(255, 230, 0), font=f1)
+        if loi:
+            dr.multiline_text((6, 26), "\n".join(textwrap.wrap("“" + loi + "”", 40)[:7]), fill=(235, 235, 235),
+                              font=f2, spacing=3)
         rows.append(row)
     if not rows:
         return

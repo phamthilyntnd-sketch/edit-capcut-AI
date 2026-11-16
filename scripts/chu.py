@@ -23,7 +23,10 @@ FONT_NAME = "BeVietnamPro-SemiBold.ttf"
 FONT_W = {"chinh": 800, "nen": 700, "co_dinh": 600}
 FONT_TEN = {600: "Be Vietnam Pro SemiBold", 700: "Be Vietnam Pro Bold", 800: "Be Vietnam Pro ExtraBold"}
 # hiệu ứng chữ CÓ SẴN của CapCut (capcut enums --text-intros / --text-outros): (vào, giây, ra, giây)
-ANIM_CAPCUT = {"chinh": ("pop-up", 0.35, "fade-out", 0.25), "nen": ("slide-up", 0.35, "fade-out", 0.25)}
+# vào nhanh 0,25s để chữ "chạm" đúng lúc nói (0,35s trông như chữ đến trễ — góp ý 16/11)
+ANIM_CAPCUT = {"chinh": ("pop-up", 0.25, "fade-out", 0.2), "nen": ("slide-up", 0.25, "fade-out", 0.2)}
+# tiếng đi kèm hiệu ứng chữ: (tên tiếng, lệch so với lúc chữ bắt đầu hiện). pop/bubble nổ ngay, whip vút theo chữ trượt lên
+SFX_CHU = {"chinh": (("pop", "bubble"), 0.02), "nen": (("whip",), 0.0)}
 
 # kiểu cũ -> 2 kiểu mới
 KIEU_MAP = {"chinh": "chinh", "nen": "nen",

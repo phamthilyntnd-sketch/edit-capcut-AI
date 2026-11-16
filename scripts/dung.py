@@ -53,17 +53,97 @@ def silences(path):
     return list(zip(st, en))
 
 
-def build_pieces(keeps, sil, min_gap=0.45, pad=0.12):
+ENV_HOP = 0.01   # 10 ms
+
+
+def envelope(path):
+    """Độ lớn tiếng (dB) mỗi 10 ms của clip -> dùng để đặt điểm cắt / mốc chữ đúng lúc tiếng nói bắt đầu / tắt hẳn."""
+    r = subprocess.run(["ffmpeg", "-v", "error", "-i", str(path), "-vn", "-ac", "1", "-ar", "16000", "-f", "s16le", "-"],
+                       capture_output=True)
+    x = np.frombuffer(r.stdout, np.int16).astype(np.float32) / 32768
+    n = len(x) // 160
+    db = 20 * np.log10(np.sqrt((x[:n * 160].reshape(n, 160) ** 2).mean(1)) + 1e-6)
+    floor, speech = np.percentile(db, 10), np.percentile(db, 90)
+    return {"db": db, "thr": floor + 0.25 * (speech - floor)}
+
+
+def _i(env, t):
+    return int(min(max(t / ENV_HOP, 0), len(env["db"]) - 1))
+
+
+def onset(env, t):
+    """Mốc tiếng nói bắt đầu thật quanh mốc Whisper t (lệch ±0,1–0,3s): chỗ âm lượng VỌT LÊN mạnh nhất trong
+    [t-0,25; t+0,3] — để chữ hiện ĐÚNG lúc nói."""
+    if env is None:
+        return t
+    db = env["db"]
+    i0, i1 = _i(env, t - 0.25), _i(env, t + 0.3)
+    if i1 - i0 < 5:
+        return t
+    best = max(range(i0, i1 - 3), key=lambda i: db[i + 3] - db[i])
+    return (best + 1) * ENV_HOP if db[best + 3] - db[best] > 8 else t
+
+
+def quiet_after(env, t, lim=0.35):
+    """Điểm tiếng TẮT HẲN sau mốc t: đáy của cửa sổ [t, t+lim] + 6 dB; lấy điểm đầu tiên xuống tới mức đó (+0,04s).
+    Bắt được cả âm cuối nhẹ ('hiệu', 'quả') mà ngưỡng cố định hay bỏ sót."""
+    if env is None:
+        return t + 0.15
+    db = env["db"]
+    i0, i1 = _i(env, t), _i(env, t + lim)
+    m = db[i0:i1 + 1].min()
+    for i in range(i0, i1 + 1):
+        if db[i] <= m + 6:
+            return i * ENV_HOP + 0.04
+    return t + lim
+
+
+def quiet_before(env, t, lim=0.3):
+    """Điểm còn IM ngay trước khi tiếng nói bắt đầu quanh mốc t: đáy cửa sổ [t-lim, t+0,05] + 6 dB, lấy điểm im muộn nhất."""
+    if env is None:
+        return t - 0.1
+    db = env["db"]
+    i0, i1 = _i(env, t - lim), _i(env, t + 0.05)
+    m = db[i0:i1 + 1].min()
+    for i in range(i1, i0 - 1, -1):
+        if db[i] <= m + 6:
+            return i * ENV_HOP - 0.02
+    return t - lim
+
+
+def build_pieces(keeps, sil, min_gap=0.45, pad=0.12, words=(), env=None):
+    """Đoạn giữ -> các mảnh A-roll. Mọi điểm cắt đặt ở CHỖ IM giữa 2 từ (đáy âm lượng, như do_am của bộ dùng chung) —
+    không bao giờ cắt giữa 1 từ được giữ (lỗi 'rất hiệ/u/ quả', góp ý 16/11): đầu đoạn = chỗ im ngay trước tiếng đầu tiên,
+    cuối đoạn = chỗ đuôi từ cuối tắt hẳn. Khoảng lặng bên trong chỉ cắt phần im thật (đuôi tiếng nhẹ được giữ)."""
+    ws = sorted(words, key=lambda w: w["s"])
     pieces = []
     for s, e in keeps:
+        kin = [w for w in ws if s <= (w["s"] + w["e"]) / 2 <= e]
+        ref_s = min([s] + ([kin[0]["s"]] if kin and kin[0]["s"] > s - 0.3 else []))
+        ref_e = max([e] + ([kin[-1]["e"]] if kin and kin[-1]["e"] < e + 0.4 else []))
+        s, e = quiet_before(env, ref_s), quiet_after(env, ref_e)
+        db = env["db"] if env is not None else None
         cur = s
         for a, b in sil:
             if b - a >= min_gap and a > cur + 0.05 and b < e - 0.05:
                 cut_a, cut_b = a + pad, b - pad
+                if db is not None:   # đuôi tiếng nhẹ (dưới -35 dB) vẫn là chữ: chỉ cắt khi đã xuống tới đáy khoảng lặng
+                    i0, i1 = _i(env, a), _i(env, b)
+                    m = db[i0:i1 + 1].min()
+                    q = [i for i in range(i0, i1 + 1) if db[i] <= m + 6]
+                    if q:
+                        cut_a = max(cut_a, q[0] * ENV_HOP + 0.06)
+                        cut_b = min(cut_b, q[-1] * ENV_HOP - 0.04)
+                if cut_b - cut_a < 0.15:
+                    continue
                 if cut_a > cur:
                     pieces.append([cur, cut_a])
                 cur = cut_b
         pieces.append([cur, e])
+    pieces.sort()
+    for x, y in zip(pieces, pieces[1:]):   # 2 đoạn giữ nới ra chạm nhau -> không phát lặp 1 khúc tiếng
+        if y[0] < x[1]:
+            y[0] = x[1]
     out, t = [], 0.0
     for s, e in pieces:
         s, e = fr(s), fr(e)
@@ -72,6 +152,7 @@ def build_pieces(keeps, sil, min_gap=0.45, pad=0.12):
         out.append({"s": s, "e": e, "o": round(t, 6)})
         t = fr(t + (e - s))
     return out, t
+
 
 
 def mapper(pieces):
@@ -171,6 +252,13 @@ html,body{{margin:0;padding:0;width:{W}px;height:{H}px;background:transparent;ov
 .pill{{position:absolute;left:80px;right:80px;top:1170px;min-height:190px;box-sizing:border-box;
   background:#fff;border:6px solid {VIEN};border-radius:200px;display:flex;align-items:center;justify-content:center;
   padding:24px 40px;text-align:center;font-size:64px;line-height:1.2;color:{GREEN};white-space:nowrap}}
+.thumb .tb-band{{display:inline-block;background:{GREEN};color:#fff;font-weight:800;border-radius:26px;
+  padding:10px 36px 16px;margin-bottom:16px;box-shadow:4px 6px 12px rgba(0,0,0,.35);line-height:1.15}}
+.thumb .tb-big{{font-weight:800;line-height:1.06;color:{GREEN};letter-spacing:.5px}}
+.thumb .tb-big .l{{position:relative;display:block}}
+.thumb .tb-big .bg{{position:absolute;left:0;right:0;top:0;color:#fff;-webkit-text-stroke:28px #fff;
+  filter:drop-shadow(5px 8px 8px rgba(0,0,0,.45))}}
+.thumb .tb-big .fg{{position:relative}}
 .cta{{position:absolute;left:46px;top:1440px;display:flex;align-items:center;gap:14px;background:{GREEN};
   color:#fff;font-size:46px;font-weight:700;padding:16px 34px 16px 22px;border-radius:60px;border:5px solid #fff;
   filter:drop-shadow(3px 3px 4px rgba(0,0,0,.3))}}
@@ -341,6 +429,31 @@ def nhan_html(n):
     raise SystemExit(f"Kiểu chữ nhấn không có: {k}")
 
 
+def thumb_px(cfg):
+    """Cỡ chữ thumbnail: dòng to ~100px (thumb_size cũ 64 = mặc định; câu dài đặt thumb_size nhỏ hơn), dải nền = 0,6 lần."""
+    big = 100 * float(cfg.get("thumb_size") or 64) / 64
+    return round(big * 0.6), round(big)
+
+
+def thumb_parts(cfg):
+    ls = [l for l in cfg["thumb"] if l.strip()]
+    return (ls[0], ls[1:]) if len(ls) >= 2 else (None, ls)
+
+
+def thumb_html(cfg, part="all"):
+    """THUMBNAIL MỚI (góp ý 16/11 "ảnh thumbnail chưa đẹp"): dòng 1 = chữ trắng trên dải màu thương hiệu bo góc,
+    các dòng sau = chữ TO màu thương hiệu, ExtraBold, viền trắng dày + bóng đổ. 1 dòng -> chỉ kiểu chữ to."""
+    band, big = thumb_parts(cfg)
+    pb, pg = thumb_px(cfg)
+    h = ""
+    if band and part in ("all", "band"):
+        h += f'<div class="tb-band" style="font-size:{pb}px">{band}</div>'
+    if big and part in ("all", "big"):
+        h += f'<div class="tb-big" style="font-size:{pg}px">' + "".join(
+            f'<span class="l"><span class="bg">{l}</span><span class="fg">{l}</span></span>' for l in big) + "</div>"
+    return f'<div class="t thumb" style="top:1170px">{h}</div>'
+
+
 def stroked(cls, inner):
     return f'<div class="{cls} bg">{inner}</div><div class="{cls}">{inner}</div>'
 
@@ -352,7 +465,7 @@ def html_page(body):
             # chữ nhấn không rớt dòng: dòng nào quá rộng thì co cỡ chữ cả khối
             '<script>document.fonts.ready.then(()=>{document.querySelectorAll(".nh,.t").forEach(el=>{'
             'const k=el.querySelector(".big,.card,.hand")?el:el;'
-            'const wide=()=>Math.max(...[...el.querySelectorAll(".big .fg,.card,.hand,.l .fg,.t-nen .l")].map(c=>Math.max(c.scrollWidth,c.getBoundingClientRect().width)),0);'
+            'const wide=()=>Math.max(...[...el.querySelectorAll(".big .fg,.card,.hand,.l .fg,.t-nen .l,.tb-band")].map(c=>Math.max(c.scrollWidth,c.getBoundingClientRect().width)),0);'
             'let z=1;for(let i=0;i<30&&wide()*z>990;i++){z*=0.95;}'
             'if(z<1){el.style.zoom=z;el.style.top=(parseFloat(el.style.top||0)/z)+"px";}})})</script></body></html>')
 
@@ -478,7 +591,9 @@ def _grade_args(g):
 def grade_clip(src, g, skin):
     """grade_video.py của bộ dùng chung -> raw/_mau/<ten>_<khoa>.mp4 (giữ nguyên tiếng và mốc thời gian)."""
     if not ENG_PY.exists():
-        print("! Không có bộ dùng chung bo-skill-video (may.json: eng) -> bỏ qua chỉnh màu")
+        if not getattr(grade_clip, "_bao", False):
+            print("! Không có bộ dùng chung bo-skill-video (may.json: eng) -> bỏ qua chỉnh màu")
+            grade_clip._bao = True
         return src
     key = hashlib.md5(json.dumps([g, skin], sort_keys=True).encode()).hexdigest()[:6]
     dst = src.parent / "_mau" / f"{src.stem}_{key}.mp4"
@@ -530,31 +645,34 @@ def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None):
     for n in nhans:   # tiếng dồn lên ngay trước khi gọi tên sản phẩm -> tạo cao trào
         if n.get("san_pham") and n["a"] > 1.5:
             ev.append((n["a"] - 1.0, "riser", -14 + L))
-    ev += [(cta_a, "ding", -7 + L), (cta_a + 0.45, "cash", -12 + L)]
+    ev = [(t, n, db, False) for t, n, db in ev]
+    ev += [(cta_a, "ding", -7 + L, True), (cta_a + 0.45, "cash", -12 + L, False)]
     k = 0
     cuoi = [n for n in nhans if tc.kieu(n) == "chinh"][-1:]   # câu chốt cảm xúc cuối: chuông nhẹ
+    # TIẾNG KHỚP HIỆU ỨNG CHỮ (góp ý 16/11): tiếng đặt đúng lúc chữ bật lên (tc.SFX_CHU), loại tiếng hợp kiểu hiện
+    # (pop-up -> pop/bubble, trượt lên -> whip), và LUÔN được ưu tiên hơn tiếng chuyển cảnh khi trùng giờ.
     for n in nhans:
-        if n in cuoi and not n.get("sfx"):
-            ev.append((n["a"], "chime", -8 + L))
-            continue
+        ten, lech = tc.SFX_CHU[tc.kieu(n)]
+        t = n["a"] + lech
         if n.get("sfx"):
-            ev.append((n["a"], n["sfx"], -8 + L))
+            ev.append((t, n["sfx"], -8 + L, True))
+        elif n in cuoi:
+            ev.append((t, "chime", -8 + L, True))
         elif n.get("san_pham"):
-            ev.append((n["a"], "sparkle", -7 + L))
+            ev.append((t, "sparkle", -7 + L, True))
         elif any(c.rstrip().endswith("?") for c in n["chu"]):
-            ev.append((n["a"], "notify", -9 + L))
-        elif tc.kieu(n) == "nen":
-            ev.append((n["a"], "click", -6 + L))
+            ev.append((t, "notify", -9 + L, True))
         else:
-            ev.append((n["a"], ("pop", "bubble")[k % 2], -7 + L)); k += 1
+            ev.append((t, ten[k % len(ten)], (-7 if tc.kieu(n) == "chinh" else -9) + L, True)); k += 1
     keep = []
-    for t, n, db in sorted(ev):
+    for t, n, db, chu_ in sorted(ev):
         if keep and t - keep[-1][0] < 0.35:
-            if SFX_PRIO[n] > SFX_PRIO[keep[-1][1]]:
-                keep[-1] = (t, n, db)
+            cu = keep[-1]
+            if (chu_, SFX_PRIO[n]) > (cu[3], SFX_PRIO[cu[1]]):   # tiếng của chữ thắng tiếng chuyển cảnh
+                keep[-1] = (t, n, db, chu_)
             continue
-        keep.append((t, n, db))
-    return [(fr(t), n, db) for t, n, db in keep if t < total - 0.3]
+        keep.append((t, n, db, chu_))
+    return [(fr(t), n, db) for t, n, db, _ in keep if t < total - 0.3]
 
 
 # Chuyển cảnh CÓ SẴN của CapCut, chia theo ngữ cảnh (slug đều có trong `capcut enums --transitions`)
@@ -607,6 +725,14 @@ def chon_chuyen_canh(cfg, broll, total):
         chosen[(ref, k)] = slug
         last = t
     return chosen
+
+
+def clip_dur(path):
+    r = run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(path)])
+    try:
+        return float(r.stdout.strip())
+    except ValueError:
+        return 1e9
 
 
 def wav_dur(path):
@@ -749,17 +875,32 @@ def _scale_expr(kf):
 # ---------------------------------------------------------------- main
 def main():
     P = Path(sys.argv[1]).resolve()
-    flags = set(sys.argv[2:]) or {"--pngs", "--mp4", "--capcut", "--qa"}
     cfg = json.loads((P / "cau-hinh.json").read_text(encoding="utf-8"))
+    # MẶC ĐỊNH chỉ làm PROJECT CAPCUT (nhân sự tự xuất trong CapCut — góp ý 16/11). MP4 xem thử + kiểm bản ra:
+    # thêm --mp4 --qa, hoặc "xuat_mp4": true trong cau-hinh.json.
+    flags = set(sys.argv[2:]) or ({"--pngs", "--mp4", "--capcut", "--qa"} if cfg.get("xuat_mp4") else {"--pngs", "--capcut"})
     raw = P / "raw"
     aroll = raw / cfg["aroll"]
     segs = json.loads((P / "transcript.json").read_text(encoding="utf-8"))
     sil = silences(aroll)
-    pieces, total = build_pieces(cfg["keeps"], sil)
+    env = envelope(aroll)
+    words = [w for sg in segs for w in sg.get("words", [])]
+    pieces, total = build_pieces(cfg["keeps"], sil, words=words, env=env)
     m = mapper(pieces)
     cues = make_cues(segs, cfg, pieces, m)
     total = fr(total)
-    g = cfg.get("grade", {"skin": 1, "net": 0.4})
+    # LÀM ĐẸP THEO NGƯỜI NÓI (góp ý 16/11: KOC nam bị mịn da kiểu nữ): "nguoi_noi": "nam" | "nu"
+    #   nam -> không mịn da, chỉ chỉnh màu + làm nét nhẹ · nu -> mịn da 1 · chưa rõ -> KHÔNG mịn da (an toàn)
+    nn = str(cfg.get("nguoi_noi", "")).lower()
+    g_mac_dinh = ({"skin": 0, "net": 0.3} if nn in ("nam", "male", "m") else
+                  {"skin": 1, "net": 0.4} if nn in ("nu", "nữ", "female", "f") else {"skin": 0, "net": 0.3})
+    g = cfg.get("grade", g_mac_dinh)
+    if g and "skin" not in g:
+        g = dict(g, skin=g_mac_dinh["skin"])
+    if g and nn in ("nam", "male", "m"):   # nam: luôn tắt mịn da (kể cả cấu hình chép từ video nữ), không kiểu "sang trọng"
+        g = dict(g, skin=0, kieu=None if g.get("kieu") == "sang-trong" else g.get("kieu"))
+    if not nn:
+        print("! Chưa ghi \"nguoi_noi\": \"nam\"|\"nu\" trong cau-hinh.json -> không làm mịn da")
     if "--xem-mau" in flags:  # ảnh trước|sau để duyệt màu, không dựng
         mid = pieces[len(pieces) // 2]
         grade_preview(aroll, g or {}, (mid["s"] + mid["e"]) / 2, P)
@@ -772,7 +913,7 @@ def main():
     # cảnh trám: (1) đủ dài để người xem kịp thấy (>= tram_min, mặc định 2,5s); (2) "from" = "auto" (mặc định)
     # -> tự chọn ĐOẠN HAY trong cả clip (nét, có người/sản phẩm, chuyển động vừa) — tram.py
     import tram
-    tmin = float(cfg.get("tram_min", 2.5))
+    tmin = float(cfg.get("tram_min", 3.0))   # góp ý 16/11 "đoạn trám hơi ngắn": 2,5 -> 3,0s
     spans = []
     for i, b in enumerate(cfg["broll"]):
         oa, ob = fr(m(b["src"][0], "start")), fr(m(b["src"][1], "end"))
@@ -797,7 +938,8 @@ def main():
                 continue
         used.setdefault(b["file"], []).append((frm, frm + ob - oa + 0.3))
         if an is not None:
-            chon.append((f"{b['file']} {frm:.1f}-{frm + ob - oa:.1f}s -> ra {oa:.1f}s", an, frm, ob - oa))
+            loi = " ".join(w["w"].strip() for w in words if b["src"][0] - 0.1 <= w["s"] <= b["src"][1])
+            chon.append((f"{b['file']} {frm:.1f}-{frm + ob - oa:.1f}s -> ra {oa:.1f}s", an, frm, ob - oa, loi))
         bp = grade_clip(raw / b["file"], dict(g, auto=False), 0) if g else raw / b["file"]
         broll.append({"path": str(bp), "start": oa, "duration": fr(ob - oa), "from": frm, "ref": f"b{i}"})
     if chon:
@@ -814,8 +956,13 @@ def main():
     broll.sort(key=lambda b: b["start"])
     for x, y in zip(broll, broll[1:]):   # khe < 0,6s giữa 2 cảnh trám -> lấp; chồng nhau -> cắt bớt cảnh trước
         hole = y["start"] - (x["start"] + x["duration"])
-        if hole < 0.6:
-            x["duration"] = fr(y["start"] - x["start"])
+        if hole < 1.0:   # khe người nói < 1s giữa 2 cảnh trám chỉ là chớp hình -> lấp bằng cảnh trám trước / sau
+            if hole <= 0 or x["from"] + y["start"] - x["start"] <= clip_dur(x["path"]) - 0.2:
+                x["duration"] = fr(y["start"] - x["start"])
+            elif y["from"] - hole >= 0:
+                y["from"] = round(y["from"] - hole, 3)
+                y["duration"] = fr(y["duration"] + hole)
+                y["start"] = fr(x["start"] + x["duration"])
     if broll and 0 < broll[0]["start"] < 0.6:   # đoạn người nói đầu video quá ngắn -> cảnh trám bắt đầu từ 0
         broll[0]["from"] = max(0.0, broll[0]["from"] - broll[0]["start"])
         broll[0]["duration"] = fr(broll[0]["duration"] + broll[0]["start"])
@@ -833,6 +980,9 @@ def main():
             a_src, seg_end, w_end = n["src"][0], n["src"][1], n["src"][1]
         else:
             a_src, seg_end, w_end = find_phrase(segs, n["khi"], n.get("sau", 0))
+            # ĐỒNG BỘ GIỌNG (góp ý 16/11 "chữ chưa xuất hiện đồng bộ với voice"): mốc Whisper lệch ±0,1–0,3s -> lấy
+            # đúng lúc tiếng bắt đầu, hiện sớm 0,08s để hiệu ứng bật lên vừa chạm chữ đầu
+            a_src = onset(env, a_src) - float(cfg.get("chu_som", 0.08))
         oa = fr(m(a_src, "start"))
         if "den" in n:  # giữ tới khi nói cụm này (hoặc giây nguồn)
             e_src = n["den"] if isinstance(n["den"], (int, float)) else find_phrase(segs, n["den"], a_src)[0]
@@ -850,13 +1000,14 @@ def main():
     for n in nhans:  # không hiện cùng lúc với thumbnail: chữ nói trong lúc thumbnail còn thì chờ thumbnail tắt
         if n["a"] < td:
             n["a"] = td
-    # chữ nhấn phải đọc kịp: < 1,2s thì đẩy chữ sau lùi lại (nếu chữ sau còn ≥ 1,2s), không được thì bỏ chữ này
+    # chữ nhấn phải đọc kịp: < 1,2s thì đẩy chữ sau lùi lại MỘT CHÚT (tối đa 0,25s — lùi nhiều là lệch giọng),
+    # không được thì bỏ chữ này
     for j, n in enumerate(nhans):
         if "den" in n or n["b"] - n["a"] >= 1.2:
             continue
         nxt = nhans[j + 1] if j + 1 < len(nhans) else None
         need = n["a"] + 1.2
-        if nxt and "den" not in nxt and nxt["b"] - need >= 1.2 and nxt["a"] < need:
+        if nxt and "den" not in nxt and nxt["b"] - need >= 1.2 and nxt["a"] < need <= nxt["a"] + 0.25:
             nxt["a"] = fr(need)
             n["b"] = fr(need)
     dropped = [n["chu"] for n in nhans if "den" not in n and n["b"] - n["a"] < 1.2]
@@ -867,19 +1018,12 @@ def main():
     if nqc is not False:  # luật QC mỹ phẩm (hồ sơ ngành my-pham): nhãn quảng cáo + tên mỹ phẩm + đơn vị công bố
         nqc = {"tag": TH["nhan_qc"]["tag"],
                "phaply": TH["nhan_qc"]["phaply"], **(nqc or {})}
-    sfx = sfx_events(cfg, broll, calls, cta_a, total, nhans, trans)
     print(f"Chữ nhấn: {len(nhans)} · phụ đề chạy: {'có' if phu_de else 'không'}")
-    if sfx:
-        (P / "sfx").mkdir(exist_ok=True)
-        for _, n, _ in sfx:
-            shutil.copy2(SFX_DIR / f"{n}.wav", P / "sfx" / f"{n}.wav")
-        print("SFX:", ", ".join(f"{n}@{t:.1f}s" for t, n, _ in sfx))
 
     chu = P / "chu"
     chu.mkdir(exist_ok=True)
     if "--pngs" in flags:
-        tsz = f' style="font-size:{cfg["thumb_size"]}px"' if cfg.get("thumb_size") else ""
-        jobs = [("thumb", f'<div class="pill"{tsz}><div>' + "<br>".join(cfg["thumb"]) + "</div></div>"),
+        jobs = [("thumb", thumb_html(cfg)), ("thumb_band", thumb_html(cfg, "band")), ("thumb_big", thumb_html(cfg, "big")),
                 ("cta", '<div class="cta"><span class="ar">&#8601;</span><span>{TH["cta"]}</span></div>')]
         for c in calls:
             jobs.append((c["name"], stroked("call", "<br>".join(c["lines"]))))
@@ -953,6 +1097,13 @@ def main():
     if bo:  # chữ tuyệt đối không che người / sản phẩm: không còn chỗ trống thì bỏ chữ đó
         print("Bỏ chữ nhấn vì không còn chỗ trống (sẽ che người/sản phẩm):", [n["chu"] for n in bo])
         nhans = [n for n in nhans if n not in bo]
+    # tiếng nhấn tính SAU khi đã bỏ chữ không còn chỗ (trước đây chữ bị bỏ vẫn còn tiếng pop "trống")
+    sfx = sfx_events(cfg, broll, calls, cta_a, total, nhans, trans)
+    if sfx:
+        (P / "sfx").mkdir(exist_ok=True)
+        for _, n, _ in sfx:
+            shutil.copy2(SFX_DIR / f"{n}.wav", P / "sfx" / f"{n}.wav")
+        print("SFX:", ", ".join(f"{n}@{t:.1f}s" for t, n, _ in sfx))
     centers, crops = {}, {}
     for nm in ["thumb", "cta"] + [n["name"] for n in nhans] + (["nhan", "phaply"] if nqc else []):
         if not (chu / f"{nm}.png").exists():
@@ -973,6 +1124,22 @@ def main():
     overlays += [("cta", cta_a, total)]
     if nqc:
         overlays += [("nhan", 0, total), ("phaply", cta_a, total)]
+
+    # ảnh thumbnail (để đăng / gửi duyệt) khi KHÔNG xuất MP4: khung đầu video + logo + chữ thumbnail + nhãn QC
+    if "--mp4" not in flags and "--pngs" in flags and cfg.get("out_thumb") and (chu / "thumb.png").exists():
+        tmpf = P / "_khung_dau.png"
+        t0 = (broll[0]["from"] if broll and broll[0]["start"] <= 0.01 else pieces[0]["s"]) + 0.3
+        src0 = broll[0]["path"] if broll and broll[0]["start"] <= 0.01 else aroll_v
+        run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0:.2f}", "-i", str(src0), "-frames:v", "1", "-vf",
+             f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}", str(tmpf)])
+        if tmpf.exists():
+            im = Image.open(tmpf).convert("RGBA")
+            for nm in ["logo", "thumb"] + (["nhan"] if nqc else []):
+                if (chu / f"{nm}.png").exists():
+                    im.alpha_composite(Image.open(chu / f"{nm}.png").convert("RGBA").resize((W, H)))
+            im.convert("RGB").save(cfg["out_thumb"])
+            tmpf.unlink(missing_ok=True)
+            print("Thumbnail:", cfg["out_thumb"])
 
     # ------------------------------------------------ MP4
     if "--mp4" in flags:
@@ -1032,17 +1199,27 @@ def main():
     # ------------------------------------------------ CapCut
     if "--capcut" in flags:
         # giọng đã LỌC TẠP ÂM (cùng bộ lọc với MP4) cho track "Giong" của CapCut
-        lk = hashlib.md5(LOC_TAP_AM(cfg).encode()).hexdigest()[:6]
-        giong = raw / f"{Path(cfg['aroll']).stem}_giong_{lk}.wav"
+        # GIỌNG ĐÃ NỐI SẴN, có làm mờ 15–20 ms ở mỗi vết cắt (capcut-cli không đặt được fade âm thanh) -> vết cắt êm,
+        # không "bụp"/cụt tiếng (góp ý 16/11). Vẫn chia thành từng đoạn trên track Giong để sửa được trong CapCut.
+        lk = hashlib.md5((LOC_TAP_AM(cfg) + json.dumps([(p["s"], p["e"]) for p in pieces])).encode()).hexdigest()[:8]
+        giong = raw / f"{Path(cfg['aroll']).stem}_giong_noi_{lk}.wav"
         if not giong.exists():
-            run(["ffmpeg", "-v", "error", "-y", "-i", str(aroll), "-vn", "-ac", "2", "-ar", "48000",
-                 "-af", LOC_TAP_AM(cfg).rstrip(","), str(giong)])
+            fa = [f"[0:a]asplit={len(pieces)}" + "".join(f"[a{i}]" for i in range(len(pieces)))]
+            for i, p in enumerate(pieces):
+                fa.append(f"[a{i}]atrim={p['s']}:{p['e']},asetpts=PTS-STARTPTS,afade=t=in:d=0.015,"
+                          f"afade=t=out:st={p['e'] - p['s'] - 0.02:.3f}:d=0.02[at{i}]")
+            fa.append("".join(f"[at{i}]" for i in range(len(pieces))) + f"concat=n={len(pieces)}:v=0:a=1,"
+                      + LOC_TAP_AM(cfg) + "aresample=48000[out]")
+            rr = run(["ffmpeg", "-v", "error", "-y", "-i", str(aroll), "-filter_complex", ";".join(fa), "-map", "[out]",
+                      "-ac", "2", str(giong)])
+            if rr.returncode:
+                raise SystemExit("Tạo giọng đã nối lỗi: " + rr.stderr[-500:])
         main, voice = [], []
         bsorted = sorted(broll, key=lambda b: b["start"])
         for i, p in enumerate(pieces):
             o0 = p["o"]
             o1 = pieces[i + 1]["o"] if i + 1 < len(pieces) else total
-            voice.append({"path": str(giong), "start": o0, "duration": round(o1 - o0, 6), "sourceStart": p["s"],
+            voice.append({"path": str(giong), "start": o0, "duration": round(o1 - o0, 6), "sourceStart": o0,
                           "volume": vol, "ref": f"v{i}"})
             # phần A-roll không bị cảnh trám phủ
             cur, k = o0, 0
@@ -1092,6 +1269,7 @@ def main():
         ov = {n: (a, b) for n, a, b in overlays}
         chu_capcut = cfg.get("chu_capcut", MAY.get("chu_capcut", True))
         text_style_ops = []
+        thumb_font = {}
         if chu_capcut:
             # CHỮ THẬT: mọi chữ (trừ logo) là chữ CapCut, sửa nội dung / màu / vị trí trực tiếp trong CapCut
             tracks_txt = []
@@ -1101,10 +1279,25 @@ def main():
                 tracks_txt.append((track, item))
                 text_style_ops.append({"op": "text-style", "target": "t_" + nm, "style": style})
             if "thumb" in centers:
-                tsc = bc_res.get("thumb", [0, 0, 0, 1.0])[3] if bc_res.get("thumb") else 1.0
-                it_, st_ = tc.fixed_text("\n".join(cfg["thumb"]), (cfg.get("thumb_size") or 64) * tsc, GREEN,
-                                         *centers["thumb"], bg=("#FFFFFF", 1.0))
-                add_txt("Thumbnail", "thumb", 0, min(cfg["thumb_dur"], total), it_, st_)
+                # 2 chữ CapCut: dải nền (dòng 1) + chữ to viền trắng (các dòng sau), đặt theo khối thumbnail bố cục đã chọn
+                band, big = thumb_parts(cfg)
+                pb, pg = thumb_px(cfg)
+                x0, y0, x1, y1 = bbox(chu / "thumb.png")
+                hA = (lambda b: b[3] - b[1])(bbox(chu / "thumb_band.png")) if band else 0
+                hB = (lambda b: b[3] - b[1])(bbox(chu / "thumb_big.png")) if big else 0
+                k_ = (y1 - y0) / max(1, hA + hB + (16 if band and big else 0))
+                cx = (x0 + x1) / 2
+                td_ = min(cfg["thumb_dur"], total)
+                if band:
+                    it_, st_ = tc.fixed_text(band, pb * k_, "#FFFFFF", cx, y0 + k_ * hA / 2, bg=(GREEN, 1.0))
+                    add_txt("Thumbnail", "thumb_a", 0, td_, it_, st_)
+                    thumb_font[band] = 800
+                if big:
+                    it_, st_ = tc.fixed_text("\n".join(big), pg * k_, GREEN, cx, y1 - k_ * hB / 2, border="#FFFFFF")
+                    st_["borderWidth"] = 0.08
+                    st_["shadowAlpha"] = 0.45
+                    add_txt("Thumbnail 2", "thumb_b", 0, td_, it_, st_)
+                    thumb_font["\n".join(big)] = 800
             nh_by = {n["name"]: n for n in nhans}
             for li, ln in enumerate(lanes):
                 for n in ln:
@@ -1204,6 +1397,8 @@ def main():
                     k_ = tc.kieu(n)
                     fw = tc.project_font(P, tc.FONT_W[k_]) or fp
                     by_text["\n".join(tc.lines(n))] = (fw, tc.FONT_TEN[tc.FONT_W[k_]])
+                for txt_, w_ in thumb_font.items():
+                    by_text[txt_] = (tc.project_font(P, w_) or fp, tc.FONT_TEN[w_])
                 print(f"Font: Be Vietnam Pro cho {tc.patch_fonts(res['draft_path'], fp, by_text)} chữ")
             else:
                 print("! Chưa có font Be Vietnam Pro (chạy: font_viet.py tai be-vietnam-pro) — CapCut dùng font mặc định")

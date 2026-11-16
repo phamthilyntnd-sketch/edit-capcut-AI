@@ -148,11 +148,42 @@ Khách khác: đổi "santav" thành tên hồ sơ thương hiệu của khách.
     Set-Content -Path (Join-Path $lam "BAT-DAU-EDIT-THU.txt") -Value $hd -Encoding UTF8
     try { Set-Clipboard -Value $cau } catch {}
     Ok "Thư mục làm việc: $lam (bỏ footage vào footage\video-thu)"
+    # Lớp bảo đảm thứ 2: skill cũng nằm TRONG thư mục làm việc (.claude\skills) — mở thư mục này trong tab Code là
+    # có skill, kể cả khi máy đọc skill cá nhân ở chỗ khác (tên máy/người dùng khác nhau, OneDrive, hồ sơ Windows lạ).
+    $projSkills = Join-Path $lam ".claude\skills"
+    $lienKet = Join-Path $projSkills "edit-capcut-ai"
+    New-Item -ItemType Directory -Force $projSkills | Out-Null
+    if (-not (Test-Path (Join-Path $lienKet "SKILL.md"))) {
+        if (Test-Path $lienKet) { Remove-Item $lienKet -Force -Recurse -ErrorAction SilentlyContinue }
+        cmd /c mklink /J "$lienKet" "$ThuMuc" | Out-Null
+    }
+    if (Test-Path (Join-Path $lienKet "SKILL.md")) { Ok "Skill trong thư mục làm việc: $lienKet" }
+    else { Canh "Không tạo được liên kết skill trong thư mục làm việc (vẫn dùng skill cá nhân)" }
+}
+
+Buoc "9. Kiểm skill hiện được"
+$skillMd = Join-Path $ThuMuc "SKILL.md"
+$dauFile = if (Test-Path $skillMd) { (Get-Content $skillMd -TotalCount 3 -Encoding UTF8) -join " " } else { "" }
+Write-Host "   Tài khoản Windows : $env:USERNAME"
+Write-Host "   Skill cá nhân     : $ThuMuc"
+if ($dauFile -match "name:\s*edit-capcut-ai") { Ok "SKILL.md đúng chuẩn (name: edit-capcut-ai)" } else { Canh "THIẾU hoặc hỏng SKILL.md ở $ThuMuc"; $kq = 1 }
+$chuan = Join-Path $env:USERPROFILE ".claude\skills\edit-capcut-ai"
+if ($ThuMuc -ne $chuan -and -not (Test-Path (Join-Path $chuan "SKILL.md"))) {
+    Canh "Skill không nằm ở chỗ app AI tự tìm ($chuan) -> tạo liên kết"
+    if (-not $KiemTra) { New-Item -ItemType Directory -Force (Split-Path $chuan) | Out-Null; cmd /c mklink /J "$chuan" "$ThuMuc" | Out-Null }
+}
+if ($env:CLAUDE_CONFIG_DIR) {   # máy đặt thư mục cấu hình riêng cho app AI -> skill cũng phải nằm ở đó
+    $cfgSk = Join-Path $env:CLAUDE_CONFIG_DIR "skills\edit-capcut-ai"
+    if (-not (Test-Path (Join-Path $cfgSk "SKILL.md")) -and -not $KiemTra) {
+        New-Item -ItemType Directory -Force (Split-Path $cfgSk) | Out-Null; cmd /c mklink /J "$cfgSk" "$ThuMuc" | Out-Null
+    }
+    Ok "Máy dùng CLAUDE_CONFIG_DIR: $env:CLAUDE_CONFIG_DIR (đã đặt skill vào đó)"
 }
 
 Write-Host ""
 if ($kq -eq 0) {
-    Write-Host "XONG. TẮT HẲN rồi MỞ LẠI app AI (Claude) để nhận skill." -ForegroundColor Green
+    Write-Host "XONG. TẮT HẲN app AI (Claude): chuột phải biểu tượng cạnh đồng hồ -> Quit, rồi mở lại." -ForegroundColor Green
+    Write-Host "Vào tab Code -> TẠO PHIÊN MỚI chạy trên MÁY NÀY (không chọn đám mây) -> chọn thư mục $lam -> gõ /edit-capcut-ai" -ForegroundColor Green
     Write-Host "EDIT THỬ: bỏ footage vào $thu, mở app AI -> tab Code -> chọn thư mục $lam, dán câu (đã chép sẵn, Ctrl+V):" -ForegroundColor Green
     Write-Host "   $cau" -ForegroundColor Green
     if (-not $KiemTra) {

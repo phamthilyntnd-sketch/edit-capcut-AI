@@ -75,7 +75,11 @@ powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.claude\skills\edit-c
 ```
 - "không tìm thấy file" → chưa cài → làm B2.
 - Có `[THIẾU]` → bấm đúp lại `CAI-DAT.cmd`.
-- **SẴN SÀNG** mà `/edit-capcut-ai` không hiện → tắt hẳn Claude rồi mở lại.
+- **SẴN SÀNG** mà `/edit-capcut-ai` không hiện:
+  1. Tắt hẳn app (chuột phải biểu tượng cạnh đồng hồ → **Quit**), mở lại.
+  2. Tab **Code** → **tạo phiên MỚI** (phiên cũ không tự nhận skill vừa cài), chọn chạy **trên máy này** (không chọn đám mây).
+  3. Chọn thư mục **`Documents\Edit-CapCut-AI`** — bộ cài đã đặt sẵn skill ngay trong thư mục này, nên máy nào (tên người dùng nào) mở thư mục này cũng có skill.
+  4. Gõ `/edit-capcut-ai`. Vẫn không thấy → chụp màn hình cửa sổ cài (mục **9. Kiểm skill hiện được**) gửi quản lý.
 
 ---
 

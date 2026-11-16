@@ -29,6 +29,10 @@ khi tới bước ghi project → nhờ đóng (không tự tắt).
 | 9 | MP4 xem thử | không | KHÔNG (nhân sự tự xuất trong CapCut) |
 | 10 | Ghi chú riêng (clip không dùng, chữ bắt buộc…) | không | không có |
 
+**Đọc file đi kèm trước khi hỏi:** thư mục footage có `kich-ban.*` (lời thoại) / `ghi-chu.txt` (thumbnail, nam/nữ, chữ bắt
+buộc, clip không dùng) → đọc và áp dụng, không hỏi lại những gì đã ghi. Thư mục thương hiệu (`D:\khach\<ma>\`): `01-nhan-dien`
+(logo, màu), `02-brief` (brief, `tu-cam-rieng.txt`, `so-lieu.txt`) → dùng khi tạo hồ sơ; `03-mau-tham-khao` chỉ để tham khảo.
+
 **Lệnh hàng loạt** (nhân sự dán mẫu "DỰNG HÀNG LOẠT" trong sổ tay — danh sách nhiều video, mỗi dòng: thư mục | mã |
 nam/nữ | thumbnail | ghi chú): kiểm đủ mục bắt buộc cho TẤT CẢ video ngay đầu, hỏi 1 lần nếu thiếu, nhờ đóng CapCut 1 lần,
 rồi dựng LẦN LƯỢT từng video (mỗi video 1 dự án `projects/<ma>`, `--moi` lần đầu), không dừng giữa chừng; video nào lỗi thì

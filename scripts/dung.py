@@ -1576,7 +1576,7 @@ def main():
             if fp:
                 tc.patch_fonts(res["draft_path"], fp, by_text)
             print(f"Hiệu ứng chữ CapCut: {na}/{len(nhans)} chữ · chuyển cảnh: {len(trans_ops)} · hiệu ứng cảnh: "
-                  f"{len(cfg.get('hieu_ung_capcut', []))}")
+                  f"{so_hu}")
         if dang_xem:
             import cap_nhat as cn
             res["draft_path"] = str(cn.replace_draft(drafts, name, dang_xem, P / "_draft-cu"))

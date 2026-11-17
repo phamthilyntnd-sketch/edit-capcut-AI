@@ -53,6 +53,30 @@ TIENG = [(r"type|typewriter|reel|ink", "tick"), (r"glitch|rgb|flicker|strobe|sca
          (r"fade|dissolve|blur|soft|haz|mix", "whoosh")]
 
 
+# MƯỢT & GỌN (góp ý 17/11: chữ xoay nhìn rối · cảnh trám bay vào lạ · hiệu ứng mở đầu chớp · tiếng không hợp · muốn năng
+# động mà vẫn nhẹ nhàng): mặc định CHỈ chọn trong danh sách đã duyệt dưới đây — không xoay / lật / lắc / chớp / nhiễu.
+# Mỗi mục kèm tiếng nhấn hợp kiểu hiện. Muốn mở toàn bộ kho: cau-hinh "kho_muot": false.
+MUOT = {
+    "chu_vao": {"pop-up": "pop", "bounce-in": "bubble", "spring": "bubble", "grow": "pop", "mini-zoom": "pop",
+                "zoom-in": "whoosh", "slide-up": "swipe", "slide-up-1": "swipe", "slide-left": "swipe",
+                "slide-right": "swipe", "wipe-right": "swipe", "wipe-up": "swipe", "showing-up": "swipe",
+                "showing-right": "swipe", "ease-in-right": "swipe", "blur-wipe-right": "swipe", "fade-in": "click",
+                "float-down": "click", "dissolve-down": "click", "typewriter": "tick"},
+    "chu_ra": {"fade-out": "", "slide-down": "", "slide-up": "", "zoom-out": "", "mini-zoom": "", "wipe-left": "",
+               "wipe-right": "", "dissolve": "", "dissolve-up": "", "dilute": "", "ease-out-right": "", "float-up": "",
+               "pop-down": ""},
+    "video_vao": {"fade-in": "whoosh", "mini-zoom": "whoosh", "zoom-out": "whoosh", "zoom-in": "whoosh",
+                  "slide-up": "swipe", "slide-left": "swipe"},
+    "video_ra": {"fade-out": "", "mini-zoom": "", "zoom-out": "", "slide-down": "", "blurred-fadein": ""},
+    "chuyen_canh": {"mix": "whoosh", "dissolve": "whoosh", "dissolve-ii": "whoosh", "pull-in": "whoosh",
+                    "pull-out": "whoosh", "slide": "swipe", "wipe-right": "swipe", "wipe-left": "swipe", "wipe-up": "swipe",
+                    "blur": "whoosh", "horizontal-blur": "whoosh", "light-sweep-ii": "sparkle", "camera-glow": "sparkle",
+                    "gradient-wipe": "swipe", "inhale": "whoosh", "open-horizontally": "swipe"},
+    "hieu_ung_canh": {"mini-zoom": "", "gleam": "", "gleam-1": "", "leak-1": "", "leak-2": "", "light-leak": "",
+                      "halo": "", "halo-2": "", "glowburst": ""},
+}
+
+
 def tao():
     kho = {}
     for k, opt in LOAI.items():
@@ -93,9 +117,13 @@ def kho():
     return _cache
 
 
-def chon(loai, phong_cach="nang_dong", so=1, vai=None, hat="", tranh=(), pro=True):
-    """Chọn `so` mục khác nhau, hợp phong cách (+ vai trò), ổn định theo `hat` (cùng dự án -> cùng lựa chọn)."""
-    ds = [x for x in kho().get(loai, []) if (pro or not x["pro"]) and x["slug"] not in tranh]
+def chon(loai, phong_cach="nang_dong", so=1, vai=None, hat="", tranh=(), pro=True, muot=True):
+    """Chọn `so` mục khác nhau, hợp phong cách (+ vai trò), ổn định theo `hat` (cùng dự án -> cùng lựa chọn).
+    muot=True (mặc định): chỉ trong danh sách MƯỢT & GỌN đã duyệt."""
+    ds = [x for x in kho().get(loai, []) if (pro or not x["pro"]) and x["slug"] not in tranh
+          and (not muot or loai not in MUOT or x["slug"] in MUOT[loai])]
+    if muot and loai in MUOT:
+        vai = None    # danh sách đã duyệt sẵn đúng vai trò
     hop = [x for x in ds if phong_cach in x["phong_cach"] and (not vai or vai in x["vai"])]
     if len(hop) < so:
         hop += [x for x in ds if x not in hop and (not vai or vai in x["vai"])]
@@ -106,6 +134,8 @@ def chon(loai, phong_cach="nang_dong", so=1, vai=None, hat="", tranh=(), pro=Tru
 
 
 def thong_tin(loai, slug):
+    if MUOT.get(loai, {}).get(slug):
+        return {"slug": slug, "ten": slug, "tieng": MUOT[loai][slug]}
     return next((x for x in kho().get(loai, []) if x["slug"] == slug), {"slug": slug, "ten": slug, "tieng": tieng_cho(slug)})
 
 

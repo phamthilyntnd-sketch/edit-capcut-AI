@@ -26,6 +26,10 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
   vào / ra (thay cho chuyển cảnh trên lớp phủ); hiệu ứng cảnh tự chọn khi cấu hình không ghi `hieu_ung_capcut`: 1 mở đầu
   + tối đa 3 lần nhấn (tên sản phẩm, câu chốt). Tiếng nhấn theo đúng loại hoạt ảnh (zoom → whoosh, trượt → swipe, lật/xoay →
   whip, nảy → bubble, lấp lánh → sparkle, gõ chữ → tick, nhiễu → shutter…), không để 2 tiếng giống nhau liền nhau.
+- **MƯỢT & GỌN (mặc định, góp ý 17/11)**: chỉ chọn trong danh sách đã duyệt `kho_capcut.MUOT` — chữ hiện bật / nảy / trượt /
+  mờ dần (KHÔNG xoay, lật, lắc, nhiễu); cảnh trám hiện NHẸ (mờ dần, phóng nhẹ, trượt lên/ngang); KHÔNG hiệu ứng ngay mở đầu
+  video; không hiệu ứng chớp / lắc / nhấp nháy (cả khi cấu hình cũ có ghi); hiệu ứng nhấn chỉ loại ánh sáng nhẹ (mini zoom,
+  gleam, leak, halo); tiếng nhấn nhẹ, hợp kiểu hiện. Mở toàn bộ kho: `"kho_muot": false`.
 - Máy có CapCut Pro (`may.json` `"capcut_pro": true`, mặc định) được dùng cả hiệu ứng Pro; máy miễn phí đặt `false`.
 - Tắt kho cho 1 video: `"kho_capcut": false`. Gói Basic vẫn giữ đúng 3 chữ + 3 tiếng, không cảnh trám / hiệu ứng cảnh.
 

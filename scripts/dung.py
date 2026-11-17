@@ -718,15 +718,15 @@ def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None):
 # Chuyển cảnh CÓ SẴN của CapCut, chia theo ngữ cảnh (slug đều có trong `capcut enums --transitions`)
 CHUYEN = {
     "vao": ["pull-in", "slide", "wipe-left", "inhale", "wipe-right"],          # người nói -> cảnh trám
-    "san_pham": ["light-sweep-ii", "white-flash", "twinkle-zoom"],             # -> cảnh cận sản phẩm
-    "doi": ["slide", "wipe-up", "mix", "flash"],                                # cảnh trám -> cảnh trám khác
+    "san_pham": ["light-sweep-ii", "camera-glow", "dissolve"],                 # -> cảnh cận sản phẩm (không chớp trắng)
+    "doi": ["slide", "wipe-up", "mix", "dissolve"],                             # cảnh trám -> cảnh trám khác
     "ra": ["pull-out", "dissolve", "blur", "camera-glow"],                      # cảnh trám -> người nói
 }
 # tiếng đi kèm từng kiểu chuyển cảnh (kho ENG/remotion/public/sfx)
 TIENG_CHUYEN = {"pull-in": "whoosh", "pull-out": "whoosh", "dissolve": "whoosh", "blur": "whoosh",
                 "slide": "swipe", "wipe-left": "swipe", "wipe-right": "swipe", "wipe-up": "swipe",
                 "inhale": "whip", "mix": "whip", "white-flash": "shutter", "flash": "shutter",
-                "camera-glow": "shutter", "light-sweep-ii": "sparkle", "twinkle-zoom": "sparkle"}
+                "camera-glow": "sparkle", "light-sweep-ii": "sparkle", "twinkle-zoom": "sparkle"}
 
 
 def chon_chuyen_canh(cfg, broll, total):
@@ -1191,19 +1191,19 @@ def main():
     if TH.get("cau_bat_buoc"):
         print("Câu bắt buộc của ngành (nên có trong dòng pháp lý / mô tả):", TH["cau_bat_buoc"])
     dem_k = {}
-    vao_ds = kc.chon("chu_vao", pc, so=max(1, len(nhans)), hat=hat, pro=pro)
-    ra_ds = kc.chon("chu_ra", pc, so=max(1, len(nhans)), hat=hat, pro=pro)
+    vao_ds = kc.chon("chu_vao", pc, so=max(1, len(nhans)), hat=hat, pro=pro, muot=cfg.get("kho_muot", True))
+    ra_ds = kc.chon("chu_ra", pc, so=max(1, len(nhans)), hat=hat, pro=pro, muot=cfg.get("kho_muot", True))
     for j, n in enumerate(nhans):   # mỗi chữ 1 kiểu vào / ra KHÁC NHAU từ kho CapCut, tiếng đi theo đúng kiểu vào
         n["anim_idx"] = dem_k.get(tc.kieu(n), 0)
         dem_k[tc.kieu(n)] = n["anim_idx"] + 1
         if vao_ds and cfg.get("kho_capcut", True):
             n["vao"] = vao_ds[j % len(vao_ds)]
             n["sfx_vao"] = kc.thong_tin("chu_vao", n["vao"])["tieng"]
-            n["lech"] = {"whoosh": -0.06, "sparkle": -0.04, "swipe": -0.02}.get(n["sfx_vao"], 0.02)
+            n["lech"] = {"whoosh": -0.06, "sparkle": -0.04, "swipe": -0.02, "click": 0.0, "tick": 0.0}.get(n["sfx_vao"], 0.02)
             n["ra"] = ra_ds[j % len(ra_ds)] if ra_ds else None
     if not basic:   # cảnh trám: hoạt ảnh video vào / ra của CapCut + tiếng hợp kiểu
-        vv = kc.chon("video_vao", pc, so=max(1, len(broll)), hat=hat + "v", pro=pro)
-        vr = kc.chon("video_ra", pc, so=max(1, len(broll)), hat=hat + "r", pro=pro)
+        vv = kc.chon("video_vao", pc, so=max(1, len(broll)), hat=hat + "v", pro=pro, muot=cfg.get("kho_muot", True))
+        vr = kc.chon("video_ra", pc, so=max(1, len(broll)), hat=hat + "r", pro=pro, muot=cfg.get("kho_muot", True))
         for j, b in enumerate(sorted(broll, key=lambda x: x["start"])):
             if vv:
                 b["vao"] = vv[j % len(vv)]
@@ -1452,16 +1452,20 @@ def main():
                 name = f"{cfg['draft']} v{v}"
         ops = list(text_style_ops) + trans_ops
         if "hieu_ung_capcut" not in cfg and not basic and cfg.get("kho_capcut", True):
-            hu = [{"slug": (kc.chon("hieu_ung_canh", pc, 1, vai="mo_dau", hat=hat, pro=pro) or ["mini-zoom"])[0],
-                   "at": 0.0, "dur": 0.8}]
+            hu = []   # KHÔNG hiệu ứng mở đầu (góp ý 17/11: "hiệu ứng mở đầu bị chớp, bỏ đi") — chỉ nhấn nhẹ ở ý chính
             nhan_moc = [n["a"] for n in nhans if n.get("san_pham")] + [n["a"] for n in nhans if tc.kieu(n) == "chinh"][-1:]
-            ds_nhan = kc.chon("hieu_ung_canh", pc, 3, vai="nhan", hat=hat + "n", pro=pro)
+            ds_nhan = kc.chon("hieu_ung_canh", pc, 3, vai="nhan", hat=hat + "n", pro=pro, muot=cfg.get("kho_muot", True))
             for k_, t_ in enumerate(sorted(set(nhan_moc))[:3]):
                 if ds_nhan:
                     hu.append({"slug": ds_nhan[k_ % len(ds_nhan)], "at": t_, "dur": 0.7})
             cfg["hieu_ung_capcut"] = hu
             print("Hiệu ứng cảnh CapCut (tự chọn theo phong cách " + pc + "):", ", ".join(f"{e['slug']}@{e['at']:.1f}s" for e in hu))
         for e in cfg.get("hieu_ung_capcut", []):   # hiệu ứng cảnh có sẵn của CapCut (capcut enums --scene-effects)
+            # góp ý 17/11: không chớp / lắc / nhấp nháy, không hiệu ứng ngay mở đầu video
+            if re.search(r"flash|strobe|shake|blink|flicker|glitch", e["slug"]) or (
+                    "khi" not in e and float(e.get("at", 0)) < 0.5):
+                print("  bỏ hiệu ứng cảnh (chớp/lắc hoặc ngay mở đầu):", e["slug"])
+                continue
             if "khi" in e:
                 t0 = fr(m(find_phrase(segs, e["khi"], e.get("sau", 0))[0], "start"))
             else:

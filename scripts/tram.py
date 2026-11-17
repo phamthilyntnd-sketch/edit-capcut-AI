@@ -65,7 +65,7 @@ def frame_score(a):
 BIEN = 0.5   # bỏ 0,5s đầu/cuối mỗi clip: lúc bấm quay / dừng máy hay rung, chưa vào cảnh
 
 
-def pick(a, dur, used=(), within=None, avoid=()):
+def pick(a, dur, used=(), within=None, avoid=(), sau=None):
     """Đoạn dài `dur` giây có điểm TB cao nhất, không chứa khung hỏng, không trùng đoạn đã dùng / vùng tránh,
     tránh 0,5s đầu/cuối clip, và ƯU TIÊN ĐOẠN ỔN ĐỊNH (chuyển động đều, không giật cục giữa chừng)."""
     sc, bad = frame_score(a)
@@ -74,6 +74,8 @@ def pick(a, dur, used=(), within=None, avoid=()):
     lo, hi = (b, n - w - b) if n - w - 2 * b >= 0 else (0, n - w)
     if within:
         lo, hi = max(lo, int(within[0] * FPS_T)), min(hi, int(within[1] * FPS_T) - w)
+    if sau is not None and int(sau * FPS_T) <= hi:   # theo thứ tự quay (kịch bản): chỉ lấy đoạn SAU lần dùng trước
+        lo = max(lo, int(sau * FPS_T))
     mo = np.asarray(a["motion"], np.float32)
     best = None
     for i in range(lo, hi + 1):

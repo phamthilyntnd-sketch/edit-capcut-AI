@@ -62,6 +62,8 @@ def envelope(path):
                        capture_output=True)
     x = np.frombuffer(r.stdout, np.int16).astype(np.float32) / 32768
     n = len(x) // 160
+    if n == 0:
+        raise SystemExit(f"Không đọc được tiếng của {path} (thiếu file hoặc clip không có âm thanh)")
     db = 20 * np.log10(np.sqrt((x[:n * 160].reshape(n, 160) ** 2).mean(1)) + 1e-6)
     floor, speech = np.percentile(db, 10), np.percentile(db, 90)
     return {"db": db, "thr": floor + 0.25 * (speech - floor)}
@@ -855,11 +857,11 @@ def base_video(aroll_v, pieces, broll, punch, with_audio=True, trans=None):
 
 
 def LOC_TAP_AM(cfg):
-    """Lọc tạp âm giọng nói (người dùng 14/11: "loại bỏ tạp âm"): cắt ù tiếng trầm (quạt, xe) < 80 Hz, khử nhiễu nền
-    theo phổ (afftdn tự đo nền ồn), bỏ rít cao > 14 kHz. "loc_tap_am": 0 = tắt, 1 = nhẹ, 2 = vừa (mặc định), 3 = mạnh."""
-    k = int(cfg.get("loc_tap_am", 2))
+    """V2 (góp ý 17/11): KHÔNG tự lọc âm — khử nhiễu / cắt tần số làm MÉO GIỌNG. Giữ nguyên giọng gốc; muốn giảm ồn thì
+    dùng "Giảm tiếng ồn" của CapCut trên đoạn giọng. Chỉ bật lại khi người dùng yêu cầu rõ: "loc_tap_am": 1–3."""
+    k = int(cfg.get("loc_tap_am", 0))
     if k <= 0:
-        return "highpass=f=80,"
+        return ""
     nr = {1: 8, 2: 12, 3: 18}.get(k, 12)
     return f"highpass=f=80,lowpass=f=14000,afftdn=nr={nr}:nf=-40:tn=1,"
 
@@ -889,31 +891,25 @@ def main():
     m = mapper(pieces)
     cues = make_cues(segs, cfg, pieces, m)
     total = fr(total)
-    # LÀM ĐẸP THEO NGƯỜI NÓI (góp ý 16/11: KOC nam bị mịn da kiểu nữ): "nguoi_noi": "nam" | "nu"
-    #   nam -> không mịn da, chỉ chỉnh màu + làm nét nhẹ · nu -> mịn da 1 · chưa rõ -> KHÔNG mịn da (an toàn)
-    nn = str(cfg.get("nguoi_noi", "")).lower()
-    g_mac_dinh = ({"skin": 0, "net": 0.3} if nn in ("nam", "male", "m") else
-                  {"skin": 1, "net": 0.4} if nn in ("nu", "nữ", "female", "f") else {"skin": 0, "net": 0.3})
-    g = cfg.get("grade", g_mac_dinh)
-    if g and "skin" not in g:
-        g = dict(g, skin=g_mac_dinh["skin"])
-    if g and nn in ("nam", "male", "m"):   # nam: luôn tắt mịn da (kể cả cấu hình chép từ video nữ), không kiểu "sang trọng"
-        g = dict(g, skin=0, kieu=None if g.get("kieu") == "sang-trong" else g.get("kieu"))
-    if not nn:
-        print("! Chưa ghi \"nguoi_noi\": \"nam\"|\"nu\" trong cau-hinh.json -> không làm mịn da")
-    if "--xem-mau" in flags:  # ảnh trước|sau để duyệt màu, không dựng
-        mid = pieces[len(pieces) // 2]
-        grade_preview(aroll, g or {}, (mid["s"] + mid["e"]) / 2, P)
-        print("Xem:", P / "preview_grade.jpg")
+    # V2 (góp ý 17/11): KHÔNG chỉnh màu, KHÔNG làm mịn da / làm đẹp — giữ nguyên hình gốc. Chỉnh màu (nếu cần) làm
+    # trực tiếp trong CapCut (Điều chỉnh / Bộ lọc) để người dựng tự kiểm soát. Khoá "grade" cũ trong cấu hình bị bỏ qua.
+    if cfg.get("grade"):
+        print("! V2: bỏ qua \"grade\" trong cấu hình — không chỉnh màu tự động, chỉnh màu trong CapCut")
+    if "--xem-mau" in flags:
+        print("V2 không chỉnh màu tự động — chỉnh màu trực tiếp trong CapCut.")
         return
-    aroll_v = grade_clip(aroll, g, g.get("skin", 1)) if g else aroll
+    aroll_v = aroll
     punch = float(cfg.get("punch", 1.08))
     print(f"A-roll: {len(pieces)} đoạn, tổng {total:.2f}s")
 
     # cảnh trám: (1) đủ dài để người xem kịp thấy (>= tram_min, mặc định 2,5s); (2) "from" = "auto" (mặc định)
     # -> tự chọn ĐOẠN HAY trong cả clip (nét, có người/sản phẩm, chuyển động vừa) — tram.py
     import tram
-    tmin = float(cfg.get("tram_min", 3.0))   # góp ý 16/11 "đoạn trám hơi ngắn": 2,5 -> 3,0s
+    # V2 (góp ý 17/11): cảnh trám ÍT mà CHẤT — đủ dài (>= 4s), có nội dung rõ, khớp lời / kịch bản; không rải nhiều cảnh
+    # ngắn vô nghĩa. Tối đa ~1 cảnh trám / 9s video ("tram_toi_da"), điểm nội dung thấp thì bỏ ("tram_diem_min").
+    tmin = float(cfg.get("tram_min", 4.0))
+    toi_da = int(cfg.get("tram_toi_da", max(2, round(total / 9))))
+    diem_min = float(cfg.get("tram_diem_min", 0.4))
     spans = []
     for i, b in enumerate(cfg["broll"]):
         oa, ob = fr(m(b["src"][0], "start")), fr(m(b["src"][1], "end"))
@@ -931,17 +927,32 @@ def main():
         frm, an = b.get("from", "auto"), None
         if frm == "auto" or b.get("cham_diem", True):
             an = tram.analyze(raw / b["file"], raw / "_tram")
+        scv = 1.0
         if frm == "auto":
-            frm, scv = tram.pick(an, ob - oa + 0.3, used.get(b["file"], []), b.get("tim_trong"), b.get("tranh", []))
+            if not b.get("tim_trong"):
+                print(f"! Cảnh trám {b['file']} @{oa:.1f}s chưa có \"tim_trong\" — phải xem bảng ảnh clip và khoanh đúng "
+                      "đoạn khớp lời/kịch bản (đang tự chọn theo THỨ TỰ QUAY sau cảnh trước của cùng clip)")
+            # XẾP THEO KỊCH BẢN: clip trám thường quay theo thứ tự kịch bản -> lần dùng sau của cùng clip lấy đoạn SAU lần trước
+            sau = max((e for _, e in used.get(b["file"], [])), default=None) if not b.get("tim_trong") else None
+            frm, scv = tram.pick(an, ob - oa + 0.3, used.get(b["file"], []), b.get("tim_trong"), b.get("tranh", []), sau=sau)
             if frm is None:
                 print(f"! Không tìm được đoạn hay đủ {ob - oa:.1f}s trong {b['file']} -> bỏ cảnh trám này")
+                continue
+            if scv < diem_min:
+                print(f"! Bỏ cảnh trám {b['file']} @{oa:.1f}s: nội dung chưa rõ (điểm {scv:.2f} < {diem_min}) — giữ hình người nói")
                 continue
         used.setdefault(b["file"], []).append((frm, frm + ob - oa + 0.3))
         if an is not None:
             loi = " ".join(w["w"].strip() for w in words if b["src"][0] - 0.1 <= w["s"] <= b["src"][1])
             chon.append((f"{b['file']} {frm:.1f}-{frm + ob - oa:.1f}s -> ra {oa:.1f}s", an, frm, ob - oa, loi))
-        bp = grade_clip(raw / b["file"], dict(g, auto=False), 0) if g else raw / b["file"]
-        broll.append({"path": str(bp), "start": oa, "duration": fr(ob - oa), "from": frm, "ref": f"b{i}"})
+        bp = raw / b["file"]   # V2: không chỉnh màu cảnh trám
+        broll.append({"path": str(bp), "start": oa, "duration": fr(ob - oa), "from": frm, "ref": f"b{i}", "diem": scv})
+    if len(broll) > toi_da:   # quá nhiều cảnh trám -> giữ những cảnh điểm cao + dài nhất, theo đúng thứ tự thời gian
+        giu = sorted(broll, key=lambda x: -(x["diem"] * x["duration"]))[:toi_da]
+        bo_ = [x for x in broll if x not in giu]
+        print(f"Bớt cảnh trám ({len(broll)} -> {toi_da}, tối đa ~1 cảnh / 9s): bỏ", ", ".join(f"@{x['start']:.1f}s" for x in bo_))
+        broll = [x for x in broll if x in giu]
+        chon = [c for c in chon if any(c[0].endswith(f"ra {x['start']:.1f}s") for x in broll)]
     if chon:
         tram.sheet(chon, P / "bang-tram.jpg")
         print("Cảnh trám:", "; ".join(c[0] for c in chon), f"· xem {P / 'bang-tram.jpg'}")
@@ -1074,6 +1085,11 @@ def main():
 
     lufs = loudness(aroll)
     gain_db = max(-6, min(9, -14.0 - lufs))
+    # V2: chỉ tăng/giảm âm lượng giọng (không nén, không lọc) và không để đỉnh vượt -1 dB -> không vỡ tiếng
+    rv = run(["ffmpeg", "-hide_banner", "-i", str(aroll), "-vn", "-af", "volumedetect", "-f", "null", "-"])
+    mv = re.findall(r"max_volume:\s*(-?[\d.]+) dB", rv.stderr)
+    if mv:
+        gain_db = min(gain_db, -1.0 - float(mv[-1]))
     vol = round(10 ** (gain_db / 20), 3)
     print(f"Giọng: {lufs:.1f} LUFS -> tăng {gain_db:+.1f} dB")
 
@@ -1113,6 +1129,10 @@ def main():
         print("Câu bắt buộc của ngành (nên có trong dòng pháp lý / mô tả):", TH["cau_bat_buoc"])
     # tiếng nhấn tính SAU khi đã bỏ chữ không còn chỗ (trước đây chữ bị bỏ vẫn còn tiếng pop "trống")
     sfx = sfx_events(cfg, broll, calls, cta_a, total, nhans, trans)
+    thieu = max(0.0, min(8.0, (-14.0 - lufs) - gain_db))   # giọng không tăng được tới -14 LUFS (đỉnh cao) -> hạ tiếng nhấn
+    if thieu > 0.5 and sfx:                                # theo đúng phần thiếu để tiếng nhấn không át giọng
+        sfx = [(t_, n_, db_ - thieu) for t_, n_, db_ in sfx]
+        print(f"Tiếng nhấn hạ {thieu:.1f} dB cho cân với giọng gốc")
     if sfx:
         (P / "sfx").mkdir(exist_ok=True)
         for _, n, _ in sfx:
@@ -1186,7 +1206,7 @@ def main():
                 f.append(f"[{last}][{k}:v]overlay=0:0:enable='between(t,{a},{b - 0.001})'[o{j}]")
             last = f"o{j}"
         mk = 1 + nb + no
-        f.append(f"[voice]{LOC_TAP_AM(cfg)}volume={gain_db}dB,alimiter=limit=0.89[vo]")
+        f.append(f"[voice]{LOC_TAP_AM(cfg)}volume={gain_db}dB[vo]")
         if nhac:
             f.append(f"[{mk}:a]volume=0.10[mu]")
         s0 = mk + (1 if nhac else 0)
@@ -1195,7 +1215,7 @@ def main():
             f.append(f"[{s0 + j}:a]adelay={ms}|{ms},volume={db}dB[s{j}]")
         f.append("[vo]" + ("[mu]" if nhac else "") + "".join(f"[s{j}]" for j in range(len(sfx)))
                  + f"amix=inputs={1 + (1 if nhac else 0) + len(sfx)}:duration=first:normalize=0,"
-                 f"loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[aout]")
+                 f"aresample=48000[aout]")
         args += ["-filter_complex", ";".join(f), "-map", f"[{last}]", "-map", "[aout]", "-t", f"{total:.3f}",
                  "-r", str(FPS), "-pix_fmt", "yuv420p"]
         enc = ["-c:v", "h264_nvenc", "-preset", "p6", "-cq", "18", "-b:v", "0"]

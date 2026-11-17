@@ -30,7 +30,7 @@ Claude hỏi thêm những gì thiếu (màu bao bì sản phẩm, tên riêng h
    > Dựng video trong thư mục `D:\footage\SANTAV-O5` cho thương hiệu **santav** thành project CapCut. Mã video **MAN O-5**, kịch bản trong brief.
 
    hoặc gõ `/edit-capcut-ai` rồi trả lời câu hỏi.
-3. Claude **hỏi hết 1 lần** những gì còn thiếu (thumbnail ghi gì, clip nào là người nói, người nói là nam hay nữ — nam thì không làm mịn da…) → rồi tự làm tới xong, không hỏi nữa. Mất khoảng 10–30 phút tuỳ độ dài, cứ để máy chạy.
+3. Claude **hỏi hết 1 lần** những gì còn thiếu (thumbnail ghi gì, clip nào là người nói, kịch bản / thứ tự cảnh…) → rồi tự làm tới xong, không hỏi nữa. Mất khoảng 10–30 phút tuỳ độ dài, cứ để máy chạy.
 4. Khi Claude nhắc **"đóng CapCut"**: tắt hẳn CapCut (cả biểu tượng cạnh đồng hồ) rồi trả lời *"Đã đóng CapCut"*. Claude không tự tắt CapCut của bạn.
 
 Claude tự làm:
@@ -81,7 +81,7 @@ Sửa nhỏ (đổi 1 chữ, dời 1 chữ) có thể tự làm luôn trong CapC
 
 ## Mẫu lệnh (dán vào app AI, sửa phần trong [ ])
 
-AI chỉ hỏi **1 lần ngay đầu** những mục bắt buộc còn thiếu (thư mục footage, thương hiệu, người nói nam/nữ), rồi tự làm tới xong. **Từ cấm đã có sẵn trong skill** theo luật quảng cáo + ngành (`thuong-hieu/tu-cam-co-ban.json`) — chỉ ghi thêm khi brief có từ cấm riêng.
+AI chỉ hỏi **1 lần ngay đầu** những mục bắt buộc còn thiếu (thư mục footage, thương hiệu), rồi tự làm tới xong. **Từ cấm đã có sẵn trong skill** theo luật quảng cáo + ngành (`thuong-hieu/tu-cam-co-ban.json`) — chỉ ghi thêm khi brief có từ cấm riêng.
 
 ### Phiên bản 1 — Từng thương hiệu
 
@@ -109,10 +109,10 @@ Dựng hàng loạt thành project CapCut, thương hiệu: [santav].
 CapCut đã đóng. Cần hỏi gì thì hỏi gộp 1 lần ngay bây giờ. Sau khi tôi trả lời: dựng hoàn thành 100% tất cả video, không hỏi lại nữa — chỗ không chắc thì tự quyết và ghi vào báo cáo cuối.
 Xuất MP4 xem thử: [không]
 
-Thư mục | Mã video | Người nói | Thumbnail (dòng 1 / dòng 2) | Ghi chú
-[D:\footage\O-5] | [MAN O-5] | [nữ] | [LO CHO CẢ NHÀ / ĐỪNG QUÊN LO MÌNH] | [ ]
-[D:\footage\T-5] | [MAN T-5] | [nữ] | [NHỮNG LƯU Ý TRƯỚC KHI MUA / DUNG DỊCH VỆ SINH] | [ ]
-[D:\footage\C-6] | [MAN C-6] | [nam] | [để AI tự đặt] | [ ]
+Thư mục | Mã video | Thumbnail (dòng 1 / dòng 2) | Ghi chú
+[D:\footage\O-5] | [MAN O-5] | [LO CHO CẢ NHÀ / ĐỪNG QUÊN LO MÌNH] | [ ]
+[D:\footage\T-5] | [MAN T-5] | [NHỮNG LƯU Ý TRƯỚC KHI MUA / DUNG DỊCH VỆ SINH] | [ ]
+[D:\footage\C-6] | [MAN C-6] | [để AI tự đặt] | [ ]
 ```
 
 ### Phiên bản 2 — Nhiều thương hiệu
@@ -144,8 +144,8 @@ Dựng hàng loạt thành project CapCut, mỗi video theo đúng thương hi�
 CapCut đã đóng. Cần hỏi gì thì hỏi gộp 1 lần ngay bây giờ. Sau khi tôi trả lời: dựng hoàn thành 100% tất cả video, không hỏi lại nữa — chỗ không chắc thì tự quyết và ghi vào báo cáo cuối.
 Xuất MP4 xem thử: [không]
 
-Thương hiệu | Thư mục | Mã video | Người nói | Thumbnail (dòng 1 / dòng 2) | Ghi chú
-[santav] | [D:\footage\O-5] | [MAN O-5] | [nữ] | [LO CHO CẢ NHÀ / ĐỪNG QUÊN LO MÌNH] | [ ]
-[santav] | [D:\footage\C-6] | [MAN C-6] | [nam] | [để AI tự đặt] | [ ]
-[abc]    | [D:\footage\ABC-01] | [ABC 01] | [nữ] | [để AI tự đặt] | [ ]
+Thương hiệu | Thư mục | Mã video | Thumbnail (dòng 1 / dòng 2) | Ghi chú
+[santav] | [D:\footage\O-5] | [MAN O-5] | [LO CHO CẢ NHÀ / ĐỪNG QUÊN LO MÌNH] | [ ]
+[santav] | [D:\footage\C-6] | [MAN C-6] | [để AI tự đặt] | [ ]
+[abc]    | [D:\footage\ABC-01] | [ABC 01] | [để AI tự đặt] | [ ]
 ```

@@ -43,6 +43,15 @@ rồi dựng LẦN LƯỢT từng video (mỗi video 1 dự án `projects/<ma>`,
 ghi lại và làm tiếp video sau. Cuối cùng báo 1 bảng: video · project CapCut · ảnh thumbnail · chỗ đã tự quyết · lỗi (nếu có).
 Chạy các bước nặng (chuẩn bị footage, dựng) dưới nền; kiểm ổ đĩa ≥ 2 GB × số video trước khi bắt đầu.
 
+**Gói dựng theo bảng giá TechPro 2026** (`"goi"` trong cau-hinh.json):
+- `"basic"` (oneshot – 1 bối cảnh, 1 shot; hậu kỳ "3 text + 3 sound đầu video"): KHÔNG cảnh trám, KHÔNG hiệu ứng cảnh /
+  chuyển cảnh; đúng **3 chữ = thumbnail (dải trên) + 2 chữ nhấn trong ~15–20s đầu**, mỗi chữ 1 tiếng (thumbnail whoosh, chữ
+  pop/whip); không ding/cash. Không nút giỏ hàng nếu `"cta": false`. Vẫn cắt vấp, giữ nhãn "Hợp tác quảng cáo" + dòng
+  pháp lý (bắt buộc, không tính vào 3 chữ). Nhiều cảnh cận tay thao tác → chữ được đè nhẹ lên tay/thân (`trong_so_nguoi`
+  0,4, ngưỡng bỏ chữ 2,0) nhưng KHÔNG đè mặt.
+- Gói khác (Standard / Delux / Premium…) = mặc định đầy đủ (cảnh trám, 7–20 chữ + tiếng theo kịch bản).
+Khách chưa có logo → `"logo": ""` và `"logo_chu": ""` trong hồ sơ: không đặt logo.
+
 **Nhiều thương hiệu trong 1 lệnh** (mẫu "DỰNG NHIỀU THƯƠNG HIỆU": mỗi dòng thêm cột thương hiệu): mỗi video dùng hồ sơ
 của đúng thương hiệu dòng đó (`"thuong_hieu"` trong cau-hinh.json của từng dự án — dung.py nạp hồ sơ theo từng dự án). Kiểm
 ngay đầu: thương hiệu nào chưa có hồ sơ → hỏi gộp 1 lần theo mẫu hồ sơ (có thể nhiều khối hồ sơ trong 1 tin nhắn).

@@ -45,12 +45,30 @@ def sheet(mp4, jpg, n=12):
          "-frames:v", "1", str(jpg)])
 
 
+def doc_am(path):
+    """Âm thanh -> mảng 16 kHz mono bằng ffmpeg (không qua thư viện av: bản av / faster-whisper lệch nhau sẽ lỗi
+    "open() got an unexpected keyword argument 'metadata_errors'")."""
+    import numpy as np
+    r = subprocess.run(["ffmpeg", "-v", "error", "-i", str(path), "-vn", "-ac", "1", "-ar", "16000", "-f", "s16le", "-"],
+                       capture_output=True)
+    return np.frombuffer(r.stdout, np.int16).astype(np.float32) / 32768.0
+
+
 def transcribe(wav):
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
     from faster_whisper import WhisperModel
     m = WhisperModel("large-v3-turbo", device="cpu", compute_type="int8")
-    segs, _ = m.transcribe(str(wav), language="vi", word_timestamps=True, vad_filter=False,
+    segs, _ = m.transcribe(doc_am(wav), language="vi", word_timestamps=True, vad_filter=False,
                            initial_prompt=th.TH.get("tu_vung", "") + ".")
+    segs = list(segs)
+    # Whisper "bịa" (subscribe / Ghiền Mì Gõ…) hoặc gần như không nghe được lời -> nghe lại có lọc khoảng lặng (VAD)
+    loi = " ".join(x.text for x in segs).lower()
+    nwords = sum(len(x.words or []) for x in segs)
+    if nwords < 30 or loi.count("subscribe") >= 2:
+        print("  ! Phiên âm lần 1 không đáng tin -> nghe lại có lọc khoảng lặng")
+        segs, _ = m.transcribe(doc_am(wav), language="vi", word_timestamps=True, vad_filter=True,
+                               initial_prompt=th.TH.get("tu_vung", "") + ".")
+        segs = list(segs)
     out = []
     for s in segs:
         out.append({"start": s.start, "end": s.end, "text": s.text,

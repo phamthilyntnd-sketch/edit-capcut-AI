@@ -491,6 +491,9 @@ def render_pngs(jobs, out_dir):
 
 def logo_png(out_dir):
     dst = out_dir / "logo.png"
+    if not LOGO_FILE.exists() and not TH.get("logo_chu"):   # khách chưa có logo -> không đặt logo
+        dst.unlink(missing_ok=True)
+        return "không có logo"
     if LOGO_FILE.exists():
         lg = Image.open(LOGO_FILE).convert("RGBA")
         a = np.asarray(lg).copy()
@@ -648,9 +651,13 @@ def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None):
         if n.get("san_pham") and n["a"] > 1.5:
             ev.append((n["a"] - 1.0, "riser", -14 + L))
     ev = [(t, n, db, False) for t, n, db in ev]
-    ev += [(cta_a, "ding", -7 + L, True), (cta_a + 0.45, "cash", -12 + L, False)]
+    basic = str(cfg.get("goi", "")).lower() == "basic"
+    if basic:   # GÓI BASIC: "3 text + 3 sound đầu video" -> tiếng chỉ đi kèm thumbnail + các chữ nhấn
+        ev = [(0.05, "whoosh", -9 + L, True)]
+    elif cfg.get("cta_src") and cfg.get("cta", True) is not False:
+        ev += [(cta_a, "ding", -7 + L, True), (cta_a + 0.45, "cash", -12 + L, False)]
     k = 0
-    cuoi = [n for n in nhans if tc.kieu(n) == "chinh"][-1:]   # câu chốt cảm xúc cuối: chuông nhẹ
+    cuoi = [] if basic else [n for n in nhans if tc.kieu(n) == "chinh"][-1:]   # câu chốt cảm xúc cuối: chuông nhẹ
     # TIẾNG KHỚP HIỆU ỨNG CHỮ (góp ý 16/11): tiếng đặt đúng lúc chữ bật lên (tc.SFX_CHU), loại tiếng hợp kiểu hiện
     # (pop-up -> pop/bubble, trượt lên -> whip), và LUÔN được ưu tiên hơn tiếng chuyển cảnh khi trùng giờ.
     for n in nhans:
@@ -757,7 +764,8 @@ def nghe_lai(mp4, want_text, cam):
         return ["## Nghe lại lời: BỎ QUA (thiếu faster-whisper)", ""]
     import difflib
     model = WhisperModel("large-v3-turbo", device="cpu", compute_type="int8")
-    segs, _ = model.transcribe(str(mp4), language="vi", vad_filter=True,
+    import chuan_bi as cb
+    segs, _ = model.transcribe(cb.doc_am(mp4), language="vi", vad_filter=True,
                                initial_prompt=TH.get("tu_vung", "") + ".")
     heard = " ".join(s.text for s in segs)
     a, b = _tok(want_text), _tok(heard)
@@ -883,6 +891,12 @@ def main():
     flags = set(sys.argv[2:]) or ({"--pngs", "--mp4", "--capcut", "--qa"} if cfg.get("xuat_mp4") else {"--pngs", "--capcut"})
     raw = P / "raw"
     aroll = raw / cfg["aroll"]
+    # GÓI BASIC (bảng giá TechPro 2026): 1 bối cảnh, 1 shot -> KHÔNG cảnh trám, KHÔNG hiệu ứng cảnh;
+    # hậu kỳ "3 text + 3 sound đầu video" = thumbnail + 2 chữ nhấn trong ~15s đầu, mỗi chữ 1 tiếng.
+    basic = str(cfg.get("goi", "")).lower() == "basic"
+    if basic:
+        cfg["broll"], cfg["hieu_ung_capcut"], cfg["callouts"] = [], [], []
+        print("Gói BASIC: không cảnh trám / hiệu ứng cảnh; 3 chữ (thumbnail + 2 chữ nhấn) + 3 tiếng nhấn đầu video")
     segs = json.loads((P / "transcript.json").read_text(encoding="utf-8"))
     sil = silences(aroll)
     env = envelope(aroll)
@@ -983,7 +997,8 @@ def main():
     for i, c in enumerate(cfg["callouts"]):
         oa, ob = fr(m(c["src"][0], "start")), fr(m(c["src"][1], "end"))
         calls.append({"name": f"call{i}", "lines": c["lines"], "a": oa, "b": ob})
-    cta_a = fr(m(cfg["cta_src"][0], "start"))
+    co_cta = bool(cfg.get("cta_src")) and cfg.get("cta", True) is not False
+    cta_a = fr(m(cfg["cta_src"][0], "start")) if co_cta else fr(max(0.0, total - 5.0))   # không nút giỏ hàng: pháp lý 5s cuối
     phu_de = bool(cfg.get("phu_de", False))  # mặc định KHÔNG chạy phụ đề suốt video: chỉ chữ nhấn
     nhans = []
     for i, n in enumerate(cfg.get("nhan", [])):
@@ -1002,6 +1017,9 @@ def main():
             ob = fr(min(m(seg_end, "end") + 0.35, oa + float(n.get("giu", 3.0))))
         nhans.append(dict(n, name=f"nh{i:02d}", a=oa, b=max(ob, oa + 0.8)))
     nhans.sort(key=lambda x: x["a"])
+    if basic and len(nhans) > int(cfg.get("so_chu_basic", 2)):
+        print("Gói BASIC chỉ 2 chữ nhấn sau thumbnail -> bỏ:", [n["chu"] for n in nhans[int(cfg.get("so_chu_basic", 2)):]])
+        nhans = nhans[:int(cfg.get("so_chu_basic", 2))]
     for j, n in enumerate(nhans):  # chữ không có "den" tắt khi chữ sau hiện; chữ có "den" (danh sách) giữ tới mốc đó
         # chữ nào cũng tắt khi chữ kế tiếp hiện (kể cả có "den") — trừ các dòng cùng 1 danh sách ("nhom")
         if j + 1 < len(nhans) and not (n.get("nhom") and nhans[j + 1].get("nhom") == n.get("nhom")):
@@ -1036,6 +1054,8 @@ def main():
     if "--pngs" in flags:
         jobs = [("thumb", thumb_html(cfg)), ("thumb_band", thumb_html(cfg, "band")), ("thumb_big", thumb_html(cfg, "big")),
                 ("cta", '<div class="cta"><span class="ar">&#8601;</span><span>{TH["cta"]}</span></div>')]
+        if not co_cta:
+            jobs = [j for j in jobs if j[0] != "cta"]
         for c in calls:
             jobs.append((c["name"], stroked("call", "<br>".join(c["lines"]))))
         if nqc:
@@ -1048,6 +1068,8 @@ def main():
         render_pngs(jobs, chu)
         if cfg.get("bo_cuc_tu_dong", True):
             import bo_cuc as bc
+            # gói Basic quay 1 shot, nhiều cảnh cận tay thao tác sản phẩm: mặt + sản phẩm vẫn cấm tuyệt đối, tay/thân chỉ trừ nhẹ
+            bc.W_NGUOI = float(cfg.get("trong_so_nguoi", 0.4 if basic else 20))
             inp, fv = base_video(aroll_v, pieces, broll, punch, with_audio=False)
             print("Dò mặt / sản phẩm để đặt chữ...")
             frames = bc.clean_frames(";".join(fv).replace("[base]", "[v]"), inp, total, P / "_nhap_bo_cuc.npz")
@@ -1064,12 +1086,13 @@ def main():
                      ]
             all_rows = tc.ROWS["tren"] + tc.ROWS["duoi"]
             items = [{"name": "thumb", "png": chu / "thumb.png", "a": 0, "b": min(cfg["thumb_dur"], total),
-                      "rows": all_rows, "pref_y": 1170}]
+                      "rows": tc.ROWS["tren"] if basic else all_rows, "pref_y": None if basic else 1170}]   # Basic: thumbnail dải TRÊN (không đè thân/sản phẩm)
             # nút giỏ hàng + dòng pháp lý cũng phải né người / sản phẩm (cảnh cuối thường có hộp sản phẩm trên bàn)
             if nqc:
                 items.append({"name": "phaply", "png": chu / "phaply.png", "a": cta_a, "b": total, "rows": all_rows,
                               "pref_y": 1390})
-            items.append({"name": "cta", "png": chu / "cta.png", "a": cta_a, "b": total, "rows": all_rows, "pref_y": 1480})
+            if co_cta:
+                items.append({"name": "cta", "png": chu / "cta.png", "a": cta_a, "b": total, "rows": all_rows, "pref_y": 1480})
             for n in nhans:
                 vt = n.get("vi_tri")
                 rws = tc.ROWS["tren"] if vt == "tren" else tc.ROWS["duoi"] if vt in ("duoi", "giua") else all_rows
@@ -1109,7 +1132,10 @@ def main():
         ys, xs = np.where(a > 40)
         return (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1) if len(ys) else (0, 0, W, H)
     bc_res = json.loads((chu / "_bo_cuc.json").read_text(encoding="utf-8")) if (chu / "_bo_cuc.json").exists() else {}
-    bo = [n for n in nhans if n["name"] in bc_res and bc_res[n["name"]][2] > 0.5]
+    # ngưỡng bỏ chữ: 0,5 (mặc định). Gói Basic (phải đủ 3 chữ, nhiều cảnh cận tay) 2,0 — vẫn bỏ nếu đè MẶT thật
+    # (mặt trọng số 40: đè 1/10 vùng mặt đã > 4)
+    nguong = float(cfg.get("nguong_bo_chu", 2.0 if basic else 0.5))
+    bo = [n for n in nhans if n["name"] in bc_res and bc_res[n["name"]][2] > nguong]
     if bo:  # chữ tuyệt đối không che người / sản phẩm: không còn chỗ trống thì bỏ chữ đó
         print("Bỏ chữ nhấn vì không còn chỗ trống (sẽ che người/sản phẩm):", [n["chu"] for n in bo])
         nhans = [n for n in nhans if n not in bo]
@@ -1118,7 +1144,7 @@ def main():
     def _trung(text):
         t = re.sub(r"<[^>]+>", "", text).lower()
         return [c for c in cam if re.search(rf"(?<!\w){re.escape(c)}(?!\w)", t)]
-    tren_man = list(cfg.get("thumb", [])) + [l for n in nhans for l in n["chu"]] + [TH.get("cta", "")]
+    tren_man = list(cfg.get("thumb", [])) + [l for n in nhans for l in n["chu"]] + ([TH.get("cta", "")] if co_cta else [])
     hit_chu = sorted({c for x in tren_man for c in _trung(x)})
     hit_loi = [(c["a"], c["text"], _trung(c["text"])) for c in cues if _trung(c["text"])]
     if hit_chu:
@@ -1149,13 +1175,14 @@ def main():
             pad = 24
             Image.open(chu / f"{nm}.png").crop((max(0, x0 - pad), max(0, y0 - pad), min(W, x1 + pad), min(H, y1 + pad))).save(cp)
             crops[nm] = cp
-    overlays = [("logo", 0, total), ("thumb", 0, min(cfg["thumb_dur"], total))]
+    overlays = ([("logo", 0, total)] if (chu / "logo.png").exists() else []) + [("thumb", 0, min(cfg["thumb_dur"], total))]
     overlays += [(c["name"], c["a"], c["b"]) for c in calls]
     overlays += [(n["name"], n["a"], n["b"]) for n in nhans]
     if phu_de:
         overlays += [(f"sub{i:03d}", c["a"], c["b"]) for i, c in enumerate(cues)]
     anim = {n["name"]: "pop" for n in nhans}  # 1 kiểu bật lên cho cả video (đồng bộ, không rối)
-    overlays += [("cta", cta_a, total)]
+    if co_cta:
+        overlays += [("cta", cta_a, total)]
     if nqc:
         overlays += [("nhan", 0, total), ("phaply", cta_a, total)]
 
@@ -1341,7 +1368,7 @@ def main():
                     sc_ = sc_[3] if len(sc_) > 3 else 1.0
                     it_, st_ = tc.capcut_text(n, *centers[n["name"]], scale=sc_)
                     add_txt(f"Nhan nha {li + 1}", n["name"], n["a"], n["b"], it_, st_)
-            if "cta" in centers:
+            if co_cta and "cta" in centers:
                 it_, st_ = tc.fixed_text("↙ " + TH["cta"], 46, "#FFFFFF", *centers["cta"], bg=(GREEN, 1.0))
                 add_txt("Gio hang", "cta", cta_a, total, it_, st_)
             if nqc and "nhan" in centers:

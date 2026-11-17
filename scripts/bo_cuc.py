@@ -188,6 +188,9 @@ def _alpha_grid(png):
     return a, g
 
 
+W_NGUOI = 20   # trọng số thân người / tay (mặt luôn 40). Gói Basic hạ xuống: chữ được đè nhẹ lên tay đang thao tác
+
+
 def place_all(items, frames, person, faces, prods, fixed, out_dir):
     """items: [{name, png, a, b, pref_y (px đỉnh chữ mong muốn) hoặc None}] -> dời ảnh, trả {name: (dx, dy, cost)}.
     fixed: [(a, b, mask GHxGW)] vùng cấm theo thời gian (logo, nút giỏ hàng, thumbnail, dòng pháp lý)."""
@@ -238,7 +241,7 @@ def place_all(items, frames, person, faces, prods, fixed, out_dir):
         F = faces[f0:f1].mean(0) if f1 > f0 else np.zeros((GH, GW))
         Pm = prods[f0:f1].mean(0) if f1 > f0 else np.zeros((GH, GW))
         Pe = person[f0:f1].mean(0) if f1 > f0 else np.zeros((GH, GW))
-        cost_map = 40 * F + 30 * Pm + 20 * Pe            # mặt / sản phẩm / người: gần như cấm hẳn
+        cost_map = 40 * F + 30 * Pm + W_NGUOI * Pe       # mặt / sản phẩm / người: gần như cấm hẳn
         ban = np.zeros((GH, GW))
         for fa, fb, m in fixed + placed:
             if fa < it["b"] and fb > it["a"]:

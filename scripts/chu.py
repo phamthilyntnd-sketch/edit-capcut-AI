@@ -38,7 +38,9 @@ ANIM_POOL = {
 
 
 def anim(n):
-    """(hiệu ứng vào, tiếng, lệch) của chữ n theo vị trí xoay vòng n["anim_idx"]."""
+    """(hiệu ứng vào, tiếng, lệch) của chữ n: kiểu đã chọn từ kho CapCut (n["vao"]) hoặc xoay vòng ANIM_POOL."""
+    if n.get("vao"):
+        return n["vao"], n.get("sfx_vao", "pop"), n.get("lech", 0.02)
     pool = ANIM_POOL[kieu(n)]
     return pool[int(n.get("anim_idx", 0)) % len(pool)]
 

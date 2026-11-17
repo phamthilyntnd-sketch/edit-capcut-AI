@@ -16,6 +16,8 @@
   "mau_san_pham": ["#6CBE45"],
   "tu_vung": "giỏ hàng",
   "nganh": "my-pham",
+  "phong_cach": "nang_dong",
+  "_phong_cach": "nang_dong | sang_trong | de_thuong | cong_nghe | co_dien — chọn hiệu ứng CapCut hợp thương hiệu",
   "nganh_tra_loi": {
     "co": {"ban_hang": true, "kol": true, "kol_da_dung": true, "dung_ai": false, "nguoi_trong_hinh_dong_y": true},
     "gia_tri": {"san_pham": "", "don_vi_cong_bo": ""}

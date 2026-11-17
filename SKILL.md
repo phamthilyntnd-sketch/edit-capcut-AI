@@ -16,6 +16,19 @@ Cách làm việc với người dùng: **hỏi hết 1 lần ngay đầu, sau �
 Trước khi làm bất cứ việc gì: `git -C SK pull --ff-only -q` (im lặng; lỗi mạng thì bỏ qua và làm tiếp). Nhờ vậy máy nào dùng
 skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng đặt lịch tự cập nhật khi mở máy + mỗi 2 giờ.)
 
+## V4 — DÙNG KHO HIỆU ỨNG CÓ SẴN CỦA CAPCUT (17/11/2026)
+- `kho/capcut.json` (tạo bằng `scripts/kho_capcut.py tao`, đi kèm skill): ~830 mục có sẵn của CapCut — 111 chuyển cảnh,
+  311 hiệu ứng cảnh, 59 hiệu ứng nhân vật, 76 kiểu chữ vào, 68 kiểu chữ ra, 51 kiểu chữ lặp, 42 + 22 + 93 hoạt ảnh video
+  vào / ra / kết hợp — đã bỏ mục không hợp video bán hàng (ma quái, buồn, biến dạng mặt…), gắn PHONG CÁCH + VAI TRÒ + tiếng.
+- PHONG CÁCH theo hồ sơ thương hiệu `"phong_cach"`: `nang_dong` (bán hàng, review) · `sang_trong` (mỹ phẩm, cao cấp — santav)
+  · `de_thuong` (mẹ & bé, quà) · `cong_nghe` (điện tử, app) · `co_dien` (retro). Ghi đè từng video bằng cau-hinh.
+- Tự áp (mỗi dự án chọn ổn định, không lặp kiểu): mỗi chữ 1 kiểu VÀO + 1 kiểu RA khác nhau; mỗi cảnh trám 1 hoạt ảnh video
+  vào / ra (thay cho chuyển cảnh trên lớp phủ); hiệu ứng cảnh tự chọn khi cấu hình không ghi `hieu_ung_capcut`: 1 mở đầu
+  + tối đa 3 lần nhấn (tên sản phẩm, câu chốt). Tiếng nhấn theo đúng loại hoạt ảnh (zoom → whoosh, trượt → swipe, lật/xoay →
+  whip, nảy → bubble, lấp lánh → sparkle, gõ chữ → tick, nhiễu → shutter…), không để 2 tiếng giống nhau liền nhau.
+- Máy có CapCut Pro (`may.json` `"capcut_pro": true`, mặc định) được dùng cả hiệu ứng Pro; máy miễn phí đặt `false`.
+- Tắt kho cho 1 video: `"kho_capcut": false`. Gói Basic vẫn giữ đúng 3 chữ + 3 tiếng, không cảnh trám / hiệu ứng cảnh.
+
 ## QUY CHUẨN DỰ ÁN V3 (18/11/2026 — áp dụng mặc định)
 - **1 dự án = 1 project CapCut**, tên = `-` + tên folder dự án (vd folder `11B17.2 -STV T11_400K` → project `-11B17.2 -STV T11_400K`).
   Mọi video của dự án nối tiếp trên cùng timeline, **ngăn cách bằng điểm đánh dấu** (tên = mã video); nhân sự tự xuất từng

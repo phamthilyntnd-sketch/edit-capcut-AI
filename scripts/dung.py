@@ -665,7 +665,7 @@ def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None):
         if (b["ref"], "vao") in trans:
             ev.append((b["start"], TIENG_CHUYEN.get(trans[(b["ref"], "vao")], "whoosh"), -9 + L))
         elif b["start"] > 0.3:
-            ev.append((b["start"], ("swipe", "whoosh")[i % 2], -11 + L))
+            ev.append((b["start"], b.get("sfx_vao") or ("swipe", "whoosh")[i % 2], -11 + L))
         if (b["ref"], "ra") in trans:
             ev.append((b["start"] + b["duration"], TIENG_CHUYEN.get(trans[(b["ref"], "ra")], "whoosh"), -10 + L))
     for n in nhans:   # tiếng dồn lên ngay trước khi gọi tên sản phẩm -> tạo cao trào
@@ -703,7 +703,16 @@ def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None):
                 keep[-1] = (t, n, db, chu_)
             continue
         keep.append((t, n, db, chu_))
-    return [(fr(t), n, db) for t, n, db, _ in keep if t < total - 0.3]
+    # ĐA DẠNG: không để 2 tiếng giống nhau đứng liền nhau — đổi sang tiếng cùng họ (whoosh -> swipe -> whip, sparkle -> chime…)
+    HO = {"whoosh": ["swipe", "whip"], "swipe": ["whip", "whoosh"], "whip": ["swipe", "whoosh"], "pop": ["bubble", "click"],
+          "bubble": ["pop", "click"], "sparkle": ["chime", "pop"], "shutter": ["click", "tick"], "click": ["tick", "pop"],
+          "tick": ["click", "pop"], "chime": ["sparkle", "ding"]}
+    out, truoc, dem = [], None, 0
+    for t, n, db, chu_ in keep:
+        if n == truoc and n in HO and (SFX_DIR / f"{HO[n][dem % 2]}.wav").exists():
+            n = HO[n][dem % 2]; dem += 1
+        out.append((t, n, db, chu_)); truoc = n
+    return [(fr(t), n, db) for t, n, db, _ in out if t < total - 0.3]
 
 
 # Chuyển cảnh CÓ SẴN của CapCut, chia theo ngữ cảnh (slug đều có trong `capcut enums --transitions`)
@@ -916,6 +925,12 @@ def main():
     # GÓI BASIC (bảng giá TechPro 2026): 1 bối cảnh, 1 shot -> KHÔNG cảnh trám, KHÔNG hiệu ứng cảnh;
     # hậu kỳ "3 text + 3 sound đầu video" = thumbnail + 2 chữ nhấn trong ~15s đầu, mỗi chữ 1 tiếng.
     basic = str(cfg.get("goi", "")).lower() == "basic"
+    # V4: KHO HIỆU ỨNG CAPCUT — phong cách: nang_dong | sang_trong | de_thuong | cong_nghe | co_dien (hồ sơ thương hiệu
+    # "phong_cach" hoặc cau-hinh); được dùng hiệu ứng Pro nếu máy có CapCut Pro (may.json "capcut_pro", mặc định có)
+    import kho_capcut as kc
+    pc = cfg.get("phong_cach") or TH.get("phong_cach") or "nang_dong"
+    pro = bool(cfg.get("capcut_pro", MAY.get("capcut_pro", True)))
+    hat = P.name
     if basic:
         cfg["broll"], cfg["hieu_ung_capcut"], cfg["callouts"] = [], [], []
         print("Gói BASIC: không cảnh trám / hiệu ứng cảnh; 3 chữ (thumbnail + 2 chữ nhấn) + 3 tiếng nhấn đầu video")
@@ -1176,9 +1191,25 @@ def main():
     if TH.get("cau_bat_buoc"):
         print("Câu bắt buộc của ngành (nên có trong dòng pháp lý / mô tả):", TH["cau_bat_buoc"])
     dem_k = {}
-    for n in nhans:   # gán kiểu hiện xoay vòng cho từng chữ (theo kiểu chữ) -> hoạt ảnh + tiếng đa dạng
+    vao_ds = kc.chon("chu_vao", pc, so=max(1, len(nhans)), hat=hat, pro=pro)
+    ra_ds = kc.chon("chu_ra", pc, so=max(1, len(nhans)), hat=hat, pro=pro)
+    for j, n in enumerate(nhans):   # mỗi chữ 1 kiểu vào / ra KHÁC NHAU từ kho CapCut, tiếng đi theo đúng kiểu vào
         n["anim_idx"] = dem_k.get(tc.kieu(n), 0)
         dem_k[tc.kieu(n)] = n["anim_idx"] + 1
+        if vao_ds and cfg.get("kho_capcut", True):
+            n["vao"] = vao_ds[j % len(vao_ds)]
+            n["sfx_vao"] = kc.thong_tin("chu_vao", n["vao"])["tieng"]
+            n["lech"] = {"whoosh": -0.06, "sparkle": -0.04, "swipe": -0.02}.get(n["sfx_vao"], 0.02)
+            n["ra"] = ra_ds[j % len(ra_ds)] if ra_ds else None
+    if not basic:   # cảnh trám: hoạt ảnh video vào / ra của CapCut + tiếng hợp kiểu
+        vv = kc.chon("video_vao", pc, so=max(1, len(broll)), hat=hat + "v", pro=pro)
+        vr = kc.chon("video_ra", pc, so=max(1, len(broll)), hat=hat + "r", pro=pro)
+        for j, b in enumerate(sorted(broll, key=lambda x: x["start"])):
+            if vv:
+                b["vao"] = vv[j % len(vv)]
+                b["sfx_vao"] = kc.thong_tin("video_vao", b["vao"])["tieng"]
+            if vr:
+                b["ra"] = vr[j % len(vr)]
     # tiếng nhấn tính SAU khi đã bỏ chữ không còn chỗ (trước đây chữ bị bỏ vẫn còn tiếng pop "trống")
     sfx = sfx_events(cfg, broll, calls, cta_a, total, nhans, trans)
     thieu = max(0.0, min(8.0, (-14.0 - lufs) - gain_db))   # giọng không tăng được tới -14 LUFS (đỉnh cao) -> hạ tiếng nhấn
@@ -1420,6 +1451,16 @@ def main():
                 v += 1
                 name = f"{cfg['draft']} v{v}"
         ops = list(text_style_ops) + trans_ops
+        if "hieu_ung_capcut" not in cfg and not basic and cfg.get("kho_capcut", True):
+            hu = [{"slug": (kc.chon("hieu_ung_canh", pc, 1, vai="mo_dau", hat=hat, pro=pro) or ["mini-zoom"])[0],
+                   "at": 0.0, "dur": 0.8}]
+            nhan_moc = [n["a"] for n in nhans if n.get("san_pham")] + [n["a"] for n in nhans if tc.kieu(n) == "chinh"][-1:]
+            ds_nhan = kc.chon("hieu_ung_canh", pc, 3, vai="nhan", hat=hat + "n", pro=pro)
+            for k_, t_ in enumerate(sorted(set(nhan_moc))[:3]):
+                if ds_nhan:
+                    hu.append({"slug": ds_nhan[k_ % len(ds_nhan)], "at": t_, "dur": 0.7})
+            cfg["hieu_ung_capcut"] = hu
+            print("Hiệu ứng cảnh CapCut (tự chọn theo phong cách " + pc + "):", ", ".join(f"{e['slug']}@{e['at']:.1f}s" for e in hu))
         for e in cfg.get("hieu_ung_capcut", []):   # hiệu ứng cảnh có sẵn của CapCut (capcut enums --scene-effects)
             if "khi" in e:
                 t0 = fr(m(find_phrase(segs, e["khi"], e.get("sau", 0))[0], "start"))
@@ -1442,8 +1483,9 @@ def main():
         # thông tin hậu kỳ để ghep_du_an.py gắn lại hiệu ứng chữ + font sau khi ghép nhiều video vào 1 project
         hk = {"total": total, "chu_capcut": bool(chu_capcut), "thumb_font": thumb_font,
               "nhan": [{"text": chr(10).join(tc.lines(n)), "a": n["a"], "dur": n["b"] - n["a"], "vao": tc.anim(n)[0],
-                        "vd": tc.ANIM_CAPCUT[tc.kieu(n)][1], "ra": tc.ANIM_CAPCUT[tc.kieu(n)][2],
+                        "vd": tc.ANIM_CAPCUT[tc.kieu(n)][1], "ra": n.get("ra") or tc.ANIM_CAPCUT[tc.kieu(n)][2],
                         "rd": tc.ANIM_CAPCUT[tc.kieu(n)][3], "w": tc.FONT_W[tc.kieu(n)]} for n in nhans]}
+        hk["video"] = [{"start": b["start"], "dur": b["duration"], "vao": b.get("vao"), "ra": b.get("ra")} for b in broll]
         (P / "hau-ky.json").write_text(json.dumps(hk, ensure_ascii=False, indent=1), encoding="utf-8")
         if "--chi-spec" in flags:
             print("Đã ghi spec.json + hau-ky.json (ghép dự án bằng ghep_du_an.py)")
@@ -1483,6 +1525,7 @@ def main():
                 if not hit:
                     continue
                 _, vd, ra, rd = tc.ANIM_CAPCUT[tc.kieu(n)]
+                ra = n.get("ra") or ra
                 vi = tc.anim(n)[0]                   # kiểu hiện xoay vòng, khớp với tiếng nhấn
                 dur = n["b"] - n["a"]
                 cmd = ["capcut", "text-anim", res["draft_path"], hit[0], "--intro", vi, "--intro-duration", f"{min(vd, dur / 3):.2f}"]
@@ -1492,6 +1535,11 @@ def main():
                 na += rr.returncode == 0
                 if rr.returncode:
                     print("  ! hiệu ứng chữ lỗi:", (rr.stdout + rr.stderr)[-300:])
+            import hau_ky
+            nv = hau_ky.ap_video_anim(res["draft_path"], [{"start": b["start"], "dur": b["duration"], "vao": b.get("vao"),
+                                                           "ra": b.get("ra")} for b in broll])
+            if nv:
+                print(f"Hoạt ảnh cảnh trám CapCut: {nv}/{len(broll)}")
             # sửa lệch làm tròn (chồng 1µs / hở 0ms trên track chính) trước khi CapCut tự dồn đoạn
             run(["capcut", "lint", res["draft_path"], "--fix"], shell=True)
             if fp:

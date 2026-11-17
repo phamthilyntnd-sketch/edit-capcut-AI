@@ -1,0 +1,7938 @@
+{
+"chuyen_canh": [
+{
+"slug": "montage-snippets",
+"ten": "Montage Snippets",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "mix",
+"ten": "Mix",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "mix-1",
+"ten": "Mix",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "mix-2",
+"ten": "Mix",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "black-fade",
+"ten": "Black Fade",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "then-and-now",
+"ten": "Then and Now",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "white-flash",
+"ten": "White Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "dissolve",
+"ten": "Dissolve",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "dissolve-1",
+"ten": "Dissolve",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "gradient-wipe",
+"ten": "Gradient Wipe",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "dissolve-ii",
+"ten": "Dissolve II",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "dissolve-iii",
+"ten": "Dissolve III",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "white-smoke",
+"ten": "White smoke",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bw-flash",
+"ten": "B&W Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"co_dien"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "rainbow-warp",
+"ten": "Rainbow Warp",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rgb-glitch",
+"ten": "RGB Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "rainbow-filter",
+"ten": "Rainbow Filter",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "urban-glitch",
+"ten": "Urban Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "camera-glow",
+"ten": "Camera Glow",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "white-flash-1",
+"ten": "White Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "light-sweep-ii",
+"ten": "Light Sweep II",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flash",
+"ten": "Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "light-beam",
+"ten": "Light Beam",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "blanch",
+"ten": "Blanch",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fold-over",
+"ten": "Fold Over",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "bottom-left-ii",
+"ten": "Bottom Left II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "vertical-blur-ii",
+"ten": "Vertical Blur II",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fold-over-1",
+"ten": "Fold Over",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "bottom-left-ii-1",
+"ten": "Bottom Left II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "inhale",
+"ten": "Inhale",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "shake-3",
+"ten": "Shake 3",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rotate-cw-ii",
+"ten": "Rotate CW II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "rotate-ccw-ii",
+"ten": "Rotate CCW II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "pull-in",
+"ten": "Pull in",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "pull-out",
+"ten": "Pull Out",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "cw-swirl",
+"ten": "CW Swirl",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "right",
+"ten": "Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "anti-cw-swirl",
+"ten": "Anti-CW Swirl",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "transform-shimmer",
+"ten": "Transform Shimmer",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "twinkle-zoom",
+"ten": "Twinkle Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "horizontal-blur",
+"ten": "Horizontal Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "horizontal-blur-1",
+"ten": "Horizontal Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "horizontal-blur-2",
+"ten": "Horizontal Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "radial-blur",
+"ten": "Radial Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blurred-highlight",
+"ten": "Blurred Highlight",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "vertical-blur",
+"ten": "Vertical Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blur",
+"ten": "Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "woosh",
+"ten": "Woosh",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "particles",
+"ten": "Particles",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blink",
+"ten": "Blink",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "flip-ii",
+"ten": "Flip II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "flip",
+"ten": "Flip",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "left",
+"ten": "Left",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "up",
+"ten": "Up",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wipe-right",
+"ten": "Wipe Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "open-horizontally",
+"ten": "Open Horizontally",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "right-1",
+"ten": "Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide",
+"ten": "Slide",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-1",
+"ten": "Slide",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "wipe-up",
+"ten": "Wipe Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "wipe-left",
+"ten": "Wipe Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "wipe-left-1",
+"ten": "Wipe Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "open-vertically",
+"ten": "Open Vertically",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "curling-wave",
+"ten": "Curling Wave",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "cartoon-swirl",
+"ten": "Cartoon Swirl",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "blue-lines",
+"ten": "Blue Lines",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "recorder",
+"ten": "Recorder",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "like",
+"ten": "Like",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "super-like",
+"ten": "Super Like",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "lightning",
+"ten": "Lightning",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "snow",
+"ten": "Snow",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "white-ink",
+"ten": "White Ink",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "cloud",
+"ten": "Cloud",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wave-right",
+"ten": "Wave Right",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wave-left",
+"ten": "Wave Left",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "dots-right",
+"ten": "Dots Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "circular-slices-ii",
+"ten": "Circular Slices II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "split-iii",
+"ten": "Split III",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "horizontal-slice",
+"ten": "Horizontal Slice",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "diagonal-slices",
+"ten": "Diagonal Slices",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "split",
+"ten": "Split",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "vertical-slices",
+"ten": "Vertical Slices",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "split-iv",
+"ten": "Split IV",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "vintage-screening",
+"ten": "Vintage Screening",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "vintage-screening-1",
+"ten": "Vintage Screening",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "cube",
+"ten": "Cube",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "switch",
+"ten": "Switch",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "open",
+"ten": "Open",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "page-turning",
+"ten": "Page Turning",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "clock-wipe",
+"ten": "Clock wipe",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "windmill",
+"ten": "Windmill",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "color-glitch",
+"ten": "Color Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "strobe",
+"ten": "Strobe",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "blocks",
+"ten": "Blocks",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "glitch",
+"ten": "Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "horizontal-lines",
+"ten": "Horizontal Lines",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "horizontal-lines-1",
+"ten": "Horizontal Lines",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "cutout-flip",
+"ten": "Cutout Flip",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "color-swirl",
+"ten": "Color Swirl",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "shutter-ii",
+"ten": "Shutter II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "stretch-ll",
+"ten": "Stretch ll",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "stretch",
+"ten": "Stretch",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "shutter",
+"ten": "Shutter",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "whirlpool",
+"ten": "Whirlpool",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "whirlpool-1",
+"ten": "Whirlpool",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "distortion",
+"ten": "Distortion",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "axis-rotation",
+"ten": "Axis Rotation",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "stretch-right",
+"ten": "Stretch Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "stretch-left",
+"ten": "Stretch Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "squeeze",
+"ten": "Squeeze",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "squeeze-1",
+"ten": "Squeeze",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+}
+],
+"hieu_ung_canh": [
+{
+"slug": "blur",
+"ten": "Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fade-in",
+"ten": "Fade In",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "heart-kisses",
+"ten": "Heart Kisses",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "explosion",
+"ten": "Explosion",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fade-out",
+"ten": "Fade Out",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [
+"ket"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-lens",
+"ten": "Zoom Lens",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"mo_dau",
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "meteor",
+"ten": "Meteor",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "horizontal-open",
+"ten": "Horizontal Open",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "swipe"
+},
+{
+"slug": "spectrum-scan",
+"ten": "Spectrum Scan",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "rolling-film",
+"ten": "Rolling Film",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "landscape-close",
+"ten": "Landscape Close",
+"pro": false,
+"phong_cach": [],
+"vai": [
+"ket"
+],
+"tieng": "swipe"
+},
+{
+"slug": "flipped",
+"ten": "Flipped",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "horizontal-close",
+"ten": "Horizontal Close",
+"pro": false,
+"phong_cach": [],
+"vai": [
+"ket"
+],
+"tieng": "swipe"
+},
+{
+"slug": "astral",
+"ten": "Astral",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "edge-glow",
+"ten": "Edge Glow",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "shake",
+"ten": "Shake",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "camera-focus",
+"ten": "Camera Focus",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "collision-sparks",
+"ten": "Collision Sparks",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "diamond-zoom",
+"ten": "Diamond Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "disco-ball-1",
+"ten": "Disco Ball 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "mini-zoom",
+"ten": "Mini Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [
+"mo_dau",
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "bluray-scanning",
+"ten": "Blu-ray Scanning",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "portrait-open",
+"ten": "Portrait Open",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "swipe"
+},
+{
+"slug": "girls-secrets",
+"ten": "Girl's Secrets",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "color-phosphor",
+"ten": "Color Phosphor",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rebound-swing",
+"ten": "Rebound Swing",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "camera-shake",
+"ten": "Camera Shake",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "pulse",
+"ten": "Pulse",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "pop"
+},
+{
+"slug": "vertical-open",
+"ten": "Vertical Open",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "swipe"
+},
+{
+"slug": "star",
+"ten": "Star",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "heart-disco",
+"ten": "Heart Disco",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "butterfly-dream",
+"ten": "Butterfly Dream",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "camcorder",
+"ten": "Camcorder",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "tv-on",
+"ten": "TV On",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "vignette",
+"ten": "Vignette",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "heartbeat",
+"ten": "Heartbeat",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "chime"
+},
+{
+"slug": "blurry-focus",
+"ten": "Blurry Focus",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "noise-2",
+"ten": "Noise 2",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "leak-1",
+"ten": "Leak 1",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "black-noise",
+"ten": "Black Noise",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "old-tv-2",
+"ten": "Old TV 2",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fuzzy",
+"ten": "Fuzzy",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "soft",
+"ten": "Soft",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "shake-3",
+"ten": "Shake 3",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "gleam",
+"ten": "Gleam",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "butterflies",
+"ten": "Butterflies",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "ripple",
+"ten": "Ripple",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "electro-border",
+"ten": "Electro Border",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "shake-1",
+"ten": "Shake",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "trilayer-mirror",
+"ten": "Tri-layer Mirror",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "radiating-love",
+"ten": "Radiating Love",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "white-flash",
+"ten": "White Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "shutter"
+},
+{
+"slug": "lightning",
+"ten": "Lightning",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "motion-blur",
+"ten": "Motion Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "frosted-quality",
+"ten": "Frosted Quality",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "frosted-quality-1",
+"ten": "Frosted Quality",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "leak-2",
+"ten": "Leak 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "vertical-close",
+"ten": "Vertical Close",
+"pro": false,
+"phong_cach": [],
+"vai": [
+"ket"
+],
+"tieng": "swipe"
+},
+{
+"slug": "rainbow-neon",
+"ten": "Rainbow Neon",
+"pro": false,
+"phong_cach": [
+"de_thuong",
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "sharpen-edges",
+"ten": "Sharpen Edges",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "chromatic",
+"ten": "Chromatic",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "swing",
+"ten": "Swing",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "halo-2",
+"ten": "Halo 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "leak-2-1",
+"ten": "Leak 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "vertical-blur",
+"ten": "Vertical Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "black-flash",
+"ten": "Black Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "wipe-board",
+"ten": "Wipe Board",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "butterfly-color",
+"ten": "Butterfly Color",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "camera-focus-2",
+"ten": "Camera Focus 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "to-color",
+"ten": "To Color",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "flicker",
+"ten": "Flicker",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "pixel-blur",
+"ten": "Pixel Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "tv-colored-lines",
+"ten": "TV Colored Lines",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "shake-2",
+"ten": "Shake 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "strobe",
+"ten": "Strobe",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "fade-in-1",
+"ten": "Fade In",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "fade-in-2",
+"ten": "Fade In",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "fade-out-1",
+"ten": "Fade Out",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [
+"ket"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "horizontal-open-1",
+"ten": "Horizontal Open",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "swipe"
+},
+{
+"slug": "blurry-focus-1",
+"ten": "Blurry Focus",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "diamond-zoom-1",
+"ten": "Diamond Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "horizontal-close-1",
+"ten": "Horizontal Close",
+"pro": false,
+"phong_cach": [],
+"vai": [
+"ket"
+],
+"tieng": "swipe"
+},
+{
+"slug": "landscape-close-1",
+"ten": "Landscape Close",
+"pro": false,
+"phong_cach": [],
+"vai": [
+"ket"
+],
+"tieng": "swipe"
+},
+{
+"slug": "vertical-open-1",
+"ten": "Vertical Open",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "swipe"
+},
+{
+"slug": "camera-focus-1",
+"ten": "Camera Focus",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "portrait-open-1",
+"ten": "Portrait Open",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "swipe"
+},
+{
+"slug": "camera-focus-2-1",
+"ten": "Camera Focus 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "vertical-close-1",
+"ten": "Vertical Close",
+"pro": false,
+"phong_cach": [],
+"vai": [
+"ket"
+],
+"tieng": "swipe"
+},
+{
+"slug": "tv-on-1",
+"ten": "TV On",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "low-exposure",
+"ten": "Low Exposure",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "to-color-1",
+"ten": "To Color",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "wipe-board-1",
+"ten": "Wipe Board",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "vertical-blur-1",
+"ten": "Vertical Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "white-out",
+"ten": "White Out",
+"pro": false,
+"phong_cach": [],
+"vai": [
+"ket"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "rebound-swing-1",
+"ten": "Rebound Swing",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "astral-1",
+"ten": "Astral",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "disco-ball-1-1",
+"ten": "Disco Ball 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "color-phosphor-1",
+"ten": "Color Phosphor",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "camera-shake-1",
+"ten": "Camera Shake",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "pulse-1",
+"ten": "Pulse",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "pop"
+},
+{
+"slug": "shake-4",
+"ten": "Shake",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "shockwave",
+"ten": "Shockwave",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "pop"
+},
+{
+"slug": "heart-disco-1",
+"ten": "Heart Disco",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "shake-3-1",
+"ten": "Shake 3",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "black-flash-2",
+"ten": "Black Flash 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "throb",
+"ten": "Throb",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "pop"
+},
+{
+"slug": "strobe-1",
+"ten": "Strobe",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "shake-5",
+"ten": "Shake",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "white-flash-1",
+"ten": "White Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "shutter"
+},
+{
+"slug": "flicker-1",
+"ten": "Flicker",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "colorful",
+"ten": "Colorful",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "club-mood",
+"ten": "Club Mood",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "neon-outline",
+"ten": "Neon Outline",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rgb-border",
+"ten": "RGB Border",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "black-flash-1",
+"ten": "Black Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "blur-1",
+"ten": "Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "disco",
+"ten": "Disco",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "delay",
+"ten": "Delay",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "neon-swing",
+"ten": "Neon Swing",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "shadow",
+"ten": "Shadow",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rainbow-haze",
+"ten": "Rainbow Haze",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "unreal",
+"ten": "Unreal",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flashing-frame",
+"ten": "Flashing Frame",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "shutter"
+},
+{
+"slug": "white-border",
+"ten": "White Border",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-lens-1",
+"ten": "Zoom Lens",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"mo_dau",
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "mini-zoom-1",
+"ten": "Mini Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [
+"mo_dau",
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "magnifying-glass",
+"ten": "Magnifying Glass",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wide-angle",
+"ten": "Wide Angle",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "heart-magnifier",
+"ten": "Heart Magnifier",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "chrome-blur",
+"ten": "Chrome Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fisheye-4",
+"ten": "Fisheye 4",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "swing-1",
+"ten": "Swing",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "cinema",
+"ten": "Cinema",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rotary-focus",
+"ten": "Rotary Focus",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blink",
+"ten": "Blink",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "chromatic-quirk",
+"ten": "Chromatic Quirk",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "backlit-focus",
+"ten": "Backlit Focus",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "hazy",
+"ten": "Hazy",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "mirror",
+"ten": "Mirror",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fisheye",
+"ten": "Fisheye",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fisheye-2",
+"ten": "Fisheye 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "vx1000",
+"ten": "VX1000",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "binoculars",
+"ten": "Binoculars",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spectrum-scan-1",
+"ten": "Spectrum Scan",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "explosion-1",
+"ten": "Explosion",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "tree-shade",
+"ten": "Tree Shade",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "leak-1-1",
+"ten": "Leak 1",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "angel",
+"ten": "Angel",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "sunset-4",
+"ten": "Sunset 4",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spark",
+"ten": "Spark",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "meteor-1",
+"ten": "Meteor",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bluray-scanning-1",
+"ten": "Blu-ray Scanning",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "leak-2-2",
+"ten": "Leak 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "collision-sparks-1",
+"ten": "Collision Sparks",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "spark-2",
+"ten": "Spark 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "pool-reflection",
+"ten": "Pool Reflection",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "magic",
+"ten": "Magic",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "blinds-2",
+"ten": "Blinds 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "halo",
+"ten": "Halo",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "rainbow-sparkle",
+"ten": "Rainbow Sparkle",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "tree-shade-2",
+"ten": "Tree Shade 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "halo-2-1",
+"ten": "Halo 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "light-leak",
+"ten": "Light leak",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "window",
+"ten": "Window",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flash",
+"ten": "Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "shutter"
+},
+{
+"slug": "blinds",
+"ten": "Blinds",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "cold-lab",
+"ten": "Cold Lab",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "glowburst",
+"ten": "Glowburst",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "electro-heart",
+"ten": "Electro Heart",
+"pro": false,
+"phong_cach": [
+"de_thuong",
+"cong_nghe"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "develop",
+"ten": "Develop",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"mo_dau"
+],
+"tieng": "whoosh"
+},
+{
+"slug": "electro-border-1",
+"ten": "Electro Border",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "film-frame",
+"ten": "Film Frame",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "dark-night",
+"ten": "Dark Night",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "noise-1",
+"ten": "Noise 1",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "noise-2-1",
+"ten": "Noise 2",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "black-noise-1",
+"ten": "Black Noise",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "retro-film",
+"ten": "Retro Film",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "film-frame-2",
+"ten": "Film Frame 2",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rolling-film-1",
+"ten": "Rolling Film",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "1998",
+"ten": "1998",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "reversal-film",
+"ten": "Reversal Film",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "leak-2-3",
+"ten": "Leak 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "film-2",
+"ten": "Film 2",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "glitch",
+"ten": "Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "fuzzy-1",
+"ten": "Fuzzy",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "chromatic-1",
+"ten": "Chromatic",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "level-glitch-2",
+"ten": "Level Glitch 2",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "color-glitch",
+"ten": "Color Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "chromozoom",
+"ten": "Chromo-zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "xsignal",
+"ten": "X-Signal",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "70s",
+"ten": "70's",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "distort",
+"ten": "Distort",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "invisible-person",
+"ten": "Invisible Person",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "invisible-person-1",
+"ten": "Invisible Person",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "invisible-person-2",
+"ten": "Invisible Person",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "invisible-person-3",
+"ten": "Invisible Person",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "distort-1",
+"ten": "Distort",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "70s-1",
+"ten": "70's",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "color-glitch-2",
+"ten": "Color Glitch 2",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "bad-tv",
+"ten": "Bad TV ",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "snow-glitch",
+"ten": "Snow Glitch",
+"pro": false,
+"phong_cach": [
+"de_thuong",
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "color-glitch-1",
+"ten": "Color Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "ethereal",
+"ten": "Ethereal",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "ethereal-1",
+"ten": "Ethereal",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "level-glitch",
+"ten": "Level Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "edgy",
+"ten": "Edgy",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "ripples",
+"ten": "Ripples",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "ripple-1",
+"ten": "Ripple",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "screen-pulse",
+"ten": "Screen Pulse",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "pop"
+},
+{
+"slug": "spinning-space",
+"ten": "Spinning Space",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "distorted",
+"ten": "Distorted",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "gentle-ripples",
+"ten": "Gentle Ripples",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "jittered-ripples-3",
+"ten": "Jittered Ripples 3",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "white-diffusion",
+"ten": "White Diffusion",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rippling",
+"ten": "Rippling",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "jittered-ripples",
+"ten": "Jittered Ripples",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "jittered-ripples-2",
+"ten": "Jittered Ripples 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "vortex-setting",
+"ten": "Vortex Setting",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "heart-kisses-1",
+"ten": "Heart Kisses",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "sun",
+"ten": "Sun",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "cherry-blossom",
+"ten": "Cherry Blossom",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rain",
+"ten": "Rain",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "mist",
+"ten": "Mist",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "soft-rose",
+"ten": "Soft Rose",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "purple-mist",
+"ten": "Purple Mist",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flipped-1",
+"ten": "Flipped",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "feathers",
+"ten": "Feathers",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "butterfly-dream-1",
+"ten": "Butterfly Dream",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "starry",
+"ten": "Starry",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "girls-secrets-1",
+"ten": "Girl's Secrets",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "pink-hearts",
+"ten": "Pink Hearts",
+"pro": false,
+"phong_cach": [
+"de_thuong",
+"co_dien"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "luminance",
+"ten": "Luminance",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "lightning-1",
+"ten": "Lightning",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "heartbeat-1",
+"ten": "Heartbeat",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "chime"
+},
+{
+"slug": "camcorder-3",
+"ten": "Camcorder 3",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "camcorder-2",
+"ten": "Camcorder 2",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bw-vhs",
+"ten": "B&W VHS",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "camcorder-1",
+"ten": "Camcorder",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "frame-1",
+"ten": "Frame 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "photo-frame",
+"ten": "Photo Frame",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "old-tv-2-1",
+"ten": "Old TV 2",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "tv-lines",
+"ten": "TV Lines",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "retro-cam",
+"ten": "Retro Cam",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "graphic-3",
+"ten": "Graphic 3",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "noise",
+"ten": "Noise",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "white-sprockets",
+"ten": "White Sprockets",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "insta",
+"ten": "Insta",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "jitter",
+"ten": "Jitter",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "1998-1",
+"ten": "1998",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "constellation",
+"ten": "Constellation",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "mini-stars-ii",
+"ten": "Mini stars II",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "mini-stars",
+"ten": "Mini Stars",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "star-rain",
+"ten": "Star Rain",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "daily",
+"ten": "Daily",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "gleam-1",
+"ten": "Gleam",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "star-rain-2",
+"ten": "Star Rain 2",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "color-diamond",
+"ten": "Color Diamond",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "daily-2",
+"ten": "Daily 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "daily-4",
+"ten": "Daily 4",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "polychromatic",
+"ten": "Polychromatic",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "milky-way-2",
+"ten": "Milky Way 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "iridescent",
+"ten": "Iridescent",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "torn-frames",
+"ten": "Torn Frames",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "torn-frames-1",
+"ten": "Torn Frames",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "torn-frames-2",
+"ten": "Torn Frames",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "torn-frames-3",
+"ten": "Torn Frames",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "folds-4",
+"ten": "Folds 4",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "dot-silkscreen",
+"ten": "Dot Silkscreen",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "folds-5",
+"ten": "Folds 5",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "paper-tear",
+"ten": "Paper Tear",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "painting",
+"ten": "Painting",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "dot-silkscreen-1",
+"ten": "Dot Silkscreen",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "striped-glass",
+"ten": "Striped Glass",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "folds-2",
+"ten": "Folds 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "folds-4-1",
+"ten": "Folds 4",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "grain",
+"ten": "Grain",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "old",
+"ten": "Old",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "folds",
+"ten": "Folds",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "energy",
+"ten": "Energy",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "neon",
+"ten": "Neon",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "warning",
+"ten": "Warning",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bw-sketch",
+"ten": "B&W Sketch",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "quick-math",
+"ten": "Quick Math",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "question-marks",
+"ten": "Question Marks",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "splice",
+"ten": "Splice",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "cartoon-border",
+"ten": "Cartoon Border",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "explosion-2",
+"ten": "Explosion",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "super-like",
+"ten": "Super Like",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "oh-my-god",
+"ten": "Oh My God",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "dual-screens",
+"ten": "Dual Screens",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "four-screens",
+"ten": "Four Screens",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "three-screens",
+"ten": "Three Screens",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "split-screen",
+"ten": "Split Screen",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "trilayer-mirror-1",
+"ten": "Tri-layer Mirror",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "six-screens",
+"ten": "Six Screens",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "circuit",
+"ten": "Circuit",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "nine-screens",
+"ten": "Nine Screens",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "alt-bw",
+"ten": "Alt. B&W",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "snowflakes",
+"ten": "Snowflakes",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "snowflakes-1",
+"ten": "Snowflakes",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "gold-sparkles",
+"ten": "Gold Sparkles",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "xmas-stars",
+"ten": "Xmas Stars",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "xmas-stars-1",
+"ten": "Xmas Stars",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "snowfall",
+"ten": "Snowfall",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "snowfall-1",
+"ten": "Snowfall",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "gold-sequins",
+"ten": "Gold Sequins",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "confetti-ii",
+"ten": "Confetti II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "sparkle-spiral",
+"ten": "Sparkle Spiral",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [
+"nhan"
+],
+"tieng": "sparkle"
+},
+{
+"slug": "gold-dust",
+"ten": "Gold Dust",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wonderland",
+"ten": "Wonderland",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wonderland-1",
+"ten": "Wonderland",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+}
+],
+"hieu_ung_nguoi": [
+{
+"slug": "flipped",
+"ten": "Flipped",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "in-my-heart",
+"ten": "In My Heart",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "lightning-eyes",
+"ten": "Lightning Eyes",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "like",
+"ten": "Like",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "electric-storm",
+"ten": "Electric Storm",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "electro-border",
+"ten": "Electro Border",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "club-hearts",
+"ten": "Club Hearts",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "musical-notes-2",
+"ten": "Musical Notes 2",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "hurricane",
+"ten": "Hurricane",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "cool",
+"ten": "Cool",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "heart-background",
+"ten": "Heart Background",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "star-trails",
+"ten": "Star Trails",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "cutout-poster",
+"ten": "Cutout Poster",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "tyndall-effect",
+"ten": "Tyndall Effect",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "musical-notes",
+"ten": "Musical Notes",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "shape-trails-2",
+"ten": "Shape Trails 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "revolving-text",
+"ten": "Revolving Text",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "streamer-stroke",
+"ten": "Streamer Stroke",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "halo-2",
+"ten": "Halo 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "chroma-diffusion",
+"ten": "Chroma Diffusion",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "aura",
+"ten": "Aura",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bright-idea",
+"ten": "Bright Idea",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "thermal-aura",
+"ten": "Thermal Aura",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "radiate-bolts",
+"ten": "Radiate Bolts",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "mechanical",
+"ten": "Mechanical",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "phantom",
+"ten": "Phantom",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "lightning-bound",
+"ten": "Lightning Bound",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "dot-shadow",
+"ten": "Dot Shadow",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "butterfly-wings",
+"ten": "Butterfly Wings",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "gas-flow",
+"ten": "Gas Flow",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "distorted-whirl",
+"ten": "Distorted Whirl",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "eye-reflection",
+"ten": "Eye Reflection",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "color-fringe",
+"ten": "Color Fringe",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fluoro-flash",
+"ten": "Fluoro Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "scan",
+"ten": "Scan",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "phantom-1",
+"ten": "Phantom",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "pop-out",
+"ten": "Pop-Out",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "pop"
+},
+{
+"slug": "starlight",
+"ten": "Starlight",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "bubbles-2",
+"ten": "Bubbles 2",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "technology-2",
+"ten": "Technology 2",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "halo",
+"ten": "Halo",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "gas-waves",
+"ten": "Gas Waves",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "sound-wave",
+"ten": "Sound Wave",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "geometric-lasers",
+"ten": "Geometric Lasers",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "shape-trails",
+"ten": "Shape Trails",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "looping-arrows",
+"ten": "Looping Arrows",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "scan-2",
+"ten": "Scan 2",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "color-fringe-1",
+"ten": "Color Fringe",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "thermal-aura-2",
+"ten": "Thermal Aura 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "frame-scatter-2",
+"ten": "Frame Scatter 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "frame-scatter",
+"ten": "Frame Scatter",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "axis-rotation",
+"ten": "Axis Rotation",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "light-trails",
+"ten": "Light Trails",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "speed-streaks",
+"ten": "Speed Streaks",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "lightning",
+"ten": "Lightning",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "sparkle"
+},
+{
+"slug": "neon-doodle",
+"ten": "Neon Doodle",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "heart-lenses",
+"ten": "Heart Lenses",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "chime"
+},
+{
+"slug": "loving-gaze",
+"ten": "Loving Gaze",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "neon-variation",
+"ten": "Neon Variation",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+}
+],
+"chu_vao": [
+{
+"slug": "throw-out",
+"ten": "Throw Out",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "typewriter",
+"ten": "Typewriter",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "concentrate",
+"ten": "Concentrate",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fade-in",
+"ten": "Fade In",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "glitch",
+"ten": "Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "spin-in-2",
+"ten": "Spin In 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "spin-in-1",
+"ten": "Spin In 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "zoom-out-2",
+"ten": "Zoom Out 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wave-in",
+"ten": "Wave in",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "faulty-text",
+"ten": "Faulty text",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "dissolve",
+"ten": "Dissolve",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "pop-up",
+"ten": "Pop Up",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "pop"
+},
+{
+"slug": "random-typewriter",
+"ten": "Random Typewriter",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "fly-in",
+"ten": "Fly In",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "chroma-type",
+"ten": "Chroma Type",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "spiral",
+"ten": "Spiral",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blur",
+"ten": "Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "type-2",
+"ten": "Type 2",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "type-1",
+"ten": "Type 1",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "float-down",
+"ten": "Float Down",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-in",
+"ten": "Zoom In",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "open",
+"ten": "Open",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "blur-to-the-left",
+"ten": "Blur to the Left",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "karaoke",
+"ten": "Karaoke",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flicker",
+"ten": "Flicker",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "flip-and-jump",
+"ten": "Flip and jump",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "flutter",
+"ten": "Flutter",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "dissolve-down",
+"ten": "Dissolve Down",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wipe-right",
+"ten": "Wipe Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "blur-wipe-right",
+"ten": "Blur Wipe Right",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slingshot",
+"ten": "Slingshot",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blur-to-the-right",
+"ten": "Blur to the right",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "jolt-forward",
+"ten": "Jolt Forward",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rotation-verbatim",
+"ten": "Rotation Verbatim",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "elastic-telescopic-ii",
+"ten": "Elastic Telescopic II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flip-verbatim",
+"ten": "Flip Verbatim",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "zoom-out",
+"ten": "Zoom Out",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "trail",
+"ten": "Trail",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide-right",
+"ten": "Slide Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "clock-wipe",
+"ten": "Clock wipe",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "flipping",
+"ten": "Flipping",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "squeeze",
+"ten": "Squeeze",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fold",
+"ten": "Fold",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "roll-in",
+"ten": "Roll In",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "judder-up",
+"ten": "Judder Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "type-3",
+"ten": "Type 3",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "bounce-in",
+"ten": "Bounce In",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "slide-up",
+"ten": "Slide Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "blow-in",
+"ten": "Blow In",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wobble",
+"ten": "Wobble",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "bounce-from-tr",
+"ten": "Bounce from TR",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "showing-right",
+"ten": "Showing Right",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "showing-up",
+"ten": "Showing Up",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "mini-zoom",
+"ten": "Mini Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "set-to-the-right",
+"ten": "Set to the Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide-left",
+"ten": "Slide Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "bounce-in-tl",
+"ten": "Bounce In TL",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "wipe-up",
+"ten": "Wipe Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "random-bounce",
+"ten": "Random Bounce",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "blur-wipe-left",
+"ten": "Blur Wipe Left",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "sunrise",
+"ten": "Sunrise",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wipe-down",
+"ten": "Wipe Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "wipe-in-lr",
+"ten": "Wipe In LR",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "wipe-left",
+"ten": "Wipe Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-left-1",
+"ten": "Slide Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-down",
+"ten": "Slide Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-up-1",
+"ten": "Slide Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "showing-left",
+"ten": "Showing Left",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-down-1",
+"ten": "Slide Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "boing",
+"ten": "Boing",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "spring",
+"ten": "Spring",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "ease-in-right",
+"ten": "Ease In Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "turn-horizontal",
+"ten": "Turn Horizontal",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "grow",
+"ten": "Grow",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "pop"
+},
+{
+"slug": "showing-down",
+"ten": "Showing Down",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "flip-up",
+"ten": "Flip up",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+}
+],
+"chu_ra": [
+{
+"slug": "fade-out",
+"ten": "Fade Out",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blur",
+"ten": "Blur",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-in",
+"ten": "Zoom In",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "typewriter",
+"ten": "Typewriter",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "zoom-in-2",
+"ten": "Zoom In 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "dissolve-up",
+"ten": "Dissolve Up",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide-down",
+"ten": "Slide Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "dissolve",
+"ten": "Dissolve",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide-up",
+"ten": "Slide Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "flicker",
+"ten": "Flicker",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "blur-to-the-left",
+"ten": "Blur to the Left",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-out",
+"ten": "Zoom Out",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide-down-1",
+"ten": "Slide Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "mini-zoom",
+"ten": "Mini Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bounce-out",
+"ten": "Bounce Out",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "wipe-left",
+"ten": "Wipe Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "expand",
+"ten": "Expand",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "throw-back",
+"ten": "Throw Back",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide-left",
+"ten": "Slide Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-up-1",
+"ten": "Slide Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "type-1",
+"ten": "Type 1",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "dilute",
+"ten": "Dilute",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "type-2",
+"ten": "Type 2",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "horizontal-close",
+"ten": "Horizontal Close",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-right",
+"ten": "Slide Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "disband-to-the-left",
+"ten": "Disband to the Left",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "random-typewriter",
+"ten": "Random Typewriter",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "flutter",
+"ten": "Flutter",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fold",
+"ten": "Fold",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "trail",
+"ten": "Trail",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "chromatic-aberration-tailing",
+"ten": "Chromatic Aberration Tailing",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "roll-out",
+"ten": "Roll Out",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "pop-down",
+"ten": "Pop Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "pop"
+},
+{
+"slug": "slingshot",
+"ten": "Slingshot",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "faulty-text",
+"ten": "Faulty text",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "sunset",
+"ten": "Sunset",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "ink-print",
+"ten": "Ink Print",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "wipe-right",
+"ten": "Wipe Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "bounce-out-tr",
+"ten": "Bounce Out TR",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "glitch",
+"ten": "Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "stroke-fill",
+"ten": "Stroke Fill",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wipe-down",
+"ten": "Wipe Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "flip-down",
+"ten": "Flip Down",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "blur-erase-right",
+"ten": "Blur Erase Right",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "turn-horizontal",
+"ten": "Turn Horizontal",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "flipping",
+"ten": "Flipping",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "grow",
+"ten": "Grow",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "pop"
+},
+{
+"slug": "ease-out-right",
+"ten": "Ease Out Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spring",
+"ten": "Spring",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "blur-erase-left",
+"ten": "Blur Erase Left",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wipe-up",
+"ten": "Wipe Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "bounce-out-tl",
+"ten": "Bounce Out TL",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "vrille",
+"ten": "Vrille",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blow-away",
+"ten": "Blow Away",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "type-3",
+"ten": "Type 3",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "rotation-verbatim",
+"ten": "Rotation Verbatim",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "fly-out",
+"ten": "Fly Out",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "float-up",
+"ten": "Float Up",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spin-out-1",
+"ten": "Spin Out 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "spin-out-2",
+"ten": "Spin Out 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "slide-down-2",
+"ten": "Slide Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "flip-verbatim",
+"ten": "Flip Verbatim",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "boing",
+"ten": "Boing",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "random-bounce",
+"ten": "Random Bounce",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "wave-out",
+"ten": "Wave out",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "elastic-telescopic-ii",
+"ten": "Elastic Telescopic II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "clock-wipe",
+"ten": "Clock wipe",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "jump-and-flip",
+"ten": "Jump and flip",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+}
+],
+"chu_lap": [
+{
+"slug": "flare",
+"ten": "Flare",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wobble-2",
+"ten": "Wobble 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "wave",
+"ten": "Wave",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "color-glitch",
+"ten": "Color Glitch",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "enlarge-letters",
+"ten": "Enlarge Letters",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "pop"
+},
+{
+"slug": "converge",
+"ten": "Converge",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "scroll-up",
+"ten": "Scroll Up",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "flash",
+"ten": "Flash",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "jiggly",
+"ten": "Jiggly",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "gushing",
+"ten": "Gushing",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wobbly-projector-1",
+"ten": "Wobbly Projector 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wave-3",
+"ten": "Wave 3",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "ink-print",
+"ten": "Ink Print",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "donut",
+"ten": "Donut",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "shout-out",
+"ten": "Shout Out",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "pulse",
+"ten": "Pulse",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "pop"
+},
+{
+"slug": "tremble",
+"ten": "Tremble",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "super-wavy-2",
+"ten": "Super Wavy 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "font-reel",
+"ten": "Font Reel",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "vhs",
+"ten": "VHS",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "space-type",
+"ten": "Space Type",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "wobble-3",
+"ten": "Wobble 3",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "top-arch",
+"ten": "Top Arch",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rotate",
+"ten": "Rotate",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "random-bounce",
+"ten": "Random Bounce",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "jump",
+"ten": "Jump",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "shake",
+"ten": "Shake",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wave-2",
+"ten": "Wave 2",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "scrolling",
+"ten": "Scrolling",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "strong-tremble-1",
+"ten": "Strong Tremble 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "jiggle",
+"ten": "Jiggle",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "rotate-1",
+"ten": "Rotate",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "dance",
+"ten": "Dance",
+"pro": false,
+"phong_cach": [
+"de_thuong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "super-wavy",
+"ten": "Super Wavy",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "retro-bw",
+"ten": "Retro B&W",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wobble",
+"ten": "Wobble",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "pixel-bounce",
+"ten": "Pixel Bounce",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong",
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "swing",
+"ten": "Swing",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "fold",
+"ten": "Fold",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "trailing-beating",
+"ten": "Trailing Beating",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "pressing",
+"ten": "Pressing",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "page-turning-i",
+"ten": "Page Turning I",
+"pro": false,
+"phong_cach": [
+"co_dien"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "bullet-screen",
+"ten": "Bullet Screen",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wiper",
+"ten": "Wiper",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "shake-1",
+"ten": "Shake 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blocks",
+"ten": "Blocks",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "strong-tremble-2",
+"ten": "Strong Tremble 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flip",
+"ten": "Flip",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "wobbly-projector-2",
+"ten": "Wobbly Projector 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wobbly-projector-3",
+"ten": "Wobbly Projector 3",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "jump-pieces",
+"ten": "Jump Pieces",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "bubble"
+}
+],
+"video_vao": [
+{
+"slug": "fade-in",
+"ten": "Fade In",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-1",
+"ten": "Zoom 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rock-vertically",
+"ten": "Rock Vertically",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide-down",
+"ten": "Slide Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-up",
+"ten": "Slide Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-right",
+"ten": "Slide Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-left",
+"ten": "Slide Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "rotate",
+"ten": "Rotate",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "rotation-opening",
+"ten": "Rotation Opening",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "retro-fadein-2",
+"ten": "Retro Fade-in 2",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "retro-fadein",
+"ten": "Retro Fade-in",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "screen-wipe",
+"ten": "Screen Wipe",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "rgb-scanlines",
+"ten": "RGB Scanlines",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "zoom-2",
+"ten": "Zoom 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-out",
+"ten": "Zoom Out",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-in",
+"ten": "Zoom In",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "shake-3",
+"ten": "Shake 3",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "crt-bands",
+"ten": "CRT Bands",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "vibrating-panels",
+"ten": "Vibrating Panels",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "swing-top-right",
+"ten": "Swing Top Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "anime-frame",
+"ten": "Anime Frame",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rock-horizontally",
+"ten": "Rock Horizontally",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "gray-mask",
+"ten": "Gray Mask",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "shake-1",
+"ten": "Shake 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spin-up-2",
+"ten": "Spin Up 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "whirl",
+"ten": "Whirl",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "mini-zoom",
+"ten": "Mini Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spin-up-1",
+"ten": "Spin Up 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "swing-bottom",
+"ten": "Swing Bottom",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "swing-right",
+"ten": "Swing Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "swing-bottom-left",
+"ten": "Swing Bottom Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "flip",
+"ten": "Flip",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "shake-2",
+"ten": "Shake 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blinds",
+"ten": "Blinds",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "swing-bottom-right",
+"ten": "Swing Bottom Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "puzzle",
+"ten": "Puzzle",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "swing-top-left",
+"ten": "Swing Top Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "shake-down",
+"ten": "Shake Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "swing",
+"ten": "Swing",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "wiper",
+"ten": "Wiper",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "roll-right",
+"ten": "Roll Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "spin-left",
+"ten": "Spin Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+}
+],
+"video_ra": [
+{
+"slug": "fade-out",
+"ten": "Fade Out",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rgb-scanlines",
+"ten": "RGB Scanlines",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "blurred-fadein",
+"ten": "Blurred Fade-in",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide-down",
+"ten": "Slide Down",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-up",
+"ten": "Slide Up",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-right",
+"ten": "Slide Right",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slide-left",
+"ten": "Slide Left",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "blurred-fadein-1",
+"ten": "Blurred Fade-in",
+"pro": false,
+"phong_cach": [
+"sang_trong",
+"co_dien"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-in",
+"ten": "Zoom In",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "crt-bands",
+"ten": "CRT Bands",
+"pro": false,
+"phong_cach": [
+"cong_nghe"
+],
+"vai": [],
+"tieng": "shutter"
+},
+{
+"slug": "screen-wipe",
+"ten": "Screen Wipe",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "rotation-closing",
+"ten": "Rotation Closing",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "rotate",
+"ten": "Rotate",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "anime-frame",
+"ten": "Anime Frame",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-out",
+"ten": "Zoom Out",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rotate-out-1",
+"ten": "Rotate Out 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "mini-zoom",
+"ten": "Mini Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"sang_trong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "gray-mask",
+"ten": "Gray Mask",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "whirl",
+"ten": "Whirl",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "vibrating-panels",
+"ten": "Vibrating Panels",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rotate-out-2",
+"ten": "Rotate Out 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "flip",
+"ten": "Flip",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+}
+],
+"video_ket_hop": [
+{
+"slug": "zoom-1",
+"ten": "Zoom 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "stretch-and-distort",
+"ten": "Stretch and distort",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bounce-1",
+"ten": "Bounce 1",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "sway-out",
+"ten": "Sway Out",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "3-d-card-2",
+"ten": "3D card 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slide-and-wave",
+"ten": "Slide and wave",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "pendulum-1",
+"ten": "Pendulum 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "wobble",
+"ten": "Wobble",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "wave-and-slide",
+"ten": "Wave and slide",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "enlarge-and-bounce",
+"ten": "Enlarge and bounce",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "distort-and-stretch",
+"ten": "Distort and stretch",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "pendulum-2",
+"ten": "Pendulum 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-2",
+"ten": "Zoom 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "sway-in",
+"ten": "Sway In",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bend-zoom",
+"ten": "Bend-Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bounce-2",
+"ten": "Bounce 2",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong"
+],
+"vai": [],
+"tieng": "bubble"
+},
+{
+"slug": "spin-rise",
+"ten": "Spin Rise",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "spin",
+"ten": "Spin",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "shrink-and-bounce",
+"ten": "Shrink and bounce",
+"pro": false,
+"phong_cach": [
+"nang_dong",
+"de_thuong",
+"co_dien"
+],
+"vai": [],
+"tieng": "tick"
+},
+{
+"slug": "distort-right",
+"ten": "Distort Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "trisect-2",
+"ten": "Trisect 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fall-spin",
+"ten": "Fall Spin",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "3-d-card-1",
+"ten": "3D card 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spinning-top-2",
+"ten": "Spinning top 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "fall-right",
+"ten": "Fall Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "pan-right",
+"ten": "Pan Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "distort-left",
+"ten": "Distort Left",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slip-and-slide-2",
+"ten": "Slip and slide 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "slip-and-slide-1",
+"ten": "Slip and slide 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "roll-in-out-2",
+"ten": "Roll In&Out 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "right-zoom",
+"ten": "Right Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "slice-rotate-2",
+"ten": "Slice & Rotate 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "cube-3",
+"ten": "Cube 3",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "bisect-2",
+"ten": "Bisect 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "pan-left",
+"ten": "Pan Left",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "magic-cube-2",
+"ten": "Magic Cube 2",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "yoyo-2",
+"ten": "Yo-yo 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "3-d-card-5",
+"ten": "3D card 5",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fall-bottom-right",
+"ten": "Fall Bottom Right",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "3-d-card-3",
+"ten": "3D card 3",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "revolving-checker-2",
+"ten": "Revolving Checker 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "roll-in-out-1",
+"ten": "Roll In&Out 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "left-zoom",
+"ten": "Left Zoom",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "fall-left",
+"ten": "Fall Left",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "checker-slide-2",
+"ten": "Checker Slide 2",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "waltzer-2",
+"ten": "Waltzer 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spinning-top-1",
+"ten": "Spinning top 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "smaller",
+"ten": "Smaller",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "zoom-spin",
+"ten": "Zoom Spin",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spin-in",
+"ten": "Spin In",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "fall-bottom-left",
+"ten": "Fall Bottom Left",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "yoyo-1",
+"ten": "Yo-yo 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flip-6",
+"ten": "Flip 6",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "zoom-roll",
+"ten": "Zoom-Roll",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "3-d-card-4",
+"ten": "3D card 4",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spin-fall",
+"ten": "Spin Fall",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "cube",
+"ten": "Cube",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "fan-out",
+"ten": "Fan Out",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "triplets-1",
+"ten": "Triplets 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "magic-cube-1",
+"ten": "Magic Cube 1",
+"pro": false,
+"phong_cach": [
+"sang_trong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "3-d-card-6",
+"ten": "3D card 6",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "quarter-2",
+"ten": "Quarter 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "spin-out",
+"ten": "Spin Out",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "bisect-domino-2",
+"ten": "Bisect Domino 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "waltzer-4",
+"ten": "Waltzer 4",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "rise-spin",
+"ten": "Rise Spin",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "puzzle",
+"ten": "Puzzle",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "bisect-1",
+"ten": "Bisect 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "checker-slide-1",
+"ten": "Checker Slide 1",
+"pro": false,
+"phong_cach": [
+"nang_dong"
+],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "waltzer-1",
+"ten": "Waltzer 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "sliding-doors-1",
+"ten": "Sliding Doors 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "split-up-down-2",
+"ten": "Split up & down 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "cube-2",
+"ten": "Cube 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "crystal-1",
+"ten": "Crystal 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "angle-1",
+"ten": "Angle 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "trisect-1",
+"ten": "Trisect 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flip-2",
+"ten": "Flip 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "waltzer-3",
+"ten": "Waltzer 3",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "blinds",
+"ten": "Blinds",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "crystal-2",
+"ten": "Crystal 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "triplets-2",
+"ten": "Triplets 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "angle-2",
+"ten": "Angle 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "cube-3-1",
+"ten": "Cube 3",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "cube-2-1",
+"ten": "Cube 2",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "slice-rotate-1",
+"ten": "Slice & Rotate 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "quarter-1",
+"ten": "Quarter 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "revolving-checker-1",
+"ten": "Revolving Checker 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flip-ii",
+"ten": "Flip II",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "flip-3",
+"ten": "Flip 3",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "flip-4",
+"ten": "Flip 4",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+},
+{
+"slug": "split-up-down-1",
+"ten": "Split up & down 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "swipe"
+},
+{
+"slug": "bisect-domino-1",
+"ten": "Bisect Domino 1",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whoosh"
+},
+{
+"slug": "flip-5",
+"ten": "Flip 5",
+"pro": false,
+"phong_cach": [],
+"vai": [],
+"tieng": "whip"
+}
+]
+}

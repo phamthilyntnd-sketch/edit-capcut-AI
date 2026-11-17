@@ -72,7 +72,7 @@ def cmd_ghep(goc, du_an, lam, moi=False):
     goc, lam = Path(goc), Path(lam)
     ten = "-" + goc.name.strip()
     drafts = th.MAY["capcut_drafts"]
-    tracks, ops, hk_all, marks, t0 = {}, [], [], [], 0.0
+    tracks, ops, hk_all, marks, t0, vids = {}, [], [], [], 0.0, []
     for k, da in enumerate(du_an):
         P = lam / "projects" / da
         sp, hk = doc(P / "spec.json"), doc(P / "hau-ky.json")
@@ -94,6 +94,7 @@ def cmd_ghep(goc, du_an, lam, moi=False):
             ops.append(op)
         for n in hk["nhan"]:
             hk_all.append(dict(n, a=n["a"] + t0, P=str(P)))
+        vids += [dict(v, start=v["start"] + t0) for v in hk.get("video", [])]
         hk_all += [{"thumb": t, "w": w, "P": str(P)} for t, w in hk.get("thumb_font", {}).items()]
         t0 = round(t0 + hk["total"], 6)
     # thứ tự lớp: video chính dưới cùng, cảnh trám, rồi chữ / ảnh, âm thanh
@@ -137,6 +138,8 @@ def cmd_ghep(goc, du_an, lam, moi=False):
         if n["dur"] > 1.2:
             cmd += ["--outro", n["ra"], "--outro-duration", f"{min(n['rd'], n['dur'] / 4):.2f}"]
         na += run(cmd, shell=True).returncode == 0
+    import hau_ky
+    nv = hau_ky.ap_video_anim(dp, vids)
     run(["capcut", "lint", dp, "--fix"], shell=True)
     if fp:
         tc.patch_fonts(dp, fp, by_text)
@@ -150,7 +153,7 @@ def cmd_ghep(goc, du_an, lam, moi=False):
         dp = str(cn.replace_draft(drafts, ten + "__moi", ten, lam / "_draft-cu"))
         print(f"Đã cập nhật TẠI CHỖ project \"{ten}\"")
     lint = run(["capcut", "lint", dp, "-H"], shell=True)
-    print(f"Project CapCut: {ten} · {len(du_an)} video · tổng {t0:.1f}s · hiệu ứng chữ {na} · điểm đánh dấu {so_mark}/{len(marks)}"
+    print(f"Project CapCut: {ten} · {len(du_an)} video · tổng {t0:.1f}s · hiệu ứng chữ {na} · hoạt ảnh cảnh trám {nv}/{len(vids)} · điểm đánh dấu {so_mark}/{len(marks)}"
           f" · ổn định âm thanh {so_doan} đoạn")
     for m in marks:
         print(f"  ▸ {m['t']:7.2f}s  {m['ten']}")

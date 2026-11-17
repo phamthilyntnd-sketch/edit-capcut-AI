@@ -47,7 +47,7 @@ def fr(t):  # làm tròn theo khung hình
 
 # ---------------------------------------------------------------- cắt
 def silences(path):
-    r = run(["ffmpeg", "-hide_banner", "-i", str(path), "-vn", "-af", "silencedetect=n=-35dB:d=0.3", "-f", "null", "-"])
+    r = run(["ffmpeg", "-hide_banner", "-i", str(path), "-vn", "-af", "silencedetect=n=-35dB:d=0.25", "-f", "null", "-"])
     st = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", r.stderr)]
     en = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", r.stderr)]
     return list(zip(st, en))
@@ -113,46 +113,70 @@ def quiet_before(env, t, lim=0.3):
     return t - lim
 
 
-def build_pieces(keeps, sil, min_gap=0.6, pad=0.12, words=(), env=None, tho=0.10, duoi=0.4, dai_clip=None):
-    """Đoạn giữ -> các mảnh A-roll. Mọi điểm cắt đặt ở CHỖ IM giữa 2 từ (đáy âm lượng, như do_am của bộ dùng chung) —
-    không bao giờ cắt giữa 1 từ được giữ (lỗi 'rất hiệ/u/ quả', góp ý 16/11): đầu đoạn = chỗ im ngay trước tiếng đầu tiên,
-    cuối đoạn = chỗ đuôi từ cuối tắt hẳn. Khoảng lặng bên trong chỉ cắt phần im thật (đuôi tiếng nhẹ được giữ)."""
+def _co_tieng(env):
+    """Ngưỡng 'có tiếng nói' riêng cho từng clip: nền ồn + 35% khoảng cách tới mức nói."""
+    db = env["db"]
+    f, sp = np.percentile(db, 10), np.percentile(db, 90)
+    return f + 0.35 * (sp - f)
+
+
+def build_pieces(keeps, sil, min_gap=0.35, pad=0.12, words=(), env=None, tho=0.10, duoi=0.4, dai_clip=None):
+    """Đoạn giữ -> các mảnh A-roll, BÁM TIẾNG NÓI THẬT (góp ý 17/11 "cắt giữa các đoạn vẫn còn đoạn trống"):
+    - đầu mảnh = lúc tiếng nói thật bắt đầu - 0,1s ; cuối mảnh = lúc tiếng tắt thật + 0,1s  -> giữa 2 câu còn ~0,2s
+    - mọi quãng im >= 0,35s bên trong đoạn giữ (đo bằng độ lớn tiếng, không chỉ dựa mốc Whisper) cũng rút còn ~0,2s
+    - không bao giờ cắt giữa 1 từ được giữ, không lấn vào từ đã bỏ; cuối video dư ~0,4s."""
     ws = sorted(words, key=lambda w: w["s"])
+    db = env["db"] if env is not None else None
+    thr = _co_tieng(env) if env is not None else None
     pieces = []
     for s, e in keeps:
         s_, e_ = s, e
         kin = [w for w in ws if s <= (w["s"] + w["e"]) / 2 <= e]
-        ref_s = min([s] + ([kin[0]["s"]] if kin and kin[0]["s"] > s - 0.3 else []))
-        ref_e = max([e] + ([kin[-1]["e"]] if kin and kin[-1]["e"] < e + 0.4 else []))
-        s, e = quiet_before(env, ref_s), quiet_after(env, ref_e)
-        # V3 (góp ý 18/11 "không cắt thoại cụt ngủn, để dư 0,2s giữa các câu"): chừa ~0,1s mỗi bên chỗ cắt -> ~0,2s giữa 2 câu
-        s, e = s - max(0.0, tho - 0.02), e + max(0.0, tho - 0.04)
-        # KHÔNG LẤN vào từ đã bỏ (góp ý 18/11: vết cắt còn dính tiếng đầu của lần nói hỏng, vd "…dài | Vừa"): cuối đoạn không
-        # vượt đầu từ kế tiếp nằm ngoài đoạn giữ, đầu đoạn không lùi quá đuôi từ đứng trước nằm ngoài đoạn giữ
-        if kin:
-            ngoai_sau = [w for w in ws if w["s"] >= kin[-1]["e"] - 0.01 and not s_ <= (w["s"] + w["e"]) / 2 <= e_]
-            ngoai_truoc = [w for w in ws if w["e"] <= kin[0]["s"] + 0.01 and not s_ <= (w["s"] + w["e"]) / 2 <= e_]
-            if ngoai_sau:
-                e = max(min(e, ngoai_sau[0]["s"] - 0.02), kin[-1]["e"])
-            if ngoai_truoc:
-                s = min(max(s, ngoai_truoc[-1]["e"] + 0.02), kin[0]["s"])
-        db = env["db"] if env is not None else None
+        ngoai_sau = [w for w in ws if kin and w["s"] >= kin[-1]["e"] - 0.01 and not s_ <= (w["s"] + w["e"]) / 2 <= e_]
+        ngoai_truoc = [w for w in ws if kin and w["e"] <= kin[0]["s"] + 0.01 and not s_ <= (w["s"] + w["e"]) / 2 <= e_]
+        lo = ngoai_truoc[-1]["e"] + 0.02 if ngoai_truoc else max(0.0, s - 0.3)
+        hi = ngoai_sau[0]["s"] - 0.02 if ngoai_sau else e + 0.4
+        if db is not None and kin:
+            a0, a1 = _i(env, max(lo, min(s, kin[0]["s"]) - 0.3)), _i(env, kin[0]["s"] + 0.5)
+            on = next((i for i in range(a0, a1) if db[i] > thr and db[min(i + 4, len(db) - 1)] > thr), None)
+            b0, b1 = _i(env, kin[-1]["s"]), _i(env, min(hi, max(e, kin[-1]["e"]) + 0.35))
+            off = next((i for i in range(b1, b0, -1) if db[i] > thr), None)
+            s = (on * ENV_HOP if on is not None else kin[0]["s"]) - tho
+            e = ((off + 1) * ENV_HOP if off is not None else kin[-1]["e"]) + tho
+        elif kin:
+            s, e = kin[0]["s"] - tho, kin[-1]["e"] + tho
+        s, e = max(s, lo), min(e, hi)
+        if kin:   # không bao giờ cắt vào từ được giữ
+            s, e = min(s, kin[0]["s"]), max(e, min(kin[-1]["e"], hi))
+        # quãng im bên trong: từ envelope (>= min_gap dưới ngưỡng có tiếng) + khoảng lặng ffmpeg
+        im = []
+        if db is not None:
+            i, i_end = _i(env, s + 0.05), _i(env, e - 0.05)
+            while i < i_end:
+                if db[i] <= thr:
+                    j = i
+                    while j < i_end and db[j] <= thr:
+                        j += 1
+                    if (j - i) * ENV_HOP >= min_gap:
+                        im.append((i * ENV_HOP, j * ENV_HOP))
+                    i = j
+                else:
+                    i += 1
+        else:
+            im = [(a, b) for a, b in sil if b - a >= min_gap and s < a and b < e]
         cur = s
-        for a, b in sil:
-            if b - a >= min_gap and a > cur + 0.05 and b < e - 0.05:
-                cut_a, cut_b = a + pad, b - pad
-                if db is not None:   # đuôi tiếng nhẹ (dưới -35 dB) vẫn là chữ: chỉ cắt khi đã xuống tới đáy khoảng lặng
-                    i0, i1 = _i(env, a), _i(env, b)
-                    m = db[i0:i1 + 1].min()
-                    q = [i for i in range(i0, i1 + 1) if db[i] <= m + 6]
-                    if q:
-                        cut_a = max(cut_a, q[0] * ENV_HOP + tho)
-                        cut_b = min(cut_b, q[-1] * ENV_HOP - tho)
-                if cut_b - cut_a < 0.15:
-                    continue
-                if cut_a > cur:
-                    pieces.append([cur, cut_a])
-                cur = cut_b
+        for a, b in im:
+            cut_a, cut_b = a + tho, b - tho
+            # mốc Whisper nói đang có 1 chữ bình thường ở đây (phụ âm đầu nhẹ như "gh", "th", âm cuối nhẹ) -> KHÔNG cắt.
+            # Chỉ cắt trong "từ" dài bất thường (>= 0,8s: Whisper nuốt cả quãng im vào 1 từ).
+            if any(w["e"] - w["s"] < 0.8 and (w["s"] - 0.02 < cut_a < w["e"] + 0.02 or w["s"] - 0.02 < cut_b < w["e"] + 0.02)
+                   for w in kin):
+                continue
+            if cut_b - cut_a < 0.12:
+                continue
+            if cut_a > cur:
+                pieces.append([cur, cut_a])
+            cur = cut_b
         pieces.append([cur, e])
     pieces.sort()
     if pieces:   # cuối video để dư ~0,4s (0,3–0,5s) rồi mới hết, không tắt ngang
@@ -162,8 +186,7 @@ def build_pieces(keeps, sil, min_gap=0.6, pad=0.12, words=(), env=None, tho=0.10
             gioi_han.append(dai_clip - 0.05)
         if sau:
             gioi_han.append(sau[0]["s"] - 0.02)
-        het = min(gioi_han)
-        pieces[-1][1] = max(pieces[-1][1], min(pieces[-1][1] + duoi, het))
+        pieces[-1][1] = max(pieces[-1][1], min(gioi_han))
     for x, y in zip(pieces, pieces[1:]):   # 2 đoạn giữ nới ra chạm nhau -> không phát lặp 1 khúc tiếng
         if y[0] < x[1]:
             y[0] = x[1]
@@ -736,7 +759,7 @@ def chon_chuyen_canh(cfg, broll, total):
     Trả {(ref cảnh trám, 'vao'|'ra'): slug}."""
     if cfg.get("chuyen_canh") is False:
         return {}
-    toi_da, cach = int(cfg.get("chuyen_toi_da", 10)), float(cfg.get("chuyen_cach", 2.5))
+    toi_da, cach = int(cfg.get("chuyen_toi_da", 2)), float(cfg.get("chuyen_cach", 8.0))
     sp_refs = {f"b{i}" for i, x in enumerate(cfg.get("broll", [])) if x.get("san_pham")}
     bs = sorted(broll, key=lambda b: b["start"])
     ev = []   # (thời điểm, ref, vao|ra, nhóm kiểu, độ dài 2 phía)
@@ -1201,7 +1224,7 @@ def main():
             n["sfx_vao"] = kc.thong_tin("chu_vao", n["vao"])["tieng"]
             n["lech"] = {"whoosh": -0.06, "sparkle": -0.04, "swipe": -0.02, "click": 0.0, "tick": 0.0}.get(n["sfx_vao"], 0.02)
             n["ra"] = ra_ds[j % len(ra_ds)] if ra_ds else None
-    if not basic:   # cảnh trám: hoạt ảnh video vào / ra của CapCut + tiếng hợp kiểu
+    if not basic and cfg.get("hoat_anh_tram", False):   # cảnh trám: hoạt ảnh vào/ra CapCut — TẮT mặc định (góp ý 17/11: nhiều hiệu ứng -> rối)
         vv = kc.chon("video_vao", pc, so=max(1, len(broll)), hat=hat + "v", pro=pro, muot=cfg.get("kho_muot", True))
         vr = kc.chon("video_ra", pc, so=max(1, len(broll)), hat=hat + "r", pro=pro, muot=cfg.get("kho_muot", True))
         for j, b in enumerate(sorted(broll, key=lambda x: x["start"])):
@@ -1455,12 +1478,15 @@ def main():
             hu = []   # KHÔNG hiệu ứng mở đầu (góp ý 17/11: "hiệu ứng mở đầu bị chớp, bỏ đi") — chỉ nhấn nhẹ ở ý chính
             nhan_moc = [n["a"] for n in nhans if n.get("san_pham")] + [n["a"] for n in nhans if tc.kieu(n) == "chinh"][-1:]
             ds_nhan = kc.chon("hieu_ung_canh", pc, 3, vai="nhan", hat=hat + "n", pro=pro, muot=cfg.get("kho_muot", True))
-            for k_, t_ in enumerate(sorted(set(nhan_moc))[:3]):
+            for k_, t_ in enumerate(sorted(set(nhan_moc))[:int(cfg.get("hieu_ung_toi_da", 2))]):
                 if ds_nhan:
                     hu.append({"slug": ds_nhan[k_ % len(ds_nhan)], "at": t_, "dur": 0.7})
             cfg["hieu_ung_capcut"] = hu
             print("Hiệu ứng cảnh CapCut (tự chọn theo phong cách " + pc + "):", ", ".join(f"{e['slug']}@{e['at']:.1f}s" for e in hu))
+        so_hu = 0
         for e in cfg.get("hieu_ung_capcut", []):   # hiệu ứng cảnh có sẵn của CapCut (capcut enums --scene-effects)
+            if so_hu >= int(cfg.get("hieu_ung_toi_da", 2)):
+                break
             # góp ý 17/11: không chớp / lắc / nhấp nháy, không hiệu ứng ngay mở đầu video
             if re.search(r"flash|strobe|shake|blink|flicker|glitch", e["slug"]) or (
                     "khi" not in e and float(e.get("at", 0)) < 0.5):
@@ -1472,6 +1498,7 @@ def main():
                 t0 = float(e.get("at", 0))
             if t0 < total - 0.2:
                 ops.append({"op": "effect", "slug": e["slug"], "start": t0, "duration": min(float(e.get("dur", 0.6)), total - t0)})
+                so_hu += 1
         for n in nhans:
             if chu_capcut:
                 continue  # chữ thật: dùng hiệu ứng chữ vào/ra của CapCut (gắn sau khi tạo draft)

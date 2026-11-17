@@ -45,7 +45,13 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
 - **Âm thanh**: KHÔNG lọc bằng ffmpeg; bật bằng chức năng CapCut **Chuẩn hoá âm lượng + Cải thiện giọng nói + Giảm tiếng ồn**
   cho mọi đoạn thoại (`cap_nhat_am.py` chép cấu trúc từ project MẪU `-MAU` người dùng tạo trên máy — thiếu mẫu thì báo để
   nhân sự bấm tay). **Chỉnh màu + làm đẹp: nhân sự tự chỉnh trong CapCut** (AI không đụng).
-- **Nhịp thoại**: không cắt cụt — chừa ~0,2s giữa các câu / đoạn (0,1s mỗi bên chỗ cắt), cuối mỗi video dư ~0,4s (0,3–0,5s).
+- **Nhịp thoại**: không cắt cụt — chừa ~0,2s giữa các câu / đoạn, cuối mỗi video dư ~0,4s (0,3–0,5s). Điểm cắt BÁM TIẾNG NÓI THẬT
+  (đo độ lớn tiếng, ngưỡng riêng từng clip) chứ không bám mốc giây trong cấu hình; mọi quãng im >= 0,35s bên trong cũng rút còn
+  ~0,2s (góp ý 17/11 "còn đoạn trống") — không cắt vào chữ bình thường (phụ âm đầu nhẹ "gh/th" vẫn giữ).
+- **Ít hiệu ứng (góp ý 17/11 "quá nhiều chuyển cảnh -> rối")**: cảnh trám vào/ra bằng CẮT THẲNG (hoạt ảnh tắt mặc định,
+  `"hoat_anh_tram": true` để bật); chuyển cảnh tối đa 2 / video, cách nhau >= 8s; hiệu ứng cảnh tối đa 2 / video.
+- **Chữ trong vùng an toàn**: cỡ chữ CapCut nhỏ hơn ~23% bản cũ (`chu.PX_PER_SIZE` 5.2) và tự xuống dòng trong 78% chiều ngang
+  (`chu.LINE_MAX`) -> không tràn mép, né cột nút TikTok bên phải.
 - **Chữ + tiếng đa dạng**: mỗi chữ 1 kiểu hiện CapCut xoay vòng (`chu.ANIM_POOL`: pop-up, bounce-in, zoom-in, spring, flip-up,
   mini-zoom · slide-up, wipe-right, grow, slide-left, showing-up), tiếng nhấn đi theo đúng kiểu hiện.
 - Quy trình: `chia` → mỗi mã: `chuan_bi.py footage` + `cat_vap.py` + viết cau-hinh (`"ma": "<mã>"`) + `dung.py projects/<mã>

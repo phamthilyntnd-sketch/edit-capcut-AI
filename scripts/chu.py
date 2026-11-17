@@ -15,7 +15,9 @@ from pathlib import Path
 import thuong_hieu as th
 GREEN, DARK = th.TH["mau_chinh"], th.TH["mau_dam"]
 W, H = 1080, 1920
-PX_PER_SIZE = 4.0          # px trên khung 1080x1920 / cỡ chữ CapCut (ước lượng; CapCut máy này chưa vẽ chữ để căn)
+PX_PER_SIZE = 5.2          # px trên khung 1080x1920 / cỡ chữ CapCut. 4.0 cũ làm chữ CapCut TO hơn bản thiết kế -> tràn khung
+                           # an toàn (góp ý 17/11). 5.2 = nhỏ hơn ~23%, kèm xuống dòng trong 78% chiều ngang (LINE_MAX)
+LINE_MAX = 0.78            # CapCut tự xuống dòng khi chữ rộng quá 78% khung -> mép phải <= ~960px (né cột nút TikTok)
 FONT_DIR = th.FONTS
 FONT_SRC = FONT_DIR / "be-vietnam-pro-600.ttf"
 FONT_NAME = "BeVietnamPro-SemiBold.ttf"
@@ -161,7 +163,7 @@ def patch_fonts(draft_dir, font_path, by_text=None):
             fpath, ften = by_text.get(txt, (font_path, "Be Vietnam Pro SemiBold"))
             fp = Path(fpath).as_posix()
             t.update(font_path=fp, font_resource_id="", font_source_platform=0, font_title=ften,
-                     font_name=ften, font_id="", initial_scale=1.0, line_max_width=0.92)
+                     font_name=ften, font_id="", initial_scale=1.0, line_max_width=LINE_MAX)
             c = json.loads(t["content"])
             for s in c.get("styles", []):
                 s["font"] = {"path": fp, "id": ""}

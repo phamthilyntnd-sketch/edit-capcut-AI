@@ -122,6 +122,16 @@ if (-not $KiemTra -and (Test-Path $cmdFile)) {
         $sc = $ws.CreateShortcut($lnk); $sc.TargetPath = $cmdFile; $sc.WorkingDirectory = $ThuMuc; $sc.Save()
         Ok "Desktop: 'Cap nhat skill edit-capcut-AI' (bấm đúp khi có bản mới)"
     } catch { Canh "Không tạo được lối tắt (không ảnh hưởng)" }
+    # TỰ CẬP NHẬT: mỗi lần đăng nhập Windows + mỗi 2 giờ, máy tự kéo bản skill mới nhất từ GitHub (im lặng, không cần bấm)
+    try {
+        $git = (Get-Command git -ErrorAction Stop).Source
+        $act = New-ScheduledTaskAction -Execute $git -Argument "-C `"$ThuMuc`" pull --ff-only -q"
+        $trg = @((New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME),
+                 (New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Hours 2)))
+        $set = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -Hidden
+        Register-ScheduledTask -TaskName "Cap nhat skill edit-capcut-AI" -Action $act -Trigger $trg -Settings $set -Force | Out-Null
+        Ok "Tự cập nhật skill: khi mở máy + mỗi 2 giờ (Task Scheduler: 'Cap nhat skill edit-capcut-AI')"
+    } catch { Canh "Không đặt được tự cập nhật (vẫn cập nhật bằng lối tắt Desktop)" }
 }
 
 Buoc "8. Chuẩn bị EDIT THỬ"

@@ -64,7 +64,8 @@ def main():
         """Đầu câu / cụm chứa từ i: lùi tới chỗ có khoảng lặng >= 0,35s hoặc dấu kết câu (tối đa 8s, 14 từ)."""
         k = i
         while k > 0 and i - k < 14 and W[i]["s"] - W[k - 1]["s"] < 8:
-            if W[k]["s"] - W[k - 1]["e"] >= 0.35 or re.search(r"[.?!…]$", W[k - 1]["w"].strip()) or bo[k - 1]:
+            if (W[k]["s"] - W[k - 1]["e"] >= 0.35 or re.search(r"[.?!…,]$", W[k - 1]["w"].strip()) or bo[k - 1]
+                    or W[k]["g"] != W[k - 1]["g"]):      # Whisper tách câu (đoạn) ở đây = đầu câu
                 break
             k -= 1
         return k

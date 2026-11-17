@@ -58,8 +58,12 @@ def transcribe(wav):
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
     from faster_whisper import WhisperModel
     m = WhisperModel("large-v3-turbo", device="cpu", compute_type="int8")
+    # NGHE NGUYÊN VĂN (góp ý 18/11 "vấp và nói lại thì chỉ lấy đoạn nói lại"): Whisper mặc định "dọn sạch" lời — bỏ mất
+    # chữ nói lặp, nói dở, tiếng đệm -> không thấy chỗ vấp để cắt. Câu mồi kiểu nói vấp + không nối ngữ cảnh câu trước
+    # khiến Whisper chép đúng từng tiếng, kể cả "rất… rất hiệ… hiệu quả".
+    MOI = "Ờ, ừm… thì, thì cái này… à không, cái này rất là… rất là tốt, dạ dạ. "
     segs, _ = m.transcribe(doc_am(wav), language="vi", word_timestamps=True, vad_filter=False,
-                           initial_prompt=th.TH.get("tu_vung", "") + ".")
+                           condition_on_previous_text=False, initial_prompt=MOI + th.TH.get("tu_vung", "") + ".")
     segs = list(segs)
     # Whisper "bịa" (subscribe / Ghiền Mì Gõ…) hoặc gần như không nghe được lời -> nghe lại có lọc khoảng lặng (VAD)
     loi = " ".join(x.text for x in segs).lower()
@@ -67,7 +71,7 @@ def transcribe(wav):
     if nwords < 30 or loi.count("subscribe") >= 2:
         print("  ! Phiên âm lần 1 không đáng tin -> nghe lại có lọc khoảng lặng")
         segs, _ = m.transcribe(doc_am(wav), language="vi", word_timestamps=True, vad_filter=True,
-                               initial_prompt=th.TH.get("tu_vung", "") + ".")
+                               condition_on_previous_text=False, initial_prompt=MOI + th.TH.get("tu_vung", "") + ".")
         segs = list(segs)
     out = []
     for s in segs:
@@ -136,6 +140,19 @@ def cmd_brief(code):
         print(t[h:h + 3500])
 
 
+def cmd_nghe_lai(name):
+    """Phiên âm LẠI clip thoại của dự án có sẵn (giữ bản cũ transcript.cu.json)."""
+    P = ROOT / "projects" / name
+    cfg = json.loads((P / "cau-hinh.json").read_text(encoding="utf-8")) if (P / "cau-hinh.json").exists() else {}
+    a = P / "raw" / (cfg.get("aroll") or max((P / "raw").glob("*.mp4"), key=dur).name)
+    if (P / "transcript.json").exists() and not (P / "transcript.cu.json").exists():
+        (P / "transcript.json").replace(P / "transcript.cu.json")
+    segs = transcribe(a.with_suffix(".wav"))
+    (P / "transcript.json").write_text(json.dumps(segs, ensure_ascii=False), encoding="utf-8")
+    for i, s in enumerate(segs):
+        print(f"{i:3d} [{s['start']:6.2f}-{s['end']:6.2f}] {s['text'].strip()}")
+
+
 if __name__ == "__main__":
     a = sys.argv[1:]
     if "--th" in a[:-1]:          # --th <mã thương hiệu>: chọn từ vựng / brief theo hồ sơ thương hiệu
@@ -143,6 +160,8 @@ if __name__ == "__main__":
     if len(a) >= 3 and a[0] == "footage":
         ar = a[a.index("--aroll") + 1] if "--aroll" in a else None
         cmd_footage(a[1], a[2], ar)
+    elif len(a) == 2 and a[0] == "nghe-lai":
+        cmd_nghe_lai(a[1])
     elif len(a) == 2 and a[0] == "brief":
         cmd_brief(a[1])
     else:

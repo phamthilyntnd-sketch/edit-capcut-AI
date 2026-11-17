@@ -1,8 +1,10 @@
 """TÌM CHỖ NÓI VẤP từ phiên âm (transcript.json có mốc từng từ) — chạy được trên MỌI máy (không cần bộ bo-skill-video).
 
 Góp ý 16/11: "cắt vấp KOC chưa cắt được, mình vẫn phải cắt lại". Công cụ này liệt kê:
-  - NÓI LẠI / BẮT ĐẦU LẠI: cụm 1–6 từ lặp lại ngay sau đó (giữ LẦN NÓI CUỐI)
-  - TIẾNG ĐỆM: ừ, ờ, à, ừm, ơ, um, ah… (đứng riêng)
+  - NÓI SAI RỒI NÓI LẠI: bỏ TRỌN đoạn nói hỏng (từ đầu câu/cụm bị hỏng tới chỗ bắt đầu nói lại), giữ LẦN NÓI CUỐI —
+    không ghép nửa câu sai với nửa câu đúng (góp ý 18/11)
+  - TIẾNG ĐỆM: ừ, ờ, à, ừm, ơ… — chỉ cắt khi có nhịp ngừng quanh nó; lướt nhanh giữa câu thì giữ (cắt sẽ giật)
+  - MẢNH LẺ: lời còn sót < 0,8s kẹp giữa 2 chỗ cắt -> bỏ, không cắt lắt nhắt
   - TỪ KÉO DÀI: 1 từ dài > 0,8s (ngập ngừng "ờ…ờ" Whisper gộp vào từ)
   - NGẮT GIỮA CÂU: khoảng lặng > 1,2s rồi nói tiếp câu cũ
 rồi ĐỀ XUẤT `keeps` (các đoạn giữ, mốc nguồn) đã bỏ hết các chỗ trên — dán vào cau-hinh.json, rồi NGHE LẠI để chốt.
@@ -14,6 +16,9 @@ import json, re, sys
 from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
+PHO = {"mọi", "người", "các", "bác", "bạn", "em", "anh", "chị", "mình", "này", "đây", "đó", "là", "thì", "và", "với", "cho",
+       "của", "rất", "lắm", "quá", "cực", "kỳ", "đúng", "không", "ạ", "nhé", "nhá", "nha", "nhớ", "luôn", "có", "được", "một",
+       "những", "cái", "chiếc", "cả", "nữa", "đi", "về", "từ", "khi", "nên", "nó", "như", "thế", "nào", "đấy", "ấy", "ơi", "rồi", "cũng", "mà", "để", "ở", "vào", "ra", "lên"}
 DEM = {"ừ", "ờ", "à", "ừm", "ờm", "ơ", "um", "uhm", "ah", "hừm", "ê", "e", "ư", "hmm", "mm", "ừa"}
 
 
@@ -38,54 +43,94 @@ def main():
                 bo[k] = True
                 ly_do[k] = why
 
-    # 1) tiếng đệm (bỏ) + từ kéo dài (chỉ BÁO: thường do Whisper nuốt khoảng lặng — dung.py tự cắt lặng)
+    import difflib
+
+    def giong(a, b):
+        """2 từ coi là CÙNG 1 từ nói lại: y hệt, hoặc 1 từ bị nói dở (tiền tố: 'hiệ' / 'hiệu'), hoặc Whisper viết lệch."""
+        if a == b:
+            return True
+        if min(len(a), len(b)) >= 2 and (a.startswith(b) or b.startswith(a)):
+            return True
+        return min(len(a), len(b)) >= 3 and difflib.SequenceMatcher(None, a, b).ratio() >= 0.75
+
+    def lang(j):
+        """Khoảng lặng ngay trước từ j (bỏ qua tiếng đệm chen giữa)."""
+        k = j - 1
+        while k >= 0 and W[k]["n"] in DEM:
+            k -= 1
+        return W[j]["s"] - W[k]["e"] if k >= 0 else 9.0
+
+    def dau_cau(i):
+        """Đầu câu / cụm chứa từ i: lùi tới chỗ có khoảng lặng >= 0,35s hoặc dấu kết câu (tối đa 8s, 14 từ)."""
+        k = i
+        while k > 0 and i - k < 14 and W[i]["s"] - W[k - 1]["s"] < 8:
+            if W[k]["s"] - W[k - 1]["e"] >= 0.35 or re.search(r"[.?!…]$", W[k - 1]["w"].strip()) or bo[k - 1]:
+                break
+            k -= 1
+        return k
+
+    # 1) NÓI SAI RỒI NÓI LẠI (góp ý 18/11: "nói sai và nói lại đoạn nào thì cắt bỏ CẢ đoạn nói sai, chỉ lấy từ đoạn nói
+    #    đúng"): tìm chỗ KOC quay lại nói lại (cụm từ ở j lặp lại cụm từ ở i phía trước, trong 8s / 14 từ, cho phép từ nói
+    #    dở và tiếng đệm chen giữa) -> BỎ TRỌN từ đầu câu/cụm bị nói hỏng tới ngay trước chỗ nói lại, giữ LẦN NÓI CUỐI.
+    #    Không giữ nửa câu sai ghép với nửa câu đúng.
+    j = 1
+    while j < len(W):
+        if W[j]["n"] in DEM:
+            j += 1
+            continue
+        best = None   # (độ dài khớp, i)
+        for i in range(j - 1, -1, -1):
+            if j - i > 14 or W[j]["s"] - W[i]["s"] > 8:
+                break
+            if W[i]["n"] in DEM or bo[i]:
+                continue      # không so với lời đã bỏ (tránh cắt nhầm vào chính lần nói lại)
+            L = 0
+            while i + L < j and j + L < len(W) and giong(W[i + L]["n"], W[j + L]["n"]):
+                L += 1
+            if L == 0:
+                continue
+            if all(W[i + t]["n"] in PHO for t in range(L)):
+                continue      # cụm toàn từ phổ biến ("mọi người", "rất là", "đúng không"…) lặp lại là bình thường
+            bo_do = j - (i + L)          # số từ nói dở bị bỏ giữa lần nói hỏng và lần nói lại
+            ngap = lang(j) >= 0.2 or any(W[k]["n"] in DEM for k in range(i, j))   # có ngập ngừng trước khi nói lại
+            if not ngap:
+                continue      # nói liền không ngừng ("chiếc ghế em nằm là chiếc ghế…", "tiện ơi là tiện") = câu bình thường
+            if L >= 2:
+                ok = bo_do <= 6 or (lang(j) >= 0.3 and dau_cau(i) >= i - 2)
+            else:                 # khớp 1 từ: chỉ khi bắt đầu lại rõ ràng (ngập ngừng trước), gần, từ đủ dài
+                ok = len(W[j]["n"]) >= 3 and lang(j) >= 0.25 and j - i <= 3
+            if L >= 2 and j - i == L and lang(j) < 0.12 and not any(W[k]["n"] in DEM for k in range(i, j)):
+                ok = False    # lặp liền 1 cụm không ngập ngừng ("đẹp lắm đẹp lắm") = cách nói nhấn mạnh, giữ
+            if ok and (best is None or L > best[0]):
+                best = (L, i)
+        if best:
+            L, i = best
+            bat = dau_cau(i) if lang(j) >= 0.3 else i    # bắt đầu lại sau 1 nhịp ngừng -> bỏ từ ĐẦU CÂU bị nói hỏng
+            sai = " ".join(W[k]["w"].strip() for k in range(bat, j))
+            dung = " ".join(W[k]["w"].strip() for k in range(j, min(len(W), j + max(L, 4))))
+            danh(bat, j, f"nói sai rồi nói lại — bỏ «{sai[:60]}», giữ «{dung[:40]}…»")
+            j += L            # các từ của lần nói lại không phải chỗ nói lại mới
+            continue
+        j += 1
+
+    # 2) tiếng đệm (ừ, ờ, à…): chỉ cắt khi có nhịp ngừng quanh nó (>= 0,35s tính cả tiếng đệm) — tiếng đệm lướt nhanh
+    #    giữa câu cắt ra chỉ làm hình giật lắt nhắt, giữ lại. Từ kéo dài: chỉ BÁO (thường Whisper nuốt khoảng lặng).
     nghe = []
     for i, w in enumerate(W):
+        if bo[i]:
+            continue
         if w["n"] in DEM:
-            danh(i, i + 1, "tiếng đệm")
+            truoc = w["s"] - W[i - 1]["e"] if i else 9
+            sau = W[i + 1]["s"] - w["e"] if i + 1 < len(W) else 9
+            if (w["e"] - w["s"]) + truoc + sau >= 0.35:
+                danh(i, i + 1, "tiếng đệm")
+            else:
+                nghe.append(f"  {w['s']:7.2f}s  tiếng đệm \"{w['w'].strip()}\" lướt nhanh giữa câu — giữ (cắt sẽ giật)")
         elif w["e"] - w["s"] > 0.8 and len(w["n"]) <= 6 and not re.search(r"\d", w["n"]):
             nghe.append(f"  {w['s']:7.2f}–{w['e']:6.2f}s  từ \"{w['w'].strip()}\" dài {w['e'] - w['s']:.1f}s"
                         " (ngập ngừng kéo dài tiếng? nghe lại)")
-    # 2) nói lại: cụm n từ (6 -> 1) lặp ngay sau (cho phép chen tiếng đệm) -> bỏ lần TRƯỚC, giữ lần cuối
-    i = 0
-    while i < len(W):
-        hit = False
-        for n in range(6, 0, -1):
-            a1 = [W[k]["n"] for k in range(i, min(i + n, len(W)))]
-            if len(a1) < n:
-                continue
-            j = i + n
-            while j < len(W) and W[j]["n"] in DEM:
-                j += 1
-            a2 = [W[k]["n"] for k in range(j, min(j + n, len(W)))]
-            # n = 1 chỉ tính khi từ lặp là từ có nghĩa dài (tránh "rất rất", "từ từ" là cách nói thật)
-            if a1 == a2 and (n >= 2 or (len(a1[0]) >= 3 and W[j]["s"] - W[i + n - 1]["e"] > 0.15)):
-                danh(i, j, "nói lại: " + " ".join(W[k]["w"].strip() for k in range(i, i + n)))
-                i = j
-                hit = True
-                break
-        if not hit:
-            i += 1
-    # 3) bắt đầu lại câu: cụm 2–4 từ đầu câu lặp lại trong 6s sau, sau 1 khoảng lặng -> bỏ từ lần đầu tới trước lần sau
-    for i in range(len(W)):
-        if bo[i] or (i and W[i]["s"] - W[i - 1]["e"] < 0.35):
-            continue
-        for n in (4, 3, 2):
-            if i + n > len(W):
-                continue
-            a1 = [x["n"] for x in W[i:i + n]]
-            for j in range(i + n, len(W)):
-                if W[j]["s"] - W[i]["s"] > 6:
-                    break
-                if [x["n"] for x in W[j:j + n]] == a1 and W[j]["s"] - W[j - 1]["e"] >= 0.3:
-                    danh(i, j, "bắt đầu lại câu: " + " ".join(x["w"].strip() for x in W[i:i + n]) + "…")
-                    break
-            else:
-                continue
-            break
 
-    # 4) câu: Whisper bịa (subscribe / đăng ký kênh / cảm ơn đã xem…), câu lẻ ngắn ngoài kịch bản, câu trùng ý
-    import difflib
+    # 3) câu: Whisper bịa (subscribe / đăng ký kênh / cảm ơn đã xem…), câu lẻ ngắn ngoài kịch bản, câu trùng ý
     SG = []   # (chỉ số từ đầu, cuối, text)
     for gi, sg in enumerate(segs):
         idx = [k for k, w in enumerate(W) if w["g"] == gi]
@@ -140,6 +185,21 @@ def main():
             for x in range(k, j):
                 danh(SG[x][0], SG[x][1] + 1, "lời chen giữa các lần nói lại")
         k = j + 1
+
+    # 4) KHÔNG CẮT LẮT NHẮT: mảnh lời còn giữ kẹp giữa 2 chỗ bỏ mà quá ngắn (<= 2 từ, < 0,8s) = mảnh của lần nói hỏng -> bỏ
+    k = 0
+    while k < len(W):
+        if bo[k]:
+            k += 1
+            continue
+        e = k
+        while e + 1 < len(W) and not bo[e + 1] and W[e + 1]["s"] - W[e]["e"] < 0.6:
+            e += 1
+        ke_trai = k > 0 and bo[k - 1]
+        ke_phai = e + 1 < len(W) and bo[e + 1]
+        if ke_trai and ke_phai and e - k + 1 <= 2 and W[e]["e"] - W[k]["s"] < 0.8:
+            danh(k, e + 1, "mảnh lời lẻ giữa 2 chỗ cắt (cắt cho liền mạch)")
+        k = e + 1
 
     print("== CHỖ VẤP TÌM ĐƯỢC (bỏ đi, giữ lần nói cuối):")
     k = 0

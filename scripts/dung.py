@@ -113,17 +113,27 @@ def quiet_before(env, t, lim=0.3):
     return t - lim
 
 
-def build_pieces(keeps, sil, min_gap=0.45, pad=0.12, words=(), env=None):
+def build_pieces(keeps, sil, min_gap=0.6, pad=0.12, words=(), env=None):
     """Đoạn giữ -> các mảnh A-roll. Mọi điểm cắt đặt ở CHỖ IM giữa 2 từ (đáy âm lượng, như do_am của bộ dùng chung) —
     không bao giờ cắt giữa 1 từ được giữ (lỗi 'rất hiệ/u/ quả', góp ý 16/11): đầu đoạn = chỗ im ngay trước tiếng đầu tiên,
     cuối đoạn = chỗ đuôi từ cuối tắt hẳn. Khoảng lặng bên trong chỉ cắt phần im thật (đuôi tiếng nhẹ được giữ)."""
     ws = sorted(words, key=lambda w: w["s"])
     pieces = []
     for s, e in keeps:
+        s_, e_ = s, e
         kin = [w for w in ws if s <= (w["s"] + w["e"]) / 2 <= e]
         ref_s = min([s] + ([kin[0]["s"]] if kin and kin[0]["s"] > s - 0.3 else []))
         ref_e = max([e] + ([kin[-1]["e"]] if kin and kin[-1]["e"] < e + 0.4 else []))
         s, e = quiet_before(env, ref_s), quiet_after(env, ref_e)
+        # KHÔNG LẤN vào từ đã bỏ (góp ý 18/11: vết cắt còn dính tiếng đầu của lần nói hỏng, vd "…dài | Vừa"): cuối đoạn không
+        # vượt đầu từ kế tiếp nằm ngoài đoạn giữ, đầu đoạn không lùi quá đuôi từ đứng trước nằm ngoài đoạn giữ
+        if kin:
+            ngoai_sau = [w for w in ws if w["s"] >= kin[-1]["e"] - 0.01 and not s_ <= (w["s"] + w["e"]) / 2 <= e_]
+            ngoai_truoc = [w for w in ws if w["e"] <= kin[0]["s"] + 0.01 and not s_ <= (w["s"] + w["e"]) / 2 <= e_]
+            if ngoai_sau:
+                e = max(min(e, ngoai_sau[0]["s"] - 0.02), kin[-1]["e"])
+            if ngoai_truoc:
+                s = min(max(s, ngoai_truoc[-1]["e"] + 0.02), kin[0]["s"])
         db = env["db"] if env is not None else None
         cur = s
         for a, b in sil:

@@ -187,6 +187,9 @@ def build_pieces(keeps, sil, min_gap=0.35, pad=0.12, words=(), env=None, tho=0.1
         if sau:
             gioi_han.append(sau[0]["s"] - 0.02)
         pieces[-1][1] = max(pieces[-1][1], min(gioi_han))
+    # KHÔNG LẮT NHẮT: mẩu < 0,45s mà không có đầu chữ nào bên trong (chỉ là tiếng thở / tiếng kéo dài) -> bỏ
+    pieces = [pc for pc in pieces if pc[1] - pc[0] >= 0.45
+              or any(pc[0] - 0.02 <= w["s"] <= pc[1] - 0.05 and w["e"] - w["s"] < 0.8 for w in ws)]
     for x, y in zip(pieces, pieces[1:]):   # 2 đoạn giữ nới ra chạm nhau -> không phát lặp 1 khúc tiếng
         if y[0] < x[1]:
             y[0] = x[1]
@@ -1113,7 +1116,7 @@ def main():
     chu.mkdir(exist_ok=True)
     if "--pngs" in flags:
         jobs = [("thumb", thumb_html(cfg)), ("thumb_band", thumb_html(cfg, "band")), ("thumb_big", thumb_html(cfg, "big")),
-                ("cta", '<div class="cta"><span class="ar">&#8601;</span><span>{TH["cta"]}</span></div>')]
+                ("cta", f'<div class="cta"><span class="ar">&#8601;</span><span>{TH["cta"]}</span></div>')]
         if not co_cta:
             jobs = [j for j in jobs if j[0] != "cta"]
         for c in calls:

@@ -92,6 +92,22 @@ def cmd_footage(src_dir, name, aroll=None):
         run(["ffmpeg", "-v", "error", "-y", "-i", str(dst), "-vn", "-ac", "1", "-ar", "16000", str(raw / (f.stem + ".wav"))])
         sheet(dst, xem / (f.stem + ".jpg"))
         print(f"{dst.name}  {dur(dst):.1f}s  (gốc: {f.relative_to(src_dir)})")
+    # ẢNH MINH HOẠ (jpg/png) trong thư mục -> clip 6s dọc 1080x1920 (ảnh giữa, nền là chính ảnh làm mờ) để dùng làm cảnh trám
+    for f in sorted(x for x in src_dir.rglob("*") if x.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}):
+        dst = raw / (f.stem + "_anh.mp4")
+        if not dst.exists():
+            vf = ("split[a][b];[a]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=30[bg];"
+                  "[b]scale=1080:1920:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2,fps=30,"
+                  "format=yuv420p")
+            run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-t", "6", "-i", str(f), "-vf", vf, "-c:v", "libx264",
+                 "-crf", "18", "-an", str(dst)])
+        if dst.exists():
+            sheet(dst, xem / (dst.stem + ".jpg"))
+            print(f"{dst.name}  6.0s  (ảnh minh hoạ: {f.name})")
+    if not aroll:   # clip THOẠI: tên có "thoai"/"noi" thì dùng, không thì clip dài nhất
+        ten_thoai = [f for f in files if re.search(r"tho[aạ]i|n[oó]i|aroll|a-roll", f.stem.lower())]
+        if ten_thoai:
+            aroll = ten_thoai[0].stem
     a = raw / ((aroll or max((raw / (f.stem + ".mp4") for f in files), key=dur).stem) + ".mp4")
     print(f"\nA-roll: {a.name} — đang phiên âm...")
     segs = transcribe(a.with_suffix(".wav"))

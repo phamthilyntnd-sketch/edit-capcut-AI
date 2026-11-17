@@ -113,7 +113,7 @@ def quiet_before(env, t, lim=0.3):
     return t - lim
 
 
-def build_pieces(keeps, sil, min_gap=0.6, pad=0.12, words=(), env=None):
+def build_pieces(keeps, sil, min_gap=0.6, pad=0.12, words=(), env=None, tho=0.10, duoi=0.4, dai_clip=None):
     """Đoạn giữ -> các mảnh A-roll. Mọi điểm cắt đặt ở CHỖ IM giữa 2 từ (đáy âm lượng, như do_am của bộ dùng chung) —
     không bao giờ cắt giữa 1 từ được giữ (lỗi 'rất hiệ/u/ quả', góp ý 16/11): đầu đoạn = chỗ im ngay trước tiếng đầu tiên,
     cuối đoạn = chỗ đuôi từ cuối tắt hẳn. Khoảng lặng bên trong chỉ cắt phần im thật (đuôi tiếng nhẹ được giữ)."""
@@ -125,6 +125,8 @@ def build_pieces(keeps, sil, min_gap=0.6, pad=0.12, words=(), env=None):
         ref_s = min([s] + ([kin[0]["s"]] if kin and kin[0]["s"] > s - 0.3 else []))
         ref_e = max([e] + ([kin[-1]["e"]] if kin and kin[-1]["e"] < e + 0.4 else []))
         s, e = quiet_before(env, ref_s), quiet_after(env, ref_e)
+        # V3 (góp ý 18/11 "không cắt thoại cụt ngủn, để dư 0,2s giữa các câu"): chừa ~0,1s mỗi bên chỗ cắt -> ~0,2s giữa 2 câu
+        s, e = s - max(0.0, tho - 0.02), e + max(0.0, tho - 0.04)
         # KHÔNG LẤN vào từ đã bỏ (góp ý 18/11: vết cắt còn dính tiếng đầu của lần nói hỏng, vd "…dài | Vừa"): cuối đoạn không
         # vượt đầu từ kế tiếp nằm ngoài đoạn giữ, đầu đoạn không lùi quá đuôi từ đứng trước nằm ngoài đoạn giữ
         if kin:
@@ -144,8 +146,8 @@ def build_pieces(keeps, sil, min_gap=0.6, pad=0.12, words=(), env=None):
                     m = db[i0:i1 + 1].min()
                     q = [i for i in range(i0, i1 + 1) if db[i] <= m + 6]
                     if q:
-                        cut_a = max(cut_a, q[0] * ENV_HOP + 0.06)
-                        cut_b = min(cut_b, q[-1] * ENV_HOP - 0.04)
+                        cut_a = max(cut_a, q[0] * ENV_HOP + tho)
+                        cut_b = min(cut_b, q[-1] * ENV_HOP - tho)
                 if cut_b - cut_a < 0.15:
                     continue
                 if cut_a > cur:
@@ -153,6 +155,15 @@ def build_pieces(keeps, sil, min_gap=0.6, pad=0.12, words=(), env=None):
                 cur = cut_b
         pieces.append([cur, e])
     pieces.sort()
+    if pieces:   # cuối video để dư ~0,4s (0,3–0,5s) rồi mới hết, không tắt ngang
+        sau = [w for w in ws if w["s"] >= pieces[-1][1] - 0.01]
+        gioi_han = [pieces[-1][1] + duoi]
+        if dai_clip:
+            gioi_han.append(dai_clip - 0.05)
+        if sau:
+            gioi_han.append(sau[0]["s"] - 0.02)
+        het = min(gioi_han)
+        pieces[-1][1] = max(pieces[-1][1], min(pieces[-1][1] + duoi, het))
     for x, y in zip(pieces, pieces[1:]):   # 2 đoạn giữ nới ra chạm nhau -> không phát lặp 1 khúc tiếng
         if y[0] < x[1]:
             y[0] = x[1]
@@ -671,7 +682,8 @@ def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None):
     # TIẾNG KHỚP HIỆU ỨNG CHỮ (góp ý 16/11): tiếng đặt đúng lúc chữ bật lên (tc.SFX_CHU), loại tiếng hợp kiểu hiện
     # (pop-up -> pop/bubble, trượt lên -> whip), và LUÔN được ưu tiên hơn tiếng chuyển cảnh khi trùng giờ.
     for n in nhans:
-        ten, lech = tc.SFX_CHU[tc.kieu(n)]
+        _, ten1, lech = tc.anim(n)
+        ten = (ten1,)
         t = n["a"] + lech
         if n.get("sfx"):
             ev.append((t, n["sfx"], -8 + L, True))
@@ -911,7 +923,7 @@ def main():
     sil = silences(aroll)
     env = envelope(aroll)
     words = [w for sg in segs for w in sg.get("words", [])]
-    pieces, total = build_pieces(cfg["keeps"], sil, words=words, env=env)
+    pieces, total = build_pieces(cfg["keeps"], sil, words=words, env=env, dai_clip=clip_dur(aroll))
     m = mapper(pieces)
     cues = make_cues(segs, cfg, pieces, m)
     total = fr(total)
@@ -1163,6 +1175,10 @@ def main():
         print(f"!! TỪ CẤM TRONG LỜI NÓI @{t_:.1f}s: {', '.join(hs)} — \"{tx}\" (cắt câu này hoặc báo người dùng)")
     if TH.get("cau_bat_buoc"):
         print("Câu bắt buộc của ngành (nên có trong dòng pháp lý / mô tả):", TH["cau_bat_buoc"])
+    dem_k = {}
+    for n in nhans:   # gán kiểu hiện xoay vòng cho từng chữ (theo kiểu chữ) -> hoạt ảnh + tiếng đa dạng
+        n["anim_idx"] = dem_k.get(tc.kieu(n), 0)
+        dem_k[tc.kieu(n)] = n["anim_idx"] + 1
     # tiếng nhấn tính SAU khi đã bỏ chữ không còn chỗ (trước đây chữ bị bỏ vẫn còn tiếng pop "trống")
     sfx = sfx_events(cfg, broll, calls, cta_a, total, nhans, trans)
     thieu = max(0.0, min(8.0, (-14.0 - lufs) - gain_db))   # giọng không tăng được tới -14 LUFS (đỉnh cao) -> hạ tiếng nhấn
@@ -1270,61 +1286,34 @@ def main():
     # ------------------------------------------------ CapCut
     if "--capcut" in flags:
         # giọng đã LỌC TẠP ÂM (cùng bộ lọc với MP4) cho track "Giong" của CapCut
-        # GIỌNG ĐÃ NỐI SẴN, có làm mờ 15–20 ms ở mỗi vết cắt (capcut-cli không đặt được fade âm thanh) -> vết cắt êm,
-        # không "bụp"/cụt tiếng (góp ý 16/11). Vẫn chia thành từng đoạn trên track Giong để sửa được trong CapCut.
-        lk = hashlib.md5((LOC_TAP_AM(cfg) + json.dumps([(p["s"], p["e"]) for p in pieces])).encode()).hexdigest()[:8]
-        giong = raw / f"{Path(cfg['aroll']).stem}_giong_noi_{lk}.wav"
-        if not giong.exists():
-            fa = [f"[0:a]asplit={len(pieces)}" + "".join(f"[a{i}]" for i in range(len(pieces)))]
-            for i, p in enumerate(pieces):
-                fa.append(f"[a{i}]atrim={p['s']}:{p['e']},asetpts=PTS-STARTPTS,afade=t=in:d=0.015,"
-                          f"afade=t=out:st={p['e'] - p['s'] - 0.02:.3f}:d=0.02[at{i}]")
-            fa.append("".join(f"[at{i}]" for i in range(len(pieces))) + f"concat=n={len(pieces)}:v=0:a=1,"
-                      + LOC_TAP_AM(cfg) + "aresample=48000[out]")
-            rr = run(["ffmpeg", "-v", "error", "-y", "-i", str(aroll), "-filter_complex", ";".join(fa), "-map", "[out]",
-                      "-ac", "2", str(giong)])
-            if rr.returncode:
-                raise SystemExit("Tạo giọng đã nối lỗi: " + rr.stderr[-500:])
-        main, voice = [], []
-        bsorted = sorted(broll, key=lambda b: b["start"])
+        # V3 (góp ý 18/11) — PHÂN LỚP RÕ RÀNG:
+        #  · TIMELINE CHÍNH = video thoại đã cắt vấp, GIỮ NGUYÊN ÂM THANH trong video (không tách giọng ra track riêng)
+        #  · CẢNH TRÁM = LỚP PHỦ phía trên (track "Canh tram"), tắt tiếng; khớp lời / kịch bản
+        #  · ổn định âm thanh (chuẩn hoá âm lượng + cải thiện giọng + giảm ồn) bật bằng chức năng CapCut (cap_nhat_am.py)
+        main, phu = [], []
         for i, p in enumerate(pieces):
             o0 = p["o"]
             o1 = pieces[i + 1]["o"] if i + 1 < len(pieces) else total
-            voice.append({"path": str(giong), "start": o0, "duration": round(o1 - o0, 6), "sourceStart": o0,
-                          "volume": vol, "ref": f"v{i}"})
-            # phần A-roll không bị cảnh trám phủ
-            cur, k = o0, 0
-            for b in bsorted:
-                b0, b1 = b["start"], b["start"] + b["duration"]
-                if b1 <= cur or b0 >= o1:
-                    continue
-                if b0 > cur + 1 / FPS:
-                    main.append({"path": str(aroll_v), "start": fr(cur), "duration": fr(b0 - cur),
-                                 "sourceStart": round(p["s"] + cur - o0, 6), "volume": 0, "ref": f"a{i}_{k}",
-                                 **({"scale": punch} if i % 2 and punch > 1.001 else {})}); k += 1
-                cur = max(cur, b1)
-            if o1 > cur + 1 / FPS:
-                main.append({"path": str(aroll_v), "start": fr(cur), "duration": fr(o1 - cur),
-                             "sourceStart": round(p["s"] + cur - o0, 6), "volume": 0, "ref": f"a{i}_{k}",
-                             **({"scale": punch} if i % 2 and punch > 1.001 else {})})
-        for b in bsorted:
-            main.append({"path": b["path"], "start": b["start"], "duration": b["duration"], "sourceStart": b["from"],
-                         "volume": 0, "ref": b["ref"]})
-        main.sort(key=lambda x: x["start"])
-        # khít tuyệt đối: mốc tính bằng micro giây nguyên (tránh hở/chồng 1µs làm CapCut tự dồn đoạn)
-        us = [round(x["start"] * 1e6) for x in main] + [round(total * 1e6)]
+            main.append({"path": str(aroll_v), "start": fr(o0), "duration": fr(o1 - o0), "sourceStart": p["s"],
+                         "volume": vol, "ref": f"a{i}", **({"scale": punch} if i % 2 and punch > 1.001 else {})})
+        us = [round(x["start"] * 1e6) for x in main] + [round(total * 1e6)]   # khít tuyệt đối (micro giây nguyên)
         for k_, x in enumerate(main):
             x["start"] = us[k_] / 1e6
             x["duration"] = (us[k_ + 1] - us[k_]) / 1e6
-        tracks = [{"type": "video", "name": "Hinh chinh", "items": main},
-                  {"type": "audio", "name": "Giong", "items": voice}]
-        # chuyển cảnh CapCut chỉ ở chỗ vào / ra cảnh trám (không ở vết cắt nhảy của người nói — đã có phóng khung)
+        for b in sorted(broll, key=lambda b: b["start"]):
+            phu.append({"path": b["path"], "start": b["start"], "duration": b["duration"], "sourceStart": b["from"],
+                        "volume": 0, "ref": b["ref"]})
+        tracks = [{"type": "video", "name": "Hinh chinh", "items": main}]
+        if phu:
+            tracks.append({"type": "video", "name": "Canh tram", "items": phu})
+        # chuyển cảnh: chỉ giữa 2 cảnh trám nối liền trên lớp phủ (chỗ vào/ra cảnh trám: cảnh trám phủ lên, cắt thẳng)
         trans_ops = []
-        for x, y in zip(main, main[1:]):   # transition gắn vào đoạn ĐỨNG TRƯỚC chỗ nối
-            slug = trans.get((y["ref"], "vao")) or trans.get((x["ref"], "ra"))
-            if slug:
-                trans_ops.append({"op": "transition", "target": x["ref"], "slug": slug,
-                                  "duration": min(0.5, x["duration"] / 3, y["duration"] / 3)})
+        for x, y in zip(phu, phu[1:]):
+            if abs(x["start"] + x["duration"] - y["start"]) < 0.05:
+                slug = trans.get((y["ref"], "vao")) or trans.get((x["ref"], "ra"))
+                if slug:
+                    trans_ops.append({"op": "transition", "target": x["ref"], "slug": slug,
+                                      "duration": min(0.5, x["duration"] / 3, y["duration"] / 3)})
         lanes = []
         for n in nhans:
             for ln in lanes:
@@ -1450,6 +1439,15 @@ def main():
         spec = {"name": name, "width": W, "height": H, "fps": FPS, "tracks": tracks, "operations": ops}
         sp = P / "spec.json"
         sp.write_text(json.dumps(spec, ensure_ascii=False, indent=1), encoding="utf-8")
+        # thông tin hậu kỳ để ghep_du_an.py gắn lại hiệu ứng chữ + font sau khi ghép nhiều video vào 1 project
+        hk = {"total": total, "chu_capcut": bool(chu_capcut), "thumb_font": thumb_font,
+              "nhan": [{"text": chr(10).join(tc.lines(n)), "a": n["a"], "dur": n["b"] - n["a"], "vao": tc.anim(n)[0],
+                        "vd": tc.ANIM_CAPCUT[tc.kieu(n)][1], "ra": tc.ANIM_CAPCUT[tc.kieu(n)][2],
+                        "rd": tc.ANIM_CAPCUT[tc.kieu(n)][3], "w": tc.FONT_W[tc.kieu(n)]} for n in nhans]}
+        (P / "hau-ky.json").write_text(json.dumps(hk, ensure_ascii=False, indent=1), encoding="utf-8")
+        if "--chi-spec" in flags:
+            print("Đã ghi spec.json + hau-ky.json (ghép dự án bằng ghep_du_an.py)")
+            return
         tl = run(["tasklist", "/FI", "IMAGENAME eq CapCut.exe"])
         if "CapCut.exe" in tl.stdout:
             raise SystemExit("CapCut đang mở -> đóng CapCut rồi chạy lại với --capcut")
@@ -1484,7 +1482,8 @@ def main():
                 hit = [sid for sid, tx, st in segs_t if tx == txt and abs(st - n["a"]) < 0.05]
                 if not hit:
                     continue
-                vi, vd, ra, rd = tc.ANIM_CAPCUT[tc.kieu(n)]
+                _, vd, ra, rd = tc.ANIM_CAPCUT[tc.kieu(n)]
+                vi = tc.anim(n)[0]                   # kiểu hiện xoay vòng, khớp với tiếng nhấn
                 dur = n["b"] - n["a"]
                 cmd = ["capcut", "text-anim", res["draft_path"], hit[0], "--intro", vi, "--intro-duration", f"{min(vd, dur / 3):.2f}"]
                 if dur > 1.2:

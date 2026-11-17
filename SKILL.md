@@ -12,6 +12,25 @@ description: Dựng video bán hàng / review / KOC dọc 9:16 từ footage thô
 
 Cách làm việc với người dùng: **hỏi hết 1 lần ngay đầu, sau đó làm tới xong không hỏi nữa.** Trả lời tiếng Việt, ngắn, không thuật ngữ.
 
+## QUY CHUẨN DỰ ÁN V3 (18/11/2026 — áp dụng mặc định)
+- **1 dự án = 1 project CapCut**, tên = `-` + tên folder dự án (vd folder `11B17.2 -STV T11_400K` → project `-11B17.2 -STV T11_400K`).
+  Mọi video của dự án nối tiếp trên cùng timeline, **ngăn cách bằng điểm đánh dấu** (tên = mã video); nhân sự tự xuất từng
+  đoạn theo điểm đánh dấu.
+- Clip để chung trong folder dự án, **đặt tên theo mã ở đầu tên file** (vd `O5_thoai.mov`, `O5_tram1.mov`, `O5 kịch bản.txt`)
+  → `ghep_du_an.py chia "<folder>"` nhóm theo mã vào `_lam/footage/<mã>/` (liên kết cứng). Clip thoại = clip dài nhất của mã
+  (hoặc tên có "thoai"/"noi" → `--aroll`). Ảnh minh hoạ (jpg/png) trong nhóm = cảnh trám ảnh.
+- **Phân lớp**: timeline CHÍNH = video thoại đã cắt vấp hoàn chỉnh (không sót vấp, không lặp nội dung), **GIỮ âm thanh trong
+  video** (không tách giọng) · cảnh trám = **lớp phủ** "Canh tram" phía trên, tắt tiếng, khớp lời + kịch bản · chữ, tiếng nhấn ở trên.
+- **Âm thanh**: KHÔNG lọc bằng ffmpeg; bật bằng chức năng CapCut **Chuẩn hoá âm lượng + Cải thiện giọng nói + Giảm tiếng ồn**
+  cho mọi đoạn thoại (`cap_nhat_am.py` chép cấu trúc từ project MẪU `-MAU` người dùng tạo trên máy — thiếu mẫu thì báo để
+  nhân sự bấm tay). **Chỉnh màu + làm đẹp: nhân sự tự chỉnh trong CapCut** (AI không đụng).
+- **Nhịp thoại**: không cắt cụt — chừa ~0,2s giữa các câu / đoạn (0,1s mỗi bên chỗ cắt), cuối mỗi video dư ~0,4s (0,3–0,5s).
+- **Chữ + tiếng đa dạng**: mỗi chữ 1 kiểu hiện CapCut xoay vòng (`chu.ANIM_POOL`: pop-up, bounce-in, zoom-in, spring, flip-up,
+  mini-zoom · slide-up, wipe-right, grow, slide-left, showing-up), tiếng nhấn đi theo đúng kiểu hiện.
+- Quy trình: `chia` → mỗi mã: `chuan_bi.py footage` + `cat_vap.py` + viết cau-hinh (`"ma": "<mã>"`) + `dung.py projects/<mã>
+  --pngs --capcut --chi-spec` → `ghep_du_an.py ghep "<folder>" <mã1> <mã2> …` (CapCut đóng hẳn; mặc định cập nhật tại chỗ).
+- Hỏi hết thắc mắc 1 lần ngay đầu; quyền đã cấp thì tự làm; xong / rõ yêu cầu nào thì phản hồi rõ ngay.
+
 ## Câu hỏi đầu (1 lần duy nhất) và lệnh hàng loạt
 Đọc yêu cầu → đối chiếu bảng dưới → gom MỌI mục còn thiếu vào **1 lượt hỏi** (AskUserQuestion / 1 tin nhắn). Mục có mặc
 định thì KHÔNG hỏi, tự dùng mặc định và ghi vào báo cáo cuối. Sau lượt hỏi đó: **làm tới xong, không hỏi lại** — chỗ không

@@ -27,6 +27,20 @@ FONT_TEN = {600: "Be Vietnam Pro SemiBold", 700: "Be Vietnam Pro Bold", 800: "Be
 ANIM_CAPCUT = {"chinh": ("pop-up", 0.25, "fade-out", 0.2), "nen": ("slide-up", 0.25, "fade-out", 0.2)}
 # tiếng đi kèm hiệu ứng chữ: (tên tiếng, lệch so với lúc chữ bắt đầu hiện). pop/bubble nổ ngay, whip vút theo chữ trượt lên
 SFX_CHU = {"chinh": (("pop", "bubble"), 0.02), "nen": (("whip",), 0.0)}
+# V3 (góp ý 18/11 "đa dạng sound effect và phù hợp với hoạt ảnh của text"): mỗi chữ 1 kiểu hiện khác nhau (xoay vòng),
+# tiếng đi theo đúng kiểu hiện: (hiệu ứng vào CapCut, tiếng, lệch giây so với lúc chữ bắt đầu hiện)
+ANIM_POOL = {
+    "chinh": [("pop-up", "pop", 0.02), ("bounce-in", "bubble", 0.03), ("zoom-in", "whoosh", -0.06),
+              ("spring", "bubble", 0.03), ("flip-up", "whip", 0.0), ("mini-zoom", "sparkle", -0.04)],
+    "nen": [("slide-up", "whip", 0.0), ("wipe-right", "swipe", -0.02), ("grow", "pop", 0.02),
+            ("slide-left", "swipe", -0.02), ("showing-up", "click", 0.05)],
+}
+
+
+def anim(n):
+    """(hiệu ứng vào, tiếng, lệch) của chữ n theo vị trí xoay vòng n["anim_idx"]."""
+    pool = ANIM_POOL[kieu(n)]
+    return pool[int(n.get("anim_idx", 0)) % len(pool)]
 
 # kiểu cũ -> 2 kiểu mới
 KIEU_MAP = {"chinh": "chinh", "nen": "nen",

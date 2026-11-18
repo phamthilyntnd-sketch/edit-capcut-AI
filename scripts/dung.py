@@ -718,100 +718,147 @@ def grade_preview(src, g, t, out_dir):
 
 # ---------------------------------------------------------------- SFX (edit-video-sub-va-hieu-ung)
 SFX_DIR = Path(MAY["sfx"])
-SFX_PRIO = {"whoosh": 1, "whip": 1, "swipe": 1, "click": 2, "pop": 2, "tick": 2, "bubble": 2, "snare": 2,
-            "impact": 2, "notify": 2, "shutter": 2, "riser": 1, "chime": 3, "sparkle": 3, "ding": 3, "cash": 3}
 SFX_KIEU = {"xanh": ("pop", -16), "trang": ("pop", -16), "pill": ("pop", -17), "list": ("click", -14),
             "the": ("swipe", -18), "lock": ("swipe", -18), "hook": ("swipe", -17), "quote": ("whip", -21),
             "punch": ("impact", -21), "note": ("tick", -15), "benefit": ("pop", -16), "product": ("sparkle", -17)}
 
 
-def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None):
-    """Mỗi điểm nhấn 1 tiếng, cách nhau >= 0.8s (trùng thì giữ tiếng ưu tiên hơn). Tiếng nằm dưới giọng."""
-    if cfg.get("sfx") is False or not SFX_DIR.exists():
+VAI_PRIO = {"tram": 1, "chuyen": 1, "cao_trao": 1, "chu": 2, "hoi": 2, "san_pham": 3, "gia": 3, "cta": 3, "ket": 3}
+GIA_RE = re.compile(r"\d{1,3}(?:[.,]\d{3})*\s?(?:k|nghìn|ngàn|đ|đồng|triệu|tr|tỷ)\b|%|giảm|sale|freeship|voucher|ưu đãi",
+                    re.I)
+
+
+def sfx_file(n):
+    """File tiếng tự tạo: kho tiếng của máy (may.json "sfx") trước, thiếu thì sfx/ của skill."""
+    f = SFX_DIR / f"{n}.wav"
+    return f if f.exists() else ROOT / "sfx" / f"{n}.wav"
+
+
+def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None, chon=None):
+    """Mỗi điểm nhấn 1 tiếng theo VAI (chữ / cảnh trám / chuyển cảnh / sản phẩm / giá / CTA / câu hỏi / cao trào / kết),
+    cách nhau >= 0.35s (trùng thì giữ vai ưu tiên hơn). Tiếng chọn bằng kho_tieng.BoChon: xoay vòng theo phong cách,
+    không lặp liền nhau. Trả [(giây, tên tiếng tự tạo, dB, vai)] — tiếng thư viện CapCut (nếu có) thay ở bước CapCut."""
+    if cfg.get("sfx") is False or not (SFX_DIR.exists() or (ROOT / "sfx").exists()):
         return []
-    # NHIỀU + NGHE RÕ (người dùng 14/11: "nhỏ quá không nghe được gì", "thêm nhiều sound effect"):
-    #  mọi chữ nhấn có tiếng (pop/bubble xen kẽ; chữ nền: click), mỗi lần vào cảnh trám: swipe/whoosh xen kẽ,
-    #  chuyển cảnh: whoosh, tên sản phẩm: sparkle, câu hỏi (?): notify, nút giỏ hàng: ding + cash.
-    #  Mức (dB so với file gốc ~ -3 dBFS) đặt để nghe rõ trên nền giọng -14 LUFS nhưng không át lời.
+    # NHIỀU + NGHE RÕ (người dùng 14/11): mọi chữ nhấn có tiếng, mỗi lần vào cảnh trám có tiếng, chuyển cảnh có tiếng.
+    # Mức (dB so với file gốc ~ -3 dBFS) đặt để nghe rõ trên nền giọng -14 LUFS nhưng không át lời.
     L = float(cfg.get("sfx_db", 0))   # chỉnh chung: +3 = to hơn, -3 = nhỏ hơn
     trans = trans or {}
-    ev = []
+    ev = []   # (t, vai, gợi ý tiếng, dB, của chữ?)
     for i, b in enumerate(sorted(broll, key=lambda x: x["start"])):
         if (b["ref"], "vao") in trans:
-            ev.append((b["start"], TIENG_CHUYEN.get(trans[(b["ref"], "vao")], "whoosh"), -9 + L))
+            ev.append((b["start"], "chuyen", tieng_chuyen(trans[(b["ref"], "vao")]), -9 + L, False))
         elif b["start"] > 0.3:
-            ev.append((b["start"], b.get("sfx_vao") or ("swipe", "whoosh")[i % 2], -11 + L))
+            ev.append((b["start"], "tram", b.get("sfx_vao"), -11 + L, False))
         if (b["ref"], "ra") in trans:
-            ev.append((b["start"] + b["duration"], TIENG_CHUYEN.get(trans[(b["ref"], "ra")], "whoosh"), -10 + L))
+            ev.append((b["start"] + b["duration"], "chuyen", tieng_chuyen(trans[(b["ref"], "ra")]), -10 + L, False))
     for n in nhans:   # tiếng dồn lên ngay trước khi gọi tên sản phẩm -> tạo cao trào
         if n.get("san_pham") and n["a"] > 1.5:
-            ev.append((n["a"] - 1.0, "riser", -14 + L))
-    ev = [(t, n, db, False) for t, n, db in ev]
+            ev.append((n["a"] - 1.0, "cao_trao", None, -14 + L, False))
     basic = str(cfg.get("goi", "")).lower() == "basic"
     if basic:   # GÓI BASIC: "3 text + 3 sound đầu video" -> tiếng chỉ đi kèm thumbnail + các chữ nhấn
-        ev = [(0.05, "whoosh", -9 + L, True)]
+        ev = [(0.05, "chuyen", "whoosh", -9 + L, True)]
     elif cfg.get("cta_src") and cfg.get("cta", True) is not False:
-        ev += [(cta_a, "ding", -7 + L, True), (cta_a + 0.45, "cash", -12 + L, False)]
-    k = 0
-    cuoi = [] if basic else [n for n in nhans if tc.kieu(n) == "chinh"][-1:]   # câu chốt cảm xúc cuối: chuông nhẹ
-    # TIẾNG KHỚP HIỆU ỨNG CHỮ (góp ý 16/11): tiếng đặt đúng lúc chữ bật lên (tc.SFX_CHU), loại tiếng hợp kiểu hiện
-    # (pop-up -> pop/bubble, trượt lên -> whip), và LUÔN được ưu tiên hơn tiếng chuyển cảnh khi trùng giờ.
+        ev += [(cta_a, "cta", "ding", -7 + L, True), (cta_a + 0.45, "gia", "cash", -12 + L, False)]
+    cuoi = [] if basic else [n for n in nhans if tc.kieu(n) == "chinh"][-1:]   # câu chốt cảm xúc cuối
+    # TIẾNG KHỚP HIỆU ỨNG CHỮ (góp ý 16/11): đặt đúng lúc chữ bật lên, loại tiếng hợp kiểu hiện; luôn thắng tiếng chuyển cảnh
     for n in nhans:
         _, ten1, lech = tc.anim(n)
-        ten = (ten1,)
         t = n["a"] + lech
+        chu_ = " ".join(n["chu"])
         if n.get("sfx"):
-            ev.append((t, n["sfx"], -8 + L, True))
+            ev.append((t, "chu", "=" + n["sfx"], -8 + L, True))
         elif n in cuoi:
-            ev.append((t, "chime", -8 + L, True))
+            ev.append((t, "ket", None, -8 + L, True))
         elif n.get("san_pham"):
-            ev.append((t, "sparkle", -7 + L, True))
+            ev.append((t, "san_pham", None, -7 + L, True))
+        elif GIA_RE.search(chu_):
+            ev.append((t, "gia", None, -8 + L, True))
         elif any(c.rstrip().endswith("?") for c in n["chu"]):
-            ev.append((t, "notify", -9 + L, True))
+            ev.append((t, "hoi", None, -9 + L, True))
         else:
-            ev.append((t, ten[k % len(ten)], (-7 if tc.kieu(n) == "chinh" else -9) + L, True)); k += 1
+            ev.append((t, "chu", ten1, (-7 if tc.kieu(n) == "chinh" else -9) + L, True))
     keep = []
-    for t, n, db, chu_ in sorted(ev):
-        if keep and t - keep[-1][0] < 0.35:
-            cu = keep[-1]
-            if (chu_, SFX_PRIO[n]) > (cu[3], SFX_PRIO[cu[1]]):   # tiếng của chữ thắng tiếng chuyển cảnh
-                keep[-1] = (t, n, db, chu_)
+    for x in sorted(ev, key=lambda e: e[0]):
+        if keep and x[0] - keep[-1][0] < 0.35:
+            if (x[4], VAI_PRIO[x[1]]) > (keep[-1][4], VAI_PRIO[keep[-1][1]]):   # tiếng của chữ thắng tiếng chuyển cảnh
+                keep[-1] = x
             continue
-        keep.append((t, n, db, chu_))
-    # ĐA DẠNG: không để 2 tiếng giống nhau đứng liền nhau — đổi sang tiếng cùng họ (whoosh -> swipe -> whip, sparkle -> chime…)
-    HO = {"whoosh": ["swipe", "whip"], "swipe": ["whip", "whoosh"], "whip": ["swipe", "whoosh"], "pop": ["bubble", "click"],
-          "bubble": ["pop", "click"], "sparkle": ["chime", "pop"], "shutter": ["click", "tick"], "click": ["tick", "pop"],
-          "tick": ["click", "pop"], "chime": ["sparkle", "ding"]}
-    out, truoc, dem = [], None, 0
-    for t, n, db, chu_ in keep:
-        if n == truoc and n in HO and (SFX_DIR / f"{HO[n][dem % 2]}.wav").exists():
-            n = HO[n][dem % 2]; dem += 1
-        out.append((t, n, db, chu_)); truoc = n
-    return [(fr(t), n, db) for t, n, db, _ in out if t < total - 0.3]
+        keep.append(x)
+    if chon is None:
+        import kho_tieng
+        chon = kho_tieng.BoChon(cfg.get("phong_cach") or "nang_dong", sfx_dir=SFX_DIR, thu_vien=False,
+                                da_dang=cfg.get("da_dang", "thuong"))
+    out = []
+    for t, vai, goi_y, db, _ in keep:
+        if t >= total - 0.3:
+            continue
+        if goi_y and goi_y.startswith("="):            # tiếng người dùng ghi riêng cho 1 chữ: giữ đúng, không thay
+            out.append((fr(t), goi_y[1:], db, "co_dinh"))
+            continue
+        out.append((fr(t), chon.tu_tao_cho(vai, goi_y), db, vai))
+    return out
 
 
-# Chuyển cảnh CÓ SẴN của CapCut, chia theo ngữ cảnh (slug đều có trong `capcut enums --transitions`)
+# Chuyển cảnh CÓ SẴN của CapCut, chia theo ngữ cảnh (slug đều có trong `capcut enums --transitions`).
+# Mặc định cũ (khi kho/cong-thuc.json không có mục "chuyen" cho phong cách đang dùng):
 CHUYEN = {
     "vao": ["pull-in", "slide", "wipe-left", "inhale", "wipe-right"],          # người nói -> cảnh trám
     "san_pham": ["light-sweep-ii", "camera-glow", "dissolve"],                 # -> cảnh cận sản phẩm (không chớp trắng)
     "doi": ["slide", "wipe-up", "mix", "dissolve"],                             # cảnh trám -> cảnh trám khác
     "ra": ["pull-out", "dissolve", "blur", "camera-glow"],                      # cảnh trám -> người nói
 }
-# tiếng đi kèm từng kiểu chuyển cảnh (kho ENG/remotion/public/sfx)
+# tiếng gợi ý đi kèm kiểu chuyển cảnh (kho_tieng xoay vòng trong cùng họ)
 TIENG_CHUYEN = {"pull-in": "whoosh", "pull-out": "whoosh", "dissolve": "whoosh", "blur": "whoosh",
                 "slide": "swipe", "wipe-left": "swipe", "wipe-right": "swipe", "wipe-up": "swipe",
                 "inhale": "whip", "mix": "whip", "white-flash": "shutter", "flash": "shutter",
                 "camera-glow": "sparkle", "light-sweep-ii": "sparkle", "twinkle-zoom": "sparkle"}
+_TIENG_CHUYEN_RE = [(r"glitch|blocks|lines|slice|recorder|screening", "shutter"), (r"twinkle|light|glow|beam|highlight|like",
+                     "sparkle"), (r"slide|wipe|split|wave|dots|page", "swipe"), (r"stretch|squeeze|inhale|radial", "whip")]
+# người nói -> cảnh trám nằm ở 2 track khác nhau (CapCut chỉ đặt chuyển cảnh giữa 2 đoạn CÙNG track) -> vào / ra cảnh trám
+# dùng HOẠT ẢNH VÀO / RA của CapCut có cảm giác giống kiểu chuyển cảnh đã chọn
+_ANIM_VAO = [(r"pull|zoom|inhale|stretch|squeeze|radial|twinkle", "zoom-in"), (r"slide|wipe|woosh|split|lines|wave|dots",
+              "slide-left"), (r"glitch|blocks", "mini-zoom"), (r".", "fade-in")]
+_ANIM_RA = [(r"pull|zoom|radial", "zoom-out"), (r"slide|wipe", "slide-down"), (r".", "fade-out")]
 
 
-def chon_chuyen_canh(cfg, broll, total):
-    """Chuyển cảnh ĐA DẠNG ở mọi chỗ vào/ra cảnh trám và giữa 2 cảnh trám khác cảnh quay — mỗi chỗ 1 kiểu hợp ngữ cảnh,
-    không lặp kiểu liền nhau. Không đặt khi 1 phía < 1,2s (tránh chớp), cách nhau >= 2,5s, tối đa 10/video.
-    Cảnh trám có "san_pham": true trong cấu hình (cận sản phẩm) -> kiểu ánh sáng (vệt sáng / chớp trắng).
+def tieng_chuyen(slug):
+    if slug in TIENG_CHUYEN:
+        return TIENG_CHUYEN[slug]
+    return next((n for r, n in _TIENG_CHUYEN_RE if re.search(r, slug)), "whoosh")
+
+
+def anim_cho_chuyen(slug, k):
+    return next(n for r, n in (_ANIM_VAO if k == "vao" else _ANIM_RA) if re.search(r, slug))
+
+
+def bo_chuyen(cfg):
+    """Danh sách kiểu theo PHONG CÁCH (kho/cong-thuc.json "chuyen"); da_dang "cao" -> thêm nhóm "cao" (whip, glitch, zoom…)."""
+    pc = cfg.get("phong_cach") or TH.get("phong_cach") or "nang_dong"
+    try:
+        ct = json.loads((ROOT / "kho" / "cong-thuc.json").read_text(encoding="utf-8")).get("chuyen", {})
+    except Exception:
+        ct = {}
+    g = ct.get(pc) or {}
+    out = {}
+    for nhom, mac_dinh in CHUYEN.items():
+        ds = list(g.get(nhom) or mac_dinh)
+        if cfg.get("da_dang") == "cao":
+            ds += [x for x in g.get("cao", {}).get(nhom, []) if x not in ds]
+        out[nhom] = cfg.get("chuyen_" + nhom) or ds
+    return out
+
+
+def chon_chuyen_canh(cfg, broll, total, hat=""):
+    """Chuyển cảnh ĐA DẠNG ở chỗ ĐỔI BỐI CẢNH: vào/ra cảnh trám và giữa 2 cảnh trám khác cảnh quay — mỗi chỗ 1 kiểu hợp
+    ngữ cảnh + phong cách ngành, xoay vòng (bắt đầu lệch theo dự án), không lặp kiểu liền nhau. Không đặt khi 1 phía
+    < 1,5s, cách nhau >= chuyen_cach, tối đa chuyen_toi_da.
+    Cảnh trám có "san_pham": true trong cấu hình (cận sản phẩm) -> kiểu ánh sáng (vệt sáng / lấp lánh).
     Trả {(ref cảnh trám, 'vao'|'ra'): slug}."""
     if cfg.get("chuyen_canh") is False:
         return {}
     toi_da, cach = int(cfg.get("chuyen_toi_da", 2)), float(cfg.get("chuyen_cach", 8.0))
+    bo = bo_chuyen(cfg)
     sp_refs = {f"b{i}" for i, x in enumerate(cfg.get("broll", [])) if x.get("san_pham")}
     bs = sorted(broll, key=lambda b: b["start"])
     ev = []   # (thời điểm, ref, vao|ra, nhóm kiểu, độ dài 2 phía)
@@ -819,23 +866,26 @@ def chon_chuyen_canh(cfg, broll, total):
         prev = bs[i - 1] if i and abs(bs[i - 1]["start"] + bs[i - 1]["duration"] - b["start"]) < 0.05 else None
         nhom = "san_pham" if b["ref"] in sp_refs else "vao"
         if prev is None:   # vào từ người nói
-            ev.append((b["start"], b["ref"], "vao", nhom, min(b["duration"], 99.0 if b["start"] > 1.2 else b["start"])))
+            ev.append((b["start"], b["ref"], "vao", nhom, min(b["duration"], 99.0 if b["start"] > 1.5 else b["start"])))
         elif (os.path.basename(prev["path"]) != os.path.basename(b["path"])
               or abs((prev["from"] + prev["duration"]) - b["from"]) > 3.0):   # khác clip / khác cảnh quay
             ev.append((b["start"], b["ref"], "vao", "san_pham" if nhom == "san_pham" else "doi",
                        min(b["duration"], prev["duration"])))
         nxt = bs[i + 1] if i + 1 < len(bs) and abs(b["start"] + b["duration"] - bs[i + 1]["start"]) < 0.05 else None
         end = b["start"] + b["duration"]
-        if nxt is None and end < total - 1.2:   # ra lại người nói
-            ev.append((end, b["ref"], "ra", "ra", b["duration"]))
+        if nxt is None and end < total - 1.5:   # ra lại người nói
+            ev.append((end, b["ref"], "ra", "ra", min(b["duration"], total - end)))
+    lech = int(hashlib.md5(hat.encode()).hexdigest(), 16) % 7 if hat else 0   # mỗi dự án bắt đầu ở 1 kiểu khác
     chosen, last, dem = {}, -99.0, {}
     for t, ref, k, nhom, d in sorted(ev):
-        if d < 1.2 or t - last < cach or len(chosen) >= toi_da or t < 0.5:
+        if d < 1.5 or t - last < cach or len(chosen) >= toi_da or t < 0.5:
             continue
-        pool = cfg.get("chuyen_" + nhom, CHUYEN[nhom])
-        slug = pool[dem.get(nhom, 0) % len(pool)]
-        if chosen and slug == list(chosen.values())[-1]:      # không lặp kiểu liền nhau
-            slug = pool[(dem.get(nhom, 0) + 1) % len(pool)]
+        pool = bo[nhom]
+        i0 = dem.get(nhom, 0) + lech
+        slug = pool[i0 % len(pool)]
+        if slug in list(chosen.values())[-2:] and len(pool) > 1:      # không lặp kiểu vừa dùng
+            slug = next((pool[(i0 + j) % len(pool)] for j in range(1, len(pool))
+                         if pool[(i0 + j) % len(pool)] not in list(chosen.values())[-2:]), slug)
         dem[nhom] = dem.get(nhom, 0) + 1
         chosen[(ref, k)] = slug
         last = t
@@ -1121,7 +1171,7 @@ def main():
         broll[0]["from"] = max(0.0, broll[0]["from"] - broll[0]["start"])
         broll[0]["duration"] = fr(broll[0]["duration"] + broll[0]["start"])
         broll[0]["start"] = 0.0
-    trans = chon_chuyen_canh(cfg, broll, total)
+    trans = chon_chuyen_canh(cfg, broll, total, hat=P.name)
     calls = []
     for i, c in enumerate(cfg["callouts"]):
         oa, ob = fr(m(c["src"][0], "start")), fr(m(c["src"][1], "end"))
@@ -1304,8 +1354,34 @@ def main():
                 b["sfx_vao"] = kc.thong_tin("video_vao", b["vao"])["tieng"]
             if vr:
                 b["ra"] = vr[j % len(vr)]
+    # ĐA DẠNG (20/11): chỗ vào / ra cảnh trám từ người nói (khác track -> CapCut không đặt chuyển cảnh được) dùng HOẠT ẢNH
+    # vào / ra CapCut cùng cảm giác với kiểu chuyển cảnh đã chọn; giữa 2 cảnh trám liền nhau vẫn là chuyển cảnh thật.
+    if not basic:
+        for b in broll:
+            if (b["ref"], "vao") in trans and not b.get("vao") and not any(
+                    abs(x["start"] + x["duration"] - b["start"]) < 0.05 for x in broll if x is not b):
+                b["vao"] = anim_cho_chuyen(trans[(b["ref"], "vao")], "vao")
+            if (b["ref"], "ra") in trans and not b.get("ra"):
+                b["ra"] = anim_cho_chuyen(trans[(b["ref"], "ra")], "ra")
+    # MẶT NẠ CapCut cho cảnh trám (mat_na.py): khung bo góc / tròn / chia đôi — thưa, theo ngành; "mat_na": false để tắt
+    import mat_na
+    mat_na_ds = mat_na.chon(cfg, broll, pc, hat, basic)
+    for b in broll:
+        if b["ref"] in mat_na_ds and not b.get("vao"):
+            b["vao"] = mat_na.thong_so(mat_na_ds[b["ref"]]).get("vao")   # 'lộ dần' = mặt nạ + hoạt ảnh vào
     # tiếng nhấn tính SAU khi đã bỏ chữ không còn chỗ (trước đây chữ bị bỏ vẫn còn tiếng pop "trống")
-    sfx = sfx_events(cfg, broll, calls, cta_a, total, nhans, trans)
+    import kho_tieng
+    bo_tieng = kho_tieng.BoChon(pc, hat=hat, sfx_dir=SFX_DIR, thu_vien=cfg.get("sfx_thu_vien", True) is not False,
+                                da_dang=cfg.get("da_dang", "thuong"))
+    cfg.setdefault("phong_cach", pc)
+    sfx4 = sfx_events(cfg, broll, calls, cta_a, total, nhans, trans, chon=bo_tieng)
+    sfx = [(t_, n_, db_) for t_, n_, db_, _ in sfx4]
+    # TIẾNG THƯ VIỆN CAPCUT theo vai (kho/tieng-capcut.json): thay tiếng tự tạo ở bước CapCut; MP4 xem thử vẫn dùng tự tạo
+    tieng_tv = []
+    for t_, n_, _, vai_ in sfx4:
+        muc = bo_tieng.thu_vien_cho(vai_) if vai_ != "co_dinh" else None
+        if muc:
+            tieng_tv.append((t_, muc))
     thieu = max(0.0, min(8.0, (-14.0 - lufs) - gain_db))   # giọng không tăng được tới -14 LUFS (đỉnh cao) -> hạ tiếng nhấn
     if thieu > 0.5 and sfx:                                # theo đúng phần thiếu để tiếng nhấn không át giọng
         sfx = [(t_, n_, db_ - thieu) for t_, n_, db_ in sfx]
@@ -1313,8 +1389,25 @@ def main():
     if sfx:
         (P / "sfx").mkdir(exist_ok=True)
         for _, n, _ in sfx:
-            shutil.copy2(SFX_DIR / f"{n}.wav", P / "sfx" / f"{n}.wav")
+            shutil.copy2(sfx_file(n), P / "sfx" / f"{n}.wav")
         print("SFX:", ", ".join(f"{n}@{t:.1f}s" for t, n, _ in sfx))
+        print("  theo vai:", ", ".join(f"{v}:{n}" for _, n, _, v in sfx4))
+        if tieng_tv:
+            print(f"  tiếng thư viện CapCut: {len(tieng_tv)} chỗ —", ", ".join(f"{m['ten']}@{t:.1f}s" for t, m in tieng_tv))
+        elif cfg.get("sfx_thu_vien", True) is not False:
+            print("  (chưa có kho tiếng thư viện CapCut -> dùng tiếng tự tạo; nạp kho: kho_tieng.py thu)")
+    (P / "da-dang.json").write_text(json.dumps({
+        "phong_cach": pc, "da_dang": cfg.get("da_dang", "thuong"),
+        "tieng": [{"t": t_, "vai": v_, "tu_tao": n_} for t_, n_, _, v_ in sfx4],
+        "tieng_thu_vien": [{"t": t_, "ten": m["ten"], "ma": m["ma"]} for t_, m in tieng_tv],
+        "chuyen_canh": [{"canh": r, "cho": k, "kieu": s_} for (r, k), s_ in trans.items()],
+        "hoat_anh_tram": [{"canh": b["ref"], "t": b["start"], "vao": b.get("vao"), "ra": b.get("ra")} for b in broll
+                          if b.get("vao") or b.get("ra")],
+        "mat_na": [{"canh": r, "kieu": k} for r, k in mat_na_ds.items()]}, ensure_ascii=False, indent=1), encoding="utf-8")
+    if trans:
+        print("Chuyển cảnh:", ", ".join(f"{s_}@{r}/{k}" for (r, k), s_ in trans.items()))
+    if mat_na_ds:
+        print("Mặt nạ cảnh trám:", ", ".join(f"{k}@{r}" for r, k in mat_na_ds.items()))
     centers, crops = {}, {}
     for nm in ["thumb", "cta"] + [n["name"] for n in nhans] + (["nhan", "phaply"] if nqc else []):
         if not (chu / f"{nm}.png").exists():
@@ -1664,6 +1757,16 @@ def main():
                 tc.patch_fonts(res["draft_path"], fp, by_text)
             print(f"Hiệu ứng chữ CapCut: {na}/{len(nhans)} chữ · chuyển cảnh: {len(trans_ops)} · hiệu ứng cảnh: "
                   f"{so_hu}")
+        if mat_na_ds:   # mặt nạ CapCut lên cảnh trám (capcut mask)
+            kq = mat_na.ap(res["draft_path"], [{"start": b["start"], "kieu": mat_na_ds[b["ref"]]} for b in broll
+                                               if b["ref"] in mat_na_ds])
+            print(f"Mặt nạ CapCut: {sum(1 for x in kq if x[2])}/{len(kq)}",
+                  "; ".join(f"{k}@{t:.1f}s" + ("" if ok else f" LỖI {e}") for t, k, ok, e in kq))
+        if tieng_tv:    # đổi tiếng tự tạo -> tiếng thư viện CapCut (chép đúng mẫu material từ draft thật)
+            try:
+                print(f"Tiếng thư viện CapCut: {kho_tieng.gan_vao_draft(res['draft_path'], tieng_tv)}/{len(tieng_tv)} chỗ")
+            except Exception as ex:
+                print("  ! gắn tiếng thư viện CapCut lỗi (giữ tiếng tự tạo):", ex)
         if dang_xem:
             import cap_nhat as cn
             res["draft_path"] = str(cn.replace_draft(drafts, name, dang_xem, P / "_draft-cu"))

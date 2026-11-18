@@ -100,6 +100,23 @@ def main():
     cash = mix((0, tone(0.7, 2093, 5, ((1, 1), (2.4, .4)))), (0.02, rng.standard_normal(int(0.25 * SR)) *
                                                               np.exp(-14 * t(0.25)) * 0.5))
     save("cash", cash)
+    # ĐA DẠNG (20/11): biến thể cùng họ để xoay vòng, không nghe 1 tiếng lặp mãi
+    w2 = sweep_noise(0.42, 2400, 500, 0.3); save("whoosh-2", w2 * env(len(w2), 0.12, 0.22))
+    sw = sweep_noise(0.24, 3000, 9000, 0.22); save("swish", sw * env(len(sw), 0.02, 0.16))
+    save("pop-2", mix((0, chirp(0.11, 1400, 420, 34)), (0, 0.25 * chirp(0.08, 2600, 900, 40))))
+    save("boing", chirp(0.35, 180, 520, 7) * (1 + 0.4 * np.sin(2 * np.pi * 18 * t(0.35))))
+    save("snap", mix((0, rng.standard_normal(int(0.012 * SR)) * env(int(0.012 * SR), 0.0005, 0.01)),
+                     (0, tone(0.06, 1700, 70))))
+    im = mix((0, chirp(0.45, 150, 45, 7)), (0, rng.standard_normal(int(0.08 * SR)) * np.exp(-40 * t(0.08)) * 0.6))
+    save("impact", im)
+    save("coin", mix((0, tone(0.12, 1976, 22, ((1, 1), (2, .3)))), (0.07, tone(0.6, 2637, 6, ((1, 1), (2, .25))))))
+    save("pluck", tone(0.4, 659, 11, ((1, 1), (2, .5), (3, .25))))
+    save("bell", tone(1.3, 784, 3, ((1, 1), (1.5, .6), (2.0, .4), (3.01, .2))))
+    z = sweep_noise(0.3, 700, 2600, 0.18) * (0.6 + 0.4 * np.sign(np.sin(2 * np.pi * 60 * t(0.3))))
+    save("zip", z * env(len(z), 0.01, 0.08))
+    save("blip", mix((0, tone(0.07, 1046, 40)), (0.07, tone(0.09, 1568, 35))))
+    rs = sweep_noise(0.6, 300, 3500, 0.35) * np.linspace(0.1, 1, int(SR * 0.6)) ** 2
+    save("riser-2", rs * env(len(rs), 0.02, 0.05))
     print("Đã tạo:", ", ".join(sorted(x.stem for x in OUT.glob("*.wav"))), "->", OUT)
 
 

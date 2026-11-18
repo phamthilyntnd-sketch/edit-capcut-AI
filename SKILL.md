@@ -52,11 +52,39 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
   CapCut đã kiểm đủ dấu: CapCut Sans, Montserrat Bold, Anton, Coiny, Sigmar One, Amatic SC, Source Serif 4; font CapCut họ
   "ZY…", Corben, DynaPuff, Bounce House **thiếu dấu tiếng Việt — cấm dùng**.
 
+## ĐA DẠNG TIẾNG NHẤN · CHUYỂN CẢNH · MẶT NẠ (20/11/2026)
+- **Mức đa dạng** `"da_dang": "thap" | "thuong" | "cao"` (ngành đặt nền; yêu cầu "nhiều hiệu ứng", "sôi động", "đa dạng",
+  "nhiều tiếng", "nhiều chuyển cảnh" → cao; "tối giản", "gọn" → thap). Cao = xoay vòng cả kho tiếng / chuyển cảnh của phong
+  cách, +1 chuyển cảnh, +1 mặt nạ. Ghi lại những gì đã dùng: `projects/<du-an>/da-dang.json` (tiếng theo vai, chuyển cảnh, hoạt
+  ảnh cảnh trám, mặt nạ) — đọc file này khi báo người dùng.
+- **Tiếng nhấn theo VAI** (`scripts/kho_tieng.py`, bảng `kho/cong-thuc.json` "tieng"): chu · tram · chuyen · san_pham · gia
+  (chữ có giá / % / giảm…) · cta · hoi · cao_trao · ket. Mỗi vai có danh sách theo phong cách, xoay vòng, không lặp liền nhau;
+  tiếng của chữ luôn cùng HỌ với kiểu chữ hiện (pop → pop / pop-2 / bubble…). 26 tiếng tự tạo (`tao_sfx.py`, không bản quyền).
+- **Tiếng THƯ VIỆN CAPCUT** (có mã, CapCut tự tải trên máy khác): skill KHÔNG bịa cấu trúc — học từ draft thật. Người dùng thả
+  20–30 tiếng từ CapCut (Âm thanh › Hiệu ứng âm thanh) vào 1 project (tên gợi ý "-KHO TIENG"), lưu, ĐÓNG CapCut, rồi chạy
+  `PY -I SK/scripts/kho_tieng.py thu` → `kho/tieng-capcut.json` (mẫu material chép nguyên, vai đoán theo tên — sửa khoá "vai"
+  nếu cần; xem: `kho_tieng.py xem`). Khi dựng, tiếng của vai có trong kho được thay bằng tiếng thư viện ở bước CapCut (MP4 xem
+  thử vẫn dùng tiếng tự tạo). Kho trống / thiếu vai → tiếng tự tạo. Tắt: `"sfx_thu_vien": false`.
+- **Chuyển cảnh theo PHONG CÁCH** (`kho/cong-thuc.json` "chuyen"): sang_trong (dissolve, pull-in, mix, black-fade, light-sweep…),
+  nang_dong (pull-in, slide, woosh, horizontal-blur; cao: radial-blur, stretch, squeeze, split), cong_nghe (horizontal-lines,
+  vertical-blur; cao: rgb-glitch, glitch, color-glitch), de_thuong (wave, dots; cao: cloud, like), co_dien (vintage-screening…).
+  Mỗi dự án bắt đầu xoay ở 1 kiểu khác, không lặp 2 kiểu vừa dùng. Giữ luật: chỉ ở chỗ đổi bối cảnh, tối đa `chuyen_toi_da`
+  (≤ 5), cách nhau ≥ `chuyen_cach`, không đặt khi 1 phía < 1,5s. Giữa 2 cảnh trám liền nhau = chuyển cảnh CapCut thật; vào /
+  ra cảnh trám từ người nói (khác track) = HOẠT ẢNH vào / ra CapCut cùng cảm giác (pull → zoom-in, slide → slide-left, dissolve
+  → fade-in…). Ép danh sách: `"chuyen_vao" / "chuyen_doi" / "chuyen_san_pham" / "chuyen_ra": [slug…]`.
+- **Mặt nạ CapCut cho cảnh trám** (`scripts/mat_na.py`, ghi bằng `capcut mask`, mã từ `capcut enums --masks`): bo_goc (thẻ bo
+  góc, người nói lộ viền) · tron (khung tròn, cận sản phẩm) · chia_doi (cảnh trám nửa khung, người nói nửa kia) · tim (dễ
+  thương). THƯA: `mat_na_toi_da` (mặc định 1, giáo dục / tài chính 0, tối đa 2), ưu tiên cảnh `san_pham`, cảnh ≥ 2,5s, không ở
+  1s đầu, không 2 cảnh mặt nạ liền nhau; cảnh có mặt nạ tự thêm hoạt ảnh vào (lộ dần). Tắt: `"mat_na": false`; chọn kiểu:
+  `"mat_na_kieu": ["tron"]`; 1 cảnh: `broll[i]["mat_na"]: "tron" | false`. Yêu cầu "chia đôi màn hình", "khung tròn", "không
+  mặt nạ" tự đổi. CHƯA làm mặt nạ có keyframe: cấu trúc chưa ai bắt được từ draft thật (capcut-cli #44) — ghi sai thì CapCut im
+  lặng bỏ qua.
+
 ## CÔNG THỨC DỰNG THEO NGÀNH × LOẠI VIDEO × SẢN PHẨM × YÊU CẦU (19/11/2026)
 - `kho/cong-thuc.json` + `scripts/cong_thuc.py`: `dung.py` TỰ ÁP ngay khi đọc cau-hinh — điền các thông số còn trống
   (phong cách hiệu ứng, bộ kiểu chữ, nhịp cắt / khoảng chừa giữa câu, số & độ dài cảnh trám, chuyển cảnh, hiệu ứng cảnh,
   phóng khung, mức tiếng nhấn). KHÔNG ghi đè khoá đã có trong cau-hinh.json. Ưu tiên: cau-hinh > `yeu_cau` > hồ sơ thương
-  hiệu (khoá ghi rõ trong file) > loại video > ngành. Giới hạn an toàn: tiếng nhấn −6…+4 dB, chuyển cảnh ≤ 4, hiệu ứng ≤ 3.
+  hiệu (khoá ghi rõ trong file) > loại video > ngành. Giới hạn an toàn: tiếng nhấn −6…+4 dB, chuyển cảnh ≤ 5, hiệu ứng ≤ 3, mặt nạ ≤ 2.
 - **16 ngành** (`nganh`): my-pham, spa-tham-my, trang-suc, thoi-trang, am-thuc, do-uong, gia-dung, cong-nghe, me-va-be,
   thuc-pham-chuc-nang, du-lich, bat-dong-san, xe, giao-duc, tai-chinh, dich-vu (không ghi → theo hồ sơ, rồi tự đoán theo lời nói).
 - **10 loại video** (`loai_video`): review, mo_hop, so_sanh, huong_dan, top_n, khuyen_mai, ke_chuyen, hoi_thoai, phan_hoi,
@@ -196,8 +224,8 @@ Chép `_mau.json` → `<ma>.json`, điền: `mau_chinh` / `mau_dam` / `mau_vien`
 4. **Cảnh trám ÍT mà CHẤT, XẾP THEO KỊCH BẢN (V2):** mỗi cảnh ≥ 4s (`tram_min`), có nội dung rõ (điểm `tram.py` < 0,4 → BỎ, giữ hình người nói — `tram_diem_min`), tối đa ~1 cảnh / 9s video (`tram_toi_da`, giữ cảnh điểm cao + dài nhất). Không rải nhiều cảnh ngắn vô nghĩa. **Mỗi cảnh trám phải minh hoạ ĐÚNG câu đang nói / đúng đoạn kịch bản**: xem bảng ảnh mỗi 2s của clip, ghi `"tim_trong": [a,b]` cho TỪNG cảnh (thiếu là dung.py cảnh báo); không có `tim_trong` thì lần dùng sau của cùng clip lấy đoạn SAU lần trước (theo thứ tự quay = thứ tự kịch bản). `"tranh"` loại vùng xấu (chai nghiêng/lộn ngược, mờ, bẩn, móp), `"san_pham": true` = cận sản phẩm. Bỏ 0,5s đầu/cuối clip, ưu tiên máy ổn định; khe người nói < 1s giữa 2 cảnh trám tự lấp. **XEM `bang-tram.jpg` TỪNG DÒNG** (đầu | giữa | cuối + LỜI ĐANG NÓI): hình phải khớp lời và theo đúng trình tự kịch bản — sai thì sửa `tim_trong` rồi dựng lại.
 5. **Cắt vấp: NÓI SAI RỒI NÓI LẠI → BỎ TRỌN ĐOẠN NÓI SAI** (góp ý 18/11: "nói sai và nói lại đoạn nào thì cắt bỏ cả đoạn nói sai, chỉ lấy từ đoạn nói đúng"): bỏ từ ĐẦU câu/cụm bị nói hỏng tới ngay trước chỗ bắt đầu nói lại, giữ LẦN NÓI ĐÚNG CUỐI; KHÔNG ghép nửa câu sai với nửa câu đúng, KHÔNG cắt lắt nhắt giữa câu (tiếng đệm lướt nhanh giữa câu giữ lại; mảnh lời < 0,8s kẹp giữa 2 chỗ cắt thì bỏ; chỉ cắt khoảng lặng >= 0,6s). **Phiên âm NGUYÊN VĂN** (`chuan_bi.py` dùng câu mồi kiểu nói vấp + không nối ngữ cảnh, để Whisper KHÔNG "dọn sạch" chữ nói lặp / nói dở — trước đây vì Whisper dọn sạch nên sót đoạn nói hỏng, vd "Hệt như một chiếc giường" + "Hệt như một chiếc giường di động mini"; dự án cũ: `chuan_bi.py nghe-lai <du-an>`). `cat_vap.py` tự tìm (chỉ tính là nói lại khi có ngập ngừng trước lần nói lại, bỏ qua lặp từ phổ biến) — vẫn ĐỌC LẠI từng chỗ. `dung.py` đặt mọi điểm cắt ở chỗ im giữa 2 từ, cuối đoạn kéo tới khi đuôi từ tắt hẳn nhưng KHÔNG BAO GIỜ lấn vào từ đầu tiên của đoạn đã bỏ (lỗi cũ: dính "Vừa…" của lần nói hỏng); mỗi vết cắt giọng làm mờ 15–20 ms. Không chia 2 `keeps` giữa 1 câu. **AI phải ĐỌC LẠI từng câu của bản nguyên văn**: câu bỏ dở không lặp lại chữ nào (vd "Đấy em này nhớ…" rồi im) cũng là đoạn hỏng → bỏ.
 6. **Không có đoạn chớp:** đoạn người nói < 0,6s kẹp giữa/ngay trước cảnh trám tự được lấp. In track chính (spec.json) kiểm lại.
-7. **Chuyển cảnh CapCut ĐA DẠNG theo ngữ cảnh** (`CHUYEN` trong dung.py): người nói → trám (pull-in / slide / wipe / inhale) · → cận sản phẩm (light-sweep-ii / white-flash / twinkle-zoom) · trám → trám khác cảnh (slide / wipe-up / mix / flash) · trám → người nói (pull-out / dissolve / blur / camera-glow). Không lặp kiểu liền nhau, 2 phía ≥ 1,2s, cách nhau ≥ 2,5s, tối đa 10. **Hiệu ứng cảnh** `hieu_ung_capcut` 3–4/video (mini-zoom mở đầu & câu chốt, white-flash khi gọi tên sản phẩm, gleam ở câu cảm xúc cuối). **Hiệu ứng chữ** vào/ra CapCut cho mọi chữ (pop-up/slide-up, fade-out).
-8. **Tiếng nhấn NHIỀU, NGHE RÕ, KHỚP HÌNH** (-6…-12 dB so với file, dưới giọng -14 LUFS): tiếng theo kiểu chuyển cảnh (whoosh/swipe/shutter/sparkle/whip), mọi chữ có tiếng ĐÚNG LÚC CHỮ BẬT LÊN và hợp kiểu hiện (`chu.SFX_CHU`: pop-up → pop/bubble, trượt lên → whip; câu hỏi notify), tiếng của chữ luôn thắng tiếng chuyển cảnh khi trùng giờ, chữ bị bỏ thì không còn tiếng, riser 1s trước khi gọi tên sản phẩm, sparkle tên sản phẩm, chime câu chốt, ding + cash ở nút kêu gọi. `"sfx_db": ±3` chỉnh chung.
+7. **Chuyển cảnh CapCut ĐA DẠNG theo ngữ cảnh + phong cách** (`bo_chuyen` trong dung.py, danh sách ở `kho/cong-thuc.json` "chuyen" — xem mục ĐA DẠNG): người nói → trám · → cận sản phẩm (ánh sáng, không chớp trắng) · trám → trám khác cảnh · trám → người nói. Không lặp kiểu vừa dùng, 2 phía ≥ 1,5s, cách nhau ≥ `chuyen_cach`, tối đa `chuyen_toi_da`. **Hiệu ứng cảnh** `hieu_ung_capcut` ≤ `hieu_ung_toi_da` (không chớp / lắc, không ngay mở đầu). **Hiệu ứng chữ** vào/ra CapCut cho mọi chữ (pop-up/slide-up, fade-out).
+8. **Tiếng nhấn NHIỀU, NGHE RÕ, KHỚP HÌNH, ĐA DẠNG** (-6…-12 dB so với file, dưới giọng -14 LUFS): mỗi điểm nhấn 1 tiếng theo VAI (kho_tieng.py) — chữ có tiếng ĐÚNG LÚC CHỮ BẬT LÊN, cùng họ với kiểu hiện; vào cảnh trám, chuyển cảnh, tên sản phẩm (lấp lánh), giá / ưu đãi (coin), câu hỏi, cao trào 1s trước tên sản phẩm, câu chốt, nút kêu gọi; tiếng của chữ luôn thắng tiếng chuyển cảnh khi trùng giờ; chữ bị bỏ thì không còn tiếng; xoay vòng không lặp liền nhau; tiếng thư viện CapCut thay vào khi kho có. `"sfx_db": ±3` chỉnh chung.
 9. **KHÔNG lọc âm, KHÔNG chỉnh màu (V2):** giọng giữ GỐC — không khử nhiễu / cắt tần số (làm méo giọng), không nén; chỉ tăng/giảm âm lượng tới gần -14 LUFS nhưng KHÔNG để đỉnh vượt -1 dB (giọng có đỉnh cao thì giữ nhỏ hơn và tiếng nhấn tự hạ theo). Hình giữ GỐC — không chỉnh màu, không mịn da / làm đẹp (khoá `grade` cũ bị bỏ qua); người dựng chỉnh màu và "Giảm tiếng ồn" trực tiếp trong CapCut nếu cần. Chỉ bật lọc âm khi người dùng yêu cầu rõ (`"loc_tap_am": 1–3`). Cảnh trám luôn tắt tiếng.
 10. **Nhạc nền: KHÔNG tự chèn** — người dùng chọn nhạc có quyền thương mại trong thư viện CapCut (TikTok yêu cầu với video quảng cáo).
 11. **Nguyên tắc TikTok:** chữ trong vùng an toàn (y 220–1520, không sát mép phải); hook 3s đầu; nhãn "Hợp tác quảng cáo"; không từ cấm/claim y tế; số liệu chỉ từ `facts`; 9:16 1080×1920; -14 LUFS.

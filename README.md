@@ -6,8 +6,8 @@ Claude tự làm:
 - cắt vấp, nói lại, tiếng ừ/ờ — giữ lần nói cuối, không cắt cụt chữ;
 - chọn **đoạn quay đẹp nhất** trong mỗi clip cảnh trám (nét, đủ sáng, chai đứng thẳng, khớp lời);
 - **chữ nhấn là chữ CapCut thật** (sửa được), chỉ 2 kiểu, căn giữa, **không che người và sản phẩm**;
-- **chuyển cảnh, hiệu ứng cảnh, hiệu ứng chữ có sẵn của CapCut**, đa dạng theo ngữ cảnh;
-- **tiếng nhấn** khớp hình (bộ tiếng tự tổng hợp, không bản quyền), **lọc tạp âm** giọng nói, chuẩn -14 LUFS;
+- **chuyển cảnh, hiệu ứng cảnh, hiệu ứng chữ, mặt nạ có sẵn của CapCut**, đa dạng theo ngữ cảnh + ngành, xoay vòng không lặp;
+- **tiếng nhấn theo vai** (chữ, cảnh trám, giá, CTA, câu hỏi…): tiếng thư viện CapCut khi đã nạp kho (`kho_tieng.py thu`), không thì 26 tiếng tự tổng hợp (không bản quyền); giọng chuẩn -14 LUFS;
 - nhãn "Hợp tác quảng cáo", dòng pháp lý, kiểm từ cấm và luật quảng cáo;
 - mỗi lần góp ý: **sửa thẳng vào project đang xem**, không tạo v2/v3 (bản trước được sao lưu).
 
@@ -51,6 +51,7 @@ Tóm tắt:
 | `scripts/chuan_bi.py` | Chuyển footage, phiên âm, bảng ảnh, tra brief |
 | `scripts/tram.py` · `bo_cuc.py` · `chu.py` · `cap_nhat.py` | Chọn cảnh trám đẹp · bố cục chữ né người/sản phẩm · chữ CapCut thật · cập nhật tại chỗ |
 | `scripts/tao_sfx.py` · `kiem_may.py` | Tạo bộ tiếng nhấn · kiểm máy |
+| `scripts/kho_tieng.py` · `mat_na.py` | Kho tiếng nhấn theo vai (học tiếng thư viện CapCut từ draft thật, dự phòng tiếng tự tạo) · mặt nạ CapCut cho cảnh trám (bo góc / tròn / chia đôi) |
 | `cai-dat/` | Bộ cài tự động (`CAI-DAT.cmd`, `cai-dat.ps1`) + danh sách link tải (`lien-ket.json`) |
 | `thuong-hieu/` | Hồ sơ thương hiệu (mẫu + ví dụ) |
 | `fonts/` | Be Vietnam Pro (SIL Open Font License — xem `fonts/OFL.txt`) |

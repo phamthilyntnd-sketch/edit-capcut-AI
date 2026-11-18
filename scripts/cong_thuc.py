@@ -8,6 +8,8 @@ Trong cau-hinh.json:
   "nganh": "am-thuc"                (không ghi -> theo hồ sơ thương hiệu, rồi tự đoán theo lời nói / kịch bản)
   "loai_video": "khuyen_mai"        (không ghi -> tự đoán; mặc định review)
   "yeu_cau": "sôi động hơn, ít chữ"  (lời thường của người dùng)
+  "da_dang": "cao"                  -> thap | thuong | cao: xoay vòng nhiều kiểu tiếng / chuyển cảnh hơn, thêm mặt nạ
+  "mat_na": false                   -> tắt mặt nạ cảnh trám (hoặc "mat_na_toi_da": 0)
   "bo_chu": "kho_team"              -> chữ nhấn tự lấy kiểu trong kho chữ team theo VAI (hook, giá, tên SP, CTA…), đổi sang màu
                                        thương hiệu đang dựng
 Ghi báo cáo: projects/<du-an>/cong-thuc.md (đã áp gì, vì sao; gợi ý chữ theo sản phẩm; khung video).
@@ -20,11 +22,11 @@ from pathlib import Path
 
 SK = Path(__file__).resolve().parent.parent
 CT = SK / "kho" / "cong-thuc.json"
-NUM = {"chu_moi_phut", "chuyen_toi_da", "hieu_ung_toi_da", "punch", "sfx_db", "cho_giua_cau", "tram_min", "chuyen_cach", "tram_chia"}
+NUM = {"chu_moi_phut", "chuyen_toi_da", "hieu_ung_toi_da", "mat_na_toi_da", "punch", "sfx_db", "cho_giua_cau", "tram_min", "chuyen_cach", "tram_chia"}
 NUM_THUC = {"punch", "sfx_db", "cho_giua_cau", "tram_min", "chuyen_cach", "tram_chia"}
-KNOB = NUM | {"phong_cach", "bo_chu", "nhip", "hoat_anh_tram", "hoi_thoai"}
+KNOB = NUM | {"phong_cach", "bo_chu", "nhip", "hoat_anh_tram", "hoi_thoai", "da_dang", "mat_na_kieu"}
 # giới hạn an toàn (cộng dồn ngành + loại + yêu cầu không vượt): tiếng nhấn nghe rõ mà không át giọng, ít hiệu ứng (góp ý 17/11)
-GIOI_HAN = {"sfx_db": (-6, 4), "punch": (1.0, 1.12), "chuyen_toi_da": (0, 4), "hieu_ung_toi_da": (0, 3),
+GIOI_HAN = {"sfx_db": (-6, 4), "punch": (1.0, 1.12), "chuyen_toi_da": (0, 5), "hieu_ung_toi_da": (0, 3), "mat_na_toi_da": (0, 2),
             "cho_giua_cau": (0.12, 0.26), "tram_chia": (5, 14), "tram_min": (2.5, 6), "chu_moi_phut": (5, 22)}
 BIDANH = {"thuc-pham": "am-thuc", "do-an": "am-thuc", "spa": "spa-tham-my", "tpcn": "thuc-pham-chuc-nang",
           "o-to-xe-may": "xe", "noi-that": "bat-dong-san", "cafe": "do-uong", "cong-nghe-saas": "cong-nghe",
@@ -167,6 +169,13 @@ def ap(cfg, TH, P=None, in_ra=True, ghi=True):
             trung.append(hit[0])
             for k, v in e["dat"].items():
                 dat(k, v, f"yêu cầu «{hit[0]}»")
+    # ---- mức ĐA DẠNG (20/11): thap | thuong | cao -> cộng thêm chuyển cảnh / mặt nạ (kho/cong-thuc.json "da_dang")
+    dd = cfg.get("da_dang") or p.get("da_dang") or "thuong"
+    if dd in ct.get("da_dang", {}):
+        p.setdefault("da_dang", dd); nguon.setdefault("da_dang", "mặc định")
+        p.setdefault("mat_na_toi_da", 1); nguon.setdefault("mat_na_toi_da", "mặc định (dùng thưa)")
+        for k, v in ct["da_dang"][dd].items():
+            dat(k, v, f"đa dạng «{dd}»")
     # ---- điền vào cau-hinh (không ghi đè)
     da_ap = []
     for k, v in p.items():

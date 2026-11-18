@@ -73,7 +73,7 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
   (`chu.LINE_MAX`) -> không tràn mép, né cột nút TikTok bên phải.
 - **Chữ + tiếng đa dạng**: mỗi chữ 1 kiểu hiện CapCut xoay vòng (`chu.ANIM_POOL`: pop-up, bounce-in, zoom-in, spring, flip-up,
   mini-zoom · slide-up, wipe-right, grow, slide-left, showing-up), tiếng nhấn đi theo đúng kiểu hiện.
-- Quy trình: `chia` → mỗi mã: `chuan_bi.py footage` + `cat_vap.py` + viết cau-hinh (`"ma": "<mã>"`) + `dung.py projects/<mã>
+- Quy trình: `chia` → mỗi mã: `chuan_bi.py footage` + `cat_sach.py` (kịch bản → `kich-ban.txt`) + viết cau-hinh (`"ma": "<mã>"`) + `dung.py projects/<mã>
   --pngs --capcut --chi-spec` → `ghep_du_an.py ghep "<folder>" <mã1> <mã2> …` (CapCut đóng hẳn; mặc định cập nhật tại chỗ).
 - Hỏi hết thắc mắc 1 lần ngay đầu; quyền đã cấp thì tự làm; xong / rõ yêu cầu nào thì phản hồi rõ ngay.
 
@@ -165,7 +165,25 @@ Chép `_mau.json` → `<ma>.json`, điền: `mau_chinh` / `mau_dam` / `mau_vien`
 ## Quy trình
 1. **Footage + kịch bản:** tìm thư mục footage (trống thì tìm .MOV mới ở Downloads/Desktop rồi chép — không di chuyển). Brief: `PY -I SK/scripts/chuan_bi.py brief "<mã>" --th <ma>`.
 2. **Chuẩn bị:** `PY -I SK/scripts/chuan_bi.py footage "<thư mục>" <du-an> --th <ma> [--aroll IMG_x]` (chạy nền) → raw/ 1080×1920 30fps, transcript.json (in số đoạn), khoảng lặng, bảng ảnh `xem/`. XEM bảng ảnh từng clip; ghi chú giây nào đẹp/khớp lời.
-3. **Cắt vấp:** `PY -I SK/scripts/cat_vap.py projects/<du-an> [--tu <giây bắt đầu nói>]` → liệt kê nói lại / bắt đầu lại câu / nói lại cả đoạn (giữ lần cuối) / tiếng đệm / câu lẻ ngoài kịch bản / lời chen giữa các lần nói lại / Whisper bịa ("subscribe…") / từ kéo dài, và ĐỀ XUẤT `keeps`. Đối chiếu kịch bản, đọc lại từng chỗ rồi chốt `keeps` (chạy được trên mọi máy, không cần bo-skill-video). Có bo-skill-video thì thêm `plan_cuts.py` + `do_am.py` để soát.
+3. **Cắt vấp — CẮT SẠCH (19/11/2026, thay bước cat_vap):**
+   a. Ghi **lời thoại kịch bản** vào `projects/<du-an>/kich-ban.txt` (mỗi câu 1 dòng, lấy từ brief — cột lời thoại; hoặc
+      `"kich_ban"` trong cau-hinh). Không có kịch bản vẫn chạy được, chỉ thiếu phần khớp kịch bản.
+   b. `PY -I SK/scripts/cat_sach.py projects/<du-an> [--tu <giây>] [--hoi-thoai]` → (1) nghe lại riêng các câu có từ dài bất
+      thường (Whisper nuốt chỗ vấp) và siết mốc từng từ theo tiếng thật; (2) mọi luật của `cat_vap.py`; (3) **khớp kịch bản**:
+      mỗi câu kịch bản giữ LẦN NÓI ĐẦY ĐỦ CUỐI CÙNG, bỏ các lần khác (kể cả nói lại bằng câu chữ khác) + lời ngoài lề ngắn,
+      kéo lại chữ đầu câu bị gán lệch; (4) **dò bằng tiếng thật**: vùng có tiếng mà không thành chữ, 1 từ bị lắp ("sả… sản"),
+      từ kéo dài / ậm ừ ("em… ờờ") → cắt cứng (`cat_tieng`). Ra `cat/bang-cat.md` + `cat/de-xuat.json`.
+   c. **AI ĐỌC `cat/bang-cat.md`** như người dựng: câu kịch bản THIẾU, câu bỏ dở, lời ngoài lề có đáng giữ (dòng ⚠xem),
+      chỗ cắt làm mất nghĩa → sửa `don_vi[].giu` (`giu` / `bo` / `mot_phan`) trong `cat/de-xuat.json`.
+   d. (tuỳ chọn, khi người dùng muốn tự nghe) `cat_sach.py projects/<du-an> --duyet` → `cat/duyet.html`: từng chỗ cắt có nút
+      nghe TRƯỚC / SAU, bấm Cắt / Giữ lại, tải `duyet.json` vào thư mục `cat/` (hoặc dán kết quả cho AI).
+   e. `cat_sach.py projects/<du-an> --chot` → ghi `keeps` + `cat_tieng` vào cau-hinh.json (sao lưu `cau-hinh.truoc-cat.json`).
+   f. `cat_sach.py projects/<du-an> --kiem` → dựng tiếng bản đã cắt (đúng điểm cắt thật của dung.py), NGHE LẠI, tự bỏ chỗ
+      còn lặp / tiếng đệm, báo khoảng lặng > 0,45s → `cat/kiem.md` (≈30s / video 1 phút).
+   Đo 19/11 so với bản cắt tay đã duyệt: O-5 đúng 86% → **100%** (đủ 99%), T-5 98% → **99%** (đủ 100%), C-6 hội thoại giữ 100%.
+   `dung.py`: khoảng chừa ở vết cắt tự theo nhịp người nói (0,14–0,24s), cắt cứng `cat_tieng`, mỗi đoạn thoại trên track
+   chính CapCut được làm mờ tiếng vào 15 ms / ra 20 ms (không nghe "tách").
+   Cách cũ (chỉ dò theo chữ): `PY -I SK/scripts/cat_vap.py projects/<du-an> [--tu <giây bắt đầu nói>]` → liệt kê nói lại / bắt đầu lại câu / nói lại cả đoạn (giữ lần cuối) / tiếng đệm / câu lẻ ngoài kịch bản / lời chen giữa các lần nói lại / Whisper bịa ("subscribe…") / từ kéo dài, và ĐỀ XUẤT `keeps`. Đối chiếu kịch bản, đọc lại từng chỗ rồi chốt `keeps` (chạy được trên mọi máy, không cần bo-skill-video). Có bo-skill-video thì thêm `plan_cuts.py` + `do_am.py` để soát.
    - **Video HỘI THOẠI (2 người nói qua lại):** `cat_vap.py ... --hoi-thoai` (hoặc `"hoi_thoai": true` trong cấu hình) — tắt dò bắt đầu lại câu / tiếng đệm (người kia đáp "ừ", "dạ" là lời thật), chỉ bỏ câu lặp gần y hệt.
    - Phiên âm tự chạy nhiều lượt (giữ nguyên tiếng vấp → thêm lọc lặng → thường) và chọn lượt phủ đủ cả clip; vẫn thấy hở thì `chuan_bi.py nghe-lai <du-an>`.
 4. **Viết `cau-hinh.json`** (mẫu: `SK/vi-du/cau-hinh-mau.json`): `thuong_hieu`, `draft`, `aroll`, `out_mp4`, `out_thumb`, `keeps`, `skip_segments`, `fix` (sửa chữ Whisper nghe sai), `thumb`, `broll` (auto + tim_trong/tranh/san_pham), `nhan` (`{"khi": "<cụm lời như transcript thô>", "sau": <giây>, "kieu": "chinh|nen", "chu": [...], "den": ..., "vi_tri": ...}` — rút ý, ≤ 18 ký tự/dòng, 1 chữ / ~3–4s), `hieu_ung_capcut`, `cta_src`.

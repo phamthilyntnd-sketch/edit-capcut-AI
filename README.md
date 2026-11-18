@@ -44,6 +44,7 @@ Tóm tắt:
 |---|---|
 | `SKILL.md` | Quy trình + quy tắc cho Claude |
 | `scripts/dung.py` | Dựng: cắt, cảnh trám, chữ, hiệu ứng, tiếng, MP4, project CapCut, kiểm tra |
+| `scripts/cat_sach.py` | CẮT SẠCH: khớp kịch bản (giữ lần nói đầy đủ cuối), dò vấp bằng tiếng thật, bảng đọc lại, trang duyệt nghe trước/sau, tự nghe lại bản cắt |
 | `scripts/cat_vap.py` | Tìm chỗ nói vấp / nói lại / tiếng đệm từ phiên âm, đề xuất đoạn giữ (không cần bộ công cụ ngoài) |
 | `scripts/chuan_bi.py` | Chuyển footage, phiên âm, bảng ảnh, tra brief |
 | `scripts/tram.py` · `bo_cuc.py` · `chu.py` · `cap_nhat.py` | Chọn cảnh trám đẹp · bố cục chữ né người/sản phẩm · chữ CapCut thật · cập nhật tại chỗ |

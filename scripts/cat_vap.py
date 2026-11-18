@@ -26,12 +26,15 @@ def norm(w):
     return re.sub(r"[^\w]", "", w.lower())
 
 
-def main():
-    P = Path(sys.argv[1])
-    a = sys.argv[2:]
+def main(argv=None, segs=None, tra_ve=False):
+    """CLI. Module khác (cat_sach.py) gọi: main([du_an, ...], segs=<phiên âm đã sửa>, tra_ve=True) -> (W, bo, ly_do, keeps)."""
+    argv = sys.argv[1:] if argv is None else argv
+    P = Path(argv[0])
+    a = argv[1:]
     tu = float(a[a.index("--tu") + 1]) if "--tu" in a else 0.0
     den = float(a[a.index("--den") + 1]) if "--den" in a else 1e9
-    segs = json.loads((P / "transcript.json").read_text(encoding="utf-8"))
+    if segs is None:
+        segs = json.loads((P / "transcript.json").read_text(encoding="utf-8"))
     # HỘI THOẠI 2 người (vợ hỏi – chồng đáp…): câu đáp hay lặp lại lời người kia ("Anh tìm hiểu kỹ đó." – "Ừ, anh tìm hiểu kỹ
     # chứ sao?") và "Ừ / Dạ" là câu trả lời, KHÔNG phải nói vấp -> tắt dò "nói sai rồi nói lại" + tiếng đệm; chỉ bỏ Whisper
     # bịa, câu lặp NGUYÊN câu (>= 90%) và mẩu lẻ. Bật: --hoi-thoai hoặc cau-hinh "hoi_thoai": true
@@ -251,6 +254,8 @@ def main():
         (P / "cat-vap.json").write_text(json.dumps({"keeps": keeps, "bo": [
             {"s": W[k]["s"], "e": W[k]["e"], "w": W[k]["w"], "ly_do": ly_do[k]} for k in range(len(W)) if bo[k]]},
             ensure_ascii=False, indent=1), encoding="utf-8")
+    if tra_ve:
+        return W, bo, ly_do, keeps
 
 
 if __name__ == "__main__":

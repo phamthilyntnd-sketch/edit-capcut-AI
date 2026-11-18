@@ -120,12 +120,19 @@ def _co_tieng(env):
     return f + 0.35 * (sp - f)
 
 
-def build_pieces(keeps, sil, min_gap=0.35, pad=0.12, words=(), env=None, tho=0.10, duoi=0.4, dai_clip=None):
+def build_pieces(keeps, sil, min_gap=0.35, pad=0.12, words=(), env=None, tho=None, duoi=0.4, dai_clip=None, cam=()):
     """Đoạn giữ -> các mảnh A-roll, BÁM TIẾNG NÓI THẬT (góp ý 17/11 "cắt giữa các đoạn vẫn còn đoạn trống"):
     - đầu mảnh = lúc tiếng nói thật bắt đầu - 0,1s ; cuối mảnh = lúc tiếng tắt thật + 0,1s  -> giữa 2 câu còn ~0,2s
     - mọi quãng im >= 0,35s bên trong đoạn giữ (đo bằng độ lớn tiếng, không chỉ dựa mốc Whisper) cũng rút còn ~0,2s
     - không bao giờ cắt giữa 1 từ được giữ, không lấn vào từ đã bỏ; cuối video dư ~0,4s."""
     ws = sorted(words, key=lambda w: w["s"])
+    # NHỊP NGƯỜI NÓI (19/11): khoảng chừa ở vết cắt theo nhịp tự nhiên — trung vị khoảng nghỉ giữa 2 từ liền nhau
+    # (0,04–0,35s) x1,2, kẹp 0,14–0,24s -> người nói nhanh chừa ít, nói chậm chừa nhiều hơn chút (mặc định cũ 0,2s)
+    if tho is None:
+        g = [b["s"] - a["e"] for a, b in zip(ws, ws[1:]) if 0.04 < b["s"] - a["e"] < 0.35]
+        tho = min(0.12, max(0.07, 0.6 * float(np.median(g)))) if len(g) >= 8 else 0.10
+    # CẮT CỨNG (cat_sach.py, cau-hinh "cat_tieng"): vùng có tiếng mà không thành chữ / lắp trong từ -> luôn cắt bỏ
+    cam = sorted([float(a), float(b)] for a, b in (cam or []) if b > a)
     db = env["db"] if env is not None else None
     thr = _co_tieng(env) if env is not None else None
     pieces = []
@@ -164,9 +171,19 @@ def build_pieces(keeps, sil, min_gap=0.35, pad=0.12, words=(), env=None, tho=0.1
                     i += 1
         else:
             im = [(a, b) for a, b in sil if b - a >= min_gap and s < a and b < e]
+        cung = [(a - tho, b + tho) for a, b in cam if a < e and b > s]
+        im = sorted(im + cung)
         cur = s
         for a, b in im:
             cut_a, cut_b = a + tho, b - tho
+            if cut_a < cur:              # chồng lên vùng cắt trước (vd vùng cắt cứng trùng quãng im)
+                cur = max(cur, cut_b)
+                continue
+            if (a, b) in cung:
+                if cut_a > cur:
+                    pieces.append([cur, cut_a])
+                cur = cut_b
+                continue
             # mốc Whisper nói đang có 1 chữ bình thường ở đây (phụ âm đầu nhẹ như "gh", "th", âm cuối nhẹ) -> KHÔNG cắt.
             # Chỉ cắt trong "từ" dài bất thường (>= 0,8s: Whisper nuốt cả quãng im vào 1 từ).
             if any(w["e"] - w["s"] < 0.8 and (w["s"] - 0.02 < cut_a < w["e"] + 0.02 or w["s"] - 0.02 < cut_b < w["e"] + 0.02)
@@ -202,6 +219,37 @@ def build_pieces(keeps, sil, min_gap=0.35, pad=0.12, words=(), env=None, tho=0.1
         t = fr(t + (e - s))
     return out, t
 
+
+
+def mo_tieng_vet_cat(draft_dir, vao_us=15000, ra_us=20000):
+    """Làm mờ tiếng vào/ra rất ngắn cho mọi đoạn trên track VIDEO CHÍNH (thoại giữ tiếng trong video) — ghi thẳng vật liệu
+    "audio_fade" của CapCut (capcut audio-fade chỉ nhận track âm thanh). Trả số đoạn đã gắn."""
+    import uuid
+    n = 0
+    for f in Path(draft_dir).rglob("*"):
+        if f.name not in ("draft_content.json", "template-2.tmp") or ".capcut-cli-history" in f.parts:
+            continue
+        try:
+            j = json.loads(f.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        vt = [t for t in j.get("tracks", []) if t.get("type") == "video"]
+        if not vt:
+            continue
+        fades = j.setdefault("materials", {}).setdefault("audio_fades", [])
+        co = {x["id"] for x in fades}
+        dem = 0
+        for sg in vt[0].get("segments", []):
+            refs = sg.setdefault("extra_material_refs", [])
+            if any(r in co for r in refs):
+                continue
+            fid = str(uuid.uuid4()).upper()
+            fades.append({"id": fid, "fade_in_duration": vao_us, "fade_out_duration": ra_us, "fade_type": 0, "type": "audio_fade"})
+            refs.append(fid)
+            dem += 1
+        f.write_text(json.dumps(j, ensure_ascii=False), encoding="utf-8")
+        n = max(n, dem)
+    return n
 
 
 def mapper(pieces):
@@ -975,7 +1023,8 @@ def main():
     sil = silences(aroll)
     env = envelope(aroll)
     words = [w for sg in segs for w in sg.get("words", [])]
-    pieces, total = build_pieces(cfg["keeps"], sil, words=words, env=env, dai_clip=clip_dur(aroll))
+    pieces, total = build_pieces(cfg["keeps"], sil, words=words, env=env, dai_clip=clip_dur(aroll),
+                                 cam=cfg.get("cat_tieng", []))
     m = mapper(pieces)
     cues = make_cues(segs, cfg, pieces, m)
     total = fr(total)
@@ -1589,6 +1638,11 @@ def main():
                 print(f"Hoạt ảnh cảnh trám CapCut: {nv}/{len(broll)}")
             # sửa lệch làm tròn (chồng 1µs / hở 0ms trên track chính) trước khi CapCut tự dồn đoạn
             run(["capcut", "lint", res["draft_path"], "--fix"], shell=True)
+            # MỜ TIẾNG Ở VẾT CẮT (19/11): mỗi mảnh thoại trên track chính làm mờ vào 15 ms / ra 20 ms -> không nghe "tách"
+            try:
+                print(f"Mờ tiếng ở vết cắt (CapCut): {mo_tieng_vet_cat(res['draft_path'])} mảnh")
+            except Exception as ex:
+                print("  ! mờ tiếng vết cắt CapCut lỗi:", ex)
             if fp:
                 tc.patch_fonts(res["draft_path"], fp, by_text)
             print(f"Hiệu ứng chữ CapCut: {na}/{len(nhans)} chữ · chuyển cảnh: {len(trans_ops)} · hiệu ứng cảnh: "

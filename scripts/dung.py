@@ -995,7 +995,12 @@ def main():
     # BỘ KIỂU CHỮ (kho mẫu chữ TikTok, 19/11/2026): "bo_chu" trong cau-hinh.json / hồ sơ thương hiệu;
     # "tu_dong" = chọn theo ngành (scripts/mau_chu.py). Mặc định "thuong_hieu" (giữ đúng style brief cũ).
     global CSS
+    # CÔNG THỨC DỰNG (kho/cong-thuc.json): ngành x loại video x yêu cầu -> điền các thông số còn trống (không ghi đè)
+    import cong_thuc
+    cfg, _ = cong_thuc.ap(cfg, TH, P)
     bo_chu = cfg.get("bo_chu") or TH.get("bo_chu") or "thuong_hieu"
+    if bo_chu == "kho_team":          # chữ theo kho team (đã gắn "kho" theo vai); bản MP4 xem thử vẽ theo kiểu thương hiệu
+        bo_chu = "thuong_hieu"
     if bo_chu == "tu_dong":
         import mau_chu
         bo_chu = mau_chu.bo_cho_nganh(cfg.get("nganh") or TH.get("nganh"))
@@ -1024,7 +1029,8 @@ def main():
     env = envelope(aroll)
     words = [w for sg in segs for w in sg.get("words", [])]
     pieces, total = build_pieces(cfg["keeps"], sil, words=words, env=env, dai_clip=clip_dur(aroll),
-                                 cam=cfg.get("cat_tieng", []))
+                                 cam=cfg.get("cat_tieng", []),
+                                 tho=(float(cfg["cho_giua_cau"]) / 2 if cfg.get("cho_giua_cau") else None))
     m = mapper(pieces)
     cues = make_cues(segs, cfg, pieces, m)
     total = fr(total)
@@ -1045,7 +1051,7 @@ def main():
     # V2 (góp ý 17/11): cảnh trám ÍT mà CHẤT — đủ dài (>= 4s), có nội dung rõ, khớp lời / kịch bản; không rải nhiều cảnh
     # ngắn vô nghĩa. Tối đa ~1 cảnh trám / 9s video ("tram_toi_da"), điểm nội dung thấp thì bỏ ("tram_diem_min").
     tmin = float(cfg.get("tram_min", 4.0))
-    toi_da = int(cfg.get("tram_toi_da", max(2, round(total / 9))))
+    toi_da = int(cfg.get("tram_toi_da", max(2, round(total / float(cfg.get("tram_chia", 9))))))
     diem_min = float(cfg.get("tram_diem_min", 0.4))
     spans = []
     for i, b in enumerate(cfg["broll"]):
@@ -1616,7 +1622,8 @@ def main():
             kho_muc = [{"text": "\n".join(tc.lines(n)), "start": n["a"], "kho": n["kho"]} for n in nhans if n.get("kho")]
             if kho_muc:
                 import kho_text
-                print(f"Kho chữ team: {kho_text.ap_kho(res['draft_path'], kho_muc, P)}/{len(kho_muc)} chữ theo kiểu kho")
+                mau_ = GREEN if cfg.get("kho_doi_mau") else None
+                print(f"Kho chữ team: {kho_text.ap_kho(res['draft_path'], kho_muc, P, mau=mau_)}/{len(kho_muc)} chữ theo kiểu kho")
             # hiệu ứng chữ vào/ra có sẵn của CapCut cho từng chữ nhấn
             dc = json.loads((Path(res["draft_path"]) / "draft_content.json").read_text(encoding="utf-8"))
             mat = {t["id"]: json.loads(t["content"]).get("text", "") for t in dc["materials"].get("texts", [])}

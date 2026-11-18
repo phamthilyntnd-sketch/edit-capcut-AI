@@ -64,6 +64,19 @@ def _font_du_an(P, ten):
     return dst.as_posix() if dst.exists() else src.as_posix()
 
 
+def _rgb(h):
+    if isinstance(h, list):
+        return h
+    h = h.lstrip("#")
+    return [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)] if len(h) >= 6 else [1, 1, 1]
+
+
+def _nhan(c):
+    """Màu NHẤN (có sắc, không phải trắng / đen / xám) -> được đổi sang màu thương hiệu."""
+    r, g, b = c[:3]
+    return max(r, g, b) - min(r, g, b) > 0.18
+
+
 def _rong(t):
     return max((sum(1.12 if ch.isupper() else (0.45 if ch in " ·,." else 1.0) for ch in ln) for ln in t.split("\n")), default=1)
 
@@ -72,7 +85,8 @@ def _u16(t):
     return len(t.encode("utf-16-le")) // 2
 
 
-def ap_kho(draft_dir, muc, P):
+def ap_kho(draft_dir, muc, P, mau=None):
+    mau_th = mau
     """muc: [{"text", "start" (giây), "kho": mã}] — thay dáng các chữ đã có trong draft (tìm theo nội dung + lúc bắt đầu)
     bằng kiểu của kho; giữ nội dung, thời gian, vị trí. Trả số chữ đã áp."""
     rows = _rows()
@@ -118,6 +132,21 @@ def ap_kho(draft_dir, muc, P):
                     p = s_.get("font", {}).get("path", "")
                     if p and not os.path.exists(p) and not co_ma_font:
                         s_["font"] = {"path": _font_du_an(P, font_thay(os.path.basename(p))), "id": ""}
+                if mau_th:                               # đổi màu nhấn (không phải trắng / đen) sang màu thương hiệu đang dựng
+                    for s_ in c["styles"]:
+                        for key in ("fill",):
+                            sol = s_.get(key, {}).get("content", {}).get("solid", {})
+                            if sol.get("color") and _nhan(sol["color"]):
+                                sol["color"] = _rgb(mau_th)
+                        for bg in ([s_["background"]] if isinstance(s_.get("background"), dict) else []):
+                            sol = bg.get("content", {}).get("solid", {}) if isinstance(bg.get("content"), dict) else {}
+                            if sol.get("color") and _nhan(sol["color"]):
+                                sol["color"] = _rgb(mau_th)
+                    if nm.get("text_color") and _nhan(_rgb(nm["text_color"])):
+                        nm["text_color"] = mau_th.lower()
+                    for key in ("background_color",):
+                        if isinstance(nm.get(key), str) and nm[key].startswith("#") and _nhan(_rgb(nm[key])):
+                            nm[key] = mau_th.lower()
                 c["text"] = text
                 nm["content"] = json.dumps(c, ensure_ascii=False)
                 if nm.get("font_path") and not os.path.exists(nm["font_path"]) and not co_ma_font:

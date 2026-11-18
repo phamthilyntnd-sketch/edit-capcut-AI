@@ -52,6 +52,26 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
   CapCut đã kiểm đủ dấu: CapCut Sans, Montserrat Bold, Anton, Coiny, Sigmar One, Amatic SC, Source Serif 4; font CapCut họ
   "ZY…", Corben, DynaPuff, Bounce House **thiếu dấu tiếng Việt — cấm dùng**.
 
+## CÔNG THỨC DỰNG THEO NGÀNH × LOẠI VIDEO × SẢN PHẨM × YÊU CẦU (19/11/2026)
+- `kho/cong-thuc.json` + `scripts/cong_thuc.py`: `dung.py` TỰ ÁP ngay khi đọc cau-hinh — điền các thông số còn trống
+  (phong cách hiệu ứng, bộ kiểu chữ, nhịp cắt / khoảng chừa giữa câu, số & độ dài cảnh trám, chuyển cảnh, hiệu ứng cảnh,
+  phóng khung, mức tiếng nhấn). KHÔNG ghi đè khoá đã có trong cau-hinh.json. Ưu tiên: cau-hinh > `yeu_cau` > hồ sơ thương
+  hiệu (khoá ghi rõ trong file) > loại video > ngành. Giới hạn an toàn: tiếng nhấn −6…+4 dB, chuyển cảnh ≤ 4, hiệu ứng ≤ 3.
+- **16 ngành** (`nganh`): my-pham, spa-tham-my, trang-suc, thoi-trang, am-thuc, do-uong, gia-dung, cong-nghe, me-va-be,
+  thuc-pham-chuc-nang, du-lich, bat-dong-san, xe, giao-duc, tai-chinh, dich-vu (không ghi → theo hồ sơ, rồi tự đoán theo lời nói).
+- **10 loại video** (`loai_video`): review, mo_hop, so_sanh, huong_dan, top_n, khuyen_mai, ke_chuyen, hoi_thoai, phan_hoi,
+  dia_diem (không ghi → tự đoán; mặc định review). Mỗi loại có KHUNG (hook → … → kêu gọi).
+- **Yêu cầu bằng lời** (`"yeu_cau": "<lời người dùng>"`): ghi NGUYÊN câu người dùng nói về cách dựng ("sôi động hơn", "sang",
+  "ít chữ", "nhiều hiệu ứng", "nhịp nhanh", "nhiều cảnh trám", "chốt đơn", "kiểu chữ team", "hộp trắng"…) — công thức tự đổi
+  đúng thông số. Danh sách: `PY -I SK/scripts/cong_thuc.py ds`; xem trước 1 dự án: `cong_thuc.py xem projects/<du-an>`.
+- **AI ĐỌC `projects/<du-an>/cong-thuc.md` TRƯỚC KHI VIẾT `nhan`**: mật độ chữ gợi ý (chữ / phút), khung video theo loại, lưu ý
+  ngành, **gợi ý chữ theo sản phẩm** (giá → số to, ưu đãi → nhãn, thông số → chữ to / danh sách, thành phần → danh sách — rút
+  từ lời nói + kịch bản). Chạy `cong_thuc.py xem` sau khi có transcript để có file này trước khi viết chữ.
+- `"bo_chu": "kho_team"` (hoặc người dùng nói "dùng kiểu chữ của team"): mỗi chữ nhấn tự gắn kiểu kho team theo VAI (hook ·
+  ý chính · từ khoá / thông số · danh sách · mô tả · tên SP · giá · ưu đãi · CTA; kiểu theo ngành trong cong-thuc.json) và
+  **đổi màu nhấn của kiểu sang màu thương hiệu** đang dựng (trắng / đen giữ nguyên). Chữ đã ghi `"kho"` thì giữ.
+- Hồ sơ SANTAV ghi rõ `bo_chu: thuong_hieu` + `phong_cach: sang_trong` → video SANTAV giữ đúng kiểu cũ.
+
 ## KHO CHỮ CAPCUT CỦA TEAM — 82 kiểu thật (19/11/2026)
 - `kho/kho-text.md`: 82 kiểu chữ lấy từ 21 dự án team đã edit trong CapCut (job 11B14 → 11B18, có cả chỉnh tay), 6 nhóm:
   **H** Hook / tiêu đề mở đầu · **K** Từ khoá TO · **T** Ý chính / tính năng · **M** Mô tả / phụ đề · **N** Nhãn có nền / CTA ·
@@ -115,6 +135,7 @@ khi tới bước ghi project → nhờ đóng (không tự tắt).
 | 8 | Câu kêu gọi (nút giỏ hàng hiện từ đâu) | không | câu có "giỏ hàng / mua ngay / link" cuối video |
 | 9 | MP4 xem thử | không | KHÔNG (nhân sự tự xuất trong CapCut) |
 | 10 | Ghi chú riêng (clip không dùng, chữ bắt buộc…) | không | không có |
+| 11 | Ngành / loại video / yêu cầu cách dựng ("sôi động", "sang", "ít chữ"…) | không | ngành theo hồ sơ, loại video tự đoán; ghi lời người dùng vào `yeu_cau` (xem CÔNG THỨC DỰNG) |
 
 **Đọc file đi kèm trước khi hỏi:** thư mục footage có file tên chứa "kịch bản"/"kich-ban" (lời thoại) hoặc "ghi chú"/
 "ghi-chu" (thumbnail, chữ bắt buộc, clip không dùng, thứ tự cảnh) → đọc và áp dụng, không hỏi lại những gì đã ghi (tên có dấu

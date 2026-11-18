@@ -45,6 +45,7 @@ def tai_thuong_hieu(project_dir=None, ma=None):
     if not th:
         print(f"! Không đọc được hồ sơ thương hiệu {p} -> dùng mẫu chung")
     out = _gop(mau, th)
+    out["_ro"] = sorted(th.keys()) if th else []   # khoá GHI RÕ trong hồ sơ (cong_thuc.py ưu tiên hơn công thức ngành)
     # TỪ CẤM = cơ bản (luật QC, theo ngành — thuong-hieu/tu-cam-co-ban.json) + riêng của khách ("tu_cam" trong hồ sơ).
     # Nhân sự không phải điền lại từ cấm cơ bản; hồ sơ khách chỉ ghi thêm từ cấm riêng của brief (nếu có).
     cb = _doc(SKILL / "thuong-hieu" / "tu-cam-co-ban.json")

@@ -62,17 +62,34 @@ def transcribe(wav):
     # chữ nói lặp, nói dở, tiếng đệm -> không thấy chỗ vấp để cắt. Câu mồi kiểu nói vấp + không nối ngữ cảnh câu trước
     # khiến Whisper chép đúng từng tiếng, kể cả "rất… rất hiệ… hiệu quả".
     MOI = "Ờ, ừm… thì, thì cái này… à không, cái này rất là… rất là tốt, dạ dạ. "
-    segs, _ = m.transcribe(doc_am(wav), language="vi", word_timestamps=True, vad_filter=False,
-                           condition_on_previous_text=False, initial_prompt=MOI + th.TH.get("tu_vung", "") + ".")
-    segs = list(segs)
-    # Whisper "bịa" (subscribe / Ghiền Mì Gõ…) hoặc gần như không nghe được lời -> nghe lại có lọc khoảng lặng (VAD)
-    loi = " ".join(x.text for x in segs).lower()
-    nwords = sum(len(x.words or []) for x in segs)
-    if nwords < 30 or loi.count("subscribe") >= 2:
-        print("  ! Phiên âm lần 1 không đáng tin -> nghe lại có lọc khoảng lặng")
-        segs, _ = m.transcribe(doc_am(wav), language="vi", word_timestamps=True, vad_filter=True,
-                               condition_on_previous_text=False, initial_prompt=MOI + th.TH.get("tu_vung", "") + ".")
-        segs = list(segs)
+    am = doc_am(wav)
+    dai = len(am) / 16000
+    BIA = re.compile(r"subscribe|ghiền mì gõ|la la school|đăng ký kênh|cảm ơn (các bạn )?đã (xem|theo dõi)", re.I)
+
+    def nghe(vad, nguyen_van):
+        sg, _ = m.transcribe(am, language="vi", word_timestamps=True, vad_filter=vad,
+                             condition_on_previous_text=not nguyen_van,
+                             initial_prompt=(MOI if nguyen_van else "") + th.TH.get("tu_vung", "") + ".")
+        sg = [x for x in sg if not BIA.search(x.text)]          # bỏ câu Whisper bịa
+        ws = sorted((w for x in sg for w in (x.words or [])), key=lambda w: w.start)
+        phu = sum(w.end - w.start for w in ws)
+        ho = max([b.start - a.end for a, b in zip(ws, ws[1:])] + [ws[0].start if ws else dai,
+                                                                   dai - (ws[-1].end if ws else 0)])
+        return sg, phu, ho
+
+    # 1) NGUYÊN VĂN; Whisper hay "bỏ quên" cả khúc dài (vd chỉ nghe tới giây 30 của clip 54s) -> 2) nguyên văn + lọc khoảng
+    # lặng; vẫn hổng -> 3) nghe thường (đủ lời nhưng có thể dọn mất chỗ vấp — báo để AI đọc kỹ chỗ đó)
+    tot = None
+    for buoc, (vad, nv) in enumerate([(False, True), (True, True), (False, False)], 1):
+        sg, phu, ho = nghe(vad, nv)
+        if tot is None or phu > tot[1] * 1.15:
+            tot = (sg, phu, ho, buoc)
+        if ho <= 12 and phu >= 0.35 * dai:
+            break
+        print(f"  ! Phiên âm lần {buoc} hổng {ho:.0f}s (phủ lời {phu:.0f}/{dai:.0f}s) -> nghe lại cách khác")
+    segs = tot[0]
+    if tot[3] == 3:
+        print("  ! Dùng bản nghe THƯỜNG (bản nguyên văn bị hổng) — chỗ vấp có thể bị Whisper dọn mất: AI đọc kỹ / nghe lại")
     out = []
     for s in segs:
         out.append({"start": s.start, "end": s.end, "text": s.text,

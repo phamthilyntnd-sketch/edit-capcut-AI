@@ -32,6 +32,13 @@ def main():
     tu = float(a[a.index("--tu") + 1]) if "--tu" in a else 0.0
     den = float(a[a.index("--den") + 1]) if "--den" in a else 1e9
     segs = json.loads((P / "transcript.json").read_text(encoding="utf-8"))
+    # HỘI THOẠI 2 người (vợ hỏi – chồng đáp…): câu đáp hay lặp lại lời người kia ("Anh tìm hiểu kỹ đó." – "Ừ, anh tìm hiểu kỹ
+    # chứ sao?") và "Ừ / Dạ" là câu trả lời, KHÔNG phải nói vấp -> tắt dò "nói sai rồi nói lại" + tiếng đệm; chỉ bỏ Whisper
+    # bịa, câu lặp NGUYÊN câu (>= 90%) và mẩu lẻ. Bật: --hoi-thoai hoặc cau-hinh "hoi_thoai": true
+    cfg_ = json.loads((P / "cau-hinh.json").read_text(encoding="utf-8")) if (P / "cau-hinh.json").exists() else {}
+    hoi_thoai = "--hoi-thoai" in a or bool(cfg_.get("hoi_thoai"))
+    if hoi_thoai:
+        print("(chế độ HỘI THOẠI: không coi câu đáp / 'Ừ' là vấp)")
     W = [dict(w, n=norm(w["w"]), g=gi) for gi, sg in enumerate(segs) for w in sg.get("words", [])
          if tu <= w["s"] <= den and norm(w["w"])]
     bo = [False] * len(W)
@@ -74,7 +81,7 @@ def main():
     #    đúng"): tìm chỗ KOC quay lại nói lại (cụm từ ở j lặp lại cụm từ ở i phía trước, trong 8s / 14 từ, cho phép từ nói
     #    dở và tiếng đệm chen giữa) -> BỎ TRỌN từ đầu câu/cụm bị nói hỏng tới ngay trước chỗ nói lại, giữ LẦN NÓI CUỐI.
     #    Không giữ nửa câu sai ghép với nửa câu đúng.
-    j = 1
+    j = 1 if not hoi_thoai else len(W)
     while j < len(W):
         if W[j]["n"] in DEM:
             j += 1
@@ -120,7 +127,7 @@ def main():
     for i, w in enumerate(W):
         if bo[i]:
             continue
-        if w["n"] in DEM:
+        if w["n"] in DEM and not hoi_thoai:
             truoc = w["s"] - W[i - 1]["e"] if i else 9
             sau = W[i + 1]["s"] - w["e"] if i + 1 < len(W) else 9
             if (w["e"] - w["s"]) + truoc + sau >= 0.35:
@@ -154,7 +161,7 @@ def main():
             j0, j1, tx2 = SG[k2]
             a_, b_ = [W[x]["n"] for x in range(i0, i1 + 1)], [W[x]["n"] for x in range(j0, j1 + 1)]
             r = difflib.SequenceMatcher(None, a_, b_).ratio()
-            if r >= 0.6 and min(len(a_), len(b_)) >= 4:
+            if r >= (0.9 if hoi_thoai else 0.6) and min(len(a_), len(b_)) >= 4:
                 # nói lại câu ngay sau, HOẶC nói lại cả 1 ĐOẠN (câu kế tiếp của 2 lần cũng giống nhau) -> bỏ lần TRƯỚC
                 ke = k + 1 < len(SG) and k2 + 1 < len(SG) and difflib.SequenceMatcher(
                     None, [W[x]["n"] for x in range(SG[k + 1][0], SG[k + 1][1] + 1)],

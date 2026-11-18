@@ -75,17 +75,39 @@ def person_masks(frames, cache):
     return m
 
 
-def face_zone(person):
+def face_zone(person, so_nguoi=3):
+    """Vùng mặt của MỌI người trong khung (góp ý 18/11: cảnh 2 người chỉ thấy 1 mặt -> chữ đè mặt người kia).
+    Tìm mặt người cao nhất, xoá cột của người đó, tìm tiếp (tối đa so_nguoi); mặt sau phải nằm nửa trên khung."""
+    z = np.zeros_like(person)
+    p = person.copy()
+    for k in range(so_nguoi):
+        m, cot = _mot_mat(p)
+        if m is None:
+            break
+        rows = np.where(m.any(1))[0]
+        if k and (len(rows) == 0 or rows[0] > GH * 0.55):
+            break
+        z |= m
+        p[:, cot[0]:cot[1]] = False
+    return z
+
+
+def _mot_mat(person):
+    z, cot = _mot_mat_z(person)
+    return (z if z.any() else None), cot
+
+
+def _mot_mat_z(person):
     """Vùng mặt từ mặt nạ người: đỉnh đầu -> cổ (1.65 x bề rộng đầu), nới 30% hai bên. Trả mặt nạ GHxGW."""
     z = np.zeros_like(person)
     rows = np.where(person.sum(1) >= 4)[0]
     if len(rows) == 0:
-        return z
+        return z, (0, 0)
     top = rows[0]
     probe = min(GH - 1, top + 120 // S)
     xs = np.where(person[probe])[0]
     if len(xs) == 0:
-        return z
+        return z, (0, 0)
     # đầu = đoạn liền mạch quanh giữa các điểm người ở hàng dò
     mid = int(np.median(xs))
     x0 = x1 = mid
@@ -97,8 +119,9 @@ def face_zone(person):
     hw = min(hw, 420 // S)
     bot = min(GH, int(top + 1.65 * hw))
     pad = int(0.3 * hw)
-    z[max(0, top - 2):bot, max(0, x0 - pad):min(GW, x1 + pad + 1)] = True
-    return z
+    c0, c1 = max(0, x0 - pad), min(GW, x1 + pad + 1)
+    z[max(0, top - 2):bot, c0:c1] = True
+    return z, (c0, c1)
 
 
 def product_mask(fr):
@@ -241,7 +264,7 @@ def place_all(items, frames, person, faces, prods, fixed, out_dir):
         F = faces[f0:f1].mean(0) if f1 > f0 else np.zeros((GH, GW))
         Pm = prods[f0:f1].mean(0) if f1 > f0 else np.zeros((GH, GW))
         Pe = person[f0:f1].mean(0) if f1 > f0 else np.zeros((GH, GW))
-        cost_map = 40 * F + 30 * Pm + W_NGUOI * Pe       # mặt / sản phẩm / người: gần như cấm hẳn
+        cost_map = 40 * F + 30 * Pm + it.get("w_nguoi", W_NGUOI) * Pe   # mặt / sản phẩm / người: gần như cấm hẳn
         ban = np.zeros((GH, GW))
         for fa, fb, m in fixed + placed:
             if fa < it["b"] and fb > it["a"]:
@@ -262,7 +285,10 @@ def place_all(items, frames, person, faces, prods, fixed, out_dir):
             sh, sw = bx.shape
             if rows:
                 cand_y = [max(safe_top, min(safe_bot - sh, int(round(cy / S - sh / 2)))) for cy in rows]
-                cand_x = [(GW - sw) // 2]
+                # căn giữa là chính; giữa bị đè người/mặt thì thử lệch trái / phải (vẫn trong vùng an toàn:
+                # mép trái >= 60px, mép phải <= 960px né cột nút TikTok) — bị trừ điểm nên chỉ dùng khi cần
+                lech = [x for x in (60 // S, (GW - sw) // 2, 960 // S - sw) if 60 // S <= x <= 960 // S - sw]
+                cand_x = sorted(set([(GW - sw) // 2] + lech))
             else:
                 cand_y = range(safe_top, safe_bot - sh + 1, 2)
                 cand_x = range(30 // S, GW - 30 // S - sw + 1, 3)
@@ -270,6 +296,8 @@ def place_all(items, frames, person, faces, prods, fixed, out_dir):
                 for nx in cand_x:
                     c = float((cost_map[ny:ny + sh, nx:nx + sw] * bx).sum() / bx.sum())
                     c += 0.05 * abs(nx - (GW - sw) / 2) / GW          # hơi ưu tiên giữa
+                    if rows and nx != (GW - sw) // 2:
+                        c += 0.3                                     # hàng cố định: lệch chỉ khi giữa bị đè
                     c += 0.45 * (1 - sc)                             # ưu tiên giữ cỡ chữ
                     if pref is not None:
                         c += 0.25 * abs(ny * S - pref) / H             # gần vị trí gợi ý

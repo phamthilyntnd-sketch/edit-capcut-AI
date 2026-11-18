@@ -1149,7 +1149,9 @@ def main():
                      ]
             all_rows = tc.ROWS["tren"] + tc.ROWS["duoi"]
             items = [{"name": "thumb", "png": chu / "thumb.png", "a": 0, "b": min(cfg["thumb_dur"], total),
-                      "rows": tc.ROWS["tren"] if basic else all_rows, "pref_y": None if basic else 1170}]   # Basic: thumbnail dải TRÊN (không đè thân/sản phẩm)
+                      "rows": tc.ROWS["tren"] if basic else all_rows, "pref_y": None if basic else 1170,
+                      # thumbnail luôn phải có: được đè lên THÂN người (trừ nhẹ) nhưng KHÔNG đè MẶT / sản phẩm
+                      "w_nguoi": 1.0}]   # Basic: thumbnail dải TRÊN (không đè thân/sản phẩm)
             # nút giỏ hàng + dòng pháp lý cũng phải né người / sản phẩm (cảnh cuối thường có hộp sản phẩm trên bàn)
             if nqc:
                 items.append({"name": "phaply", "png": chu / "phaply.png", "a": cta_a, "b": total, "rows": all_rows,

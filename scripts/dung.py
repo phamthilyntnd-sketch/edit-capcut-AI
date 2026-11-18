@@ -1090,6 +1090,14 @@ def main():
     sil = silences(aroll)
     env = envelope(aroll)
     words = [w for sg in segs for w in sg.get("words", [])]
+    # Mốc từ ĐÃ SIẾT theo tiếng thật (cat_sach.py) -> cắt đúng như bản đã tự nghe lại (--kiem). Mốc Whisper thô hay
+    # kéo đầu từ lùi vào quãng im -> chặn mất vết cắt -> còn khoảng trống ~1s (góp ý 18/11 O-5).
+    sach = P / "cat" / "transcript-sach.json"
+    if sach.exists() and sach.stat().st_mtime >= (P / "transcript.json").stat().st_mtime:
+        try:
+            words = [w for sg in json.loads(sach.read_text(encoding="utf-8")) for w in sg.get("words", [])] or words
+        except Exception:
+            pass
     pieces, total = build_pieces(cfg["keeps"], sil, words=words, env=env, dai_clip=clip_dur(aroll),
                                  cam=cfg.get("cat_tieng", []),
                                  tho=(float(cfg["cho_giua_cau"]) / 2 if cfg.get("cho_giua_cau") else None))

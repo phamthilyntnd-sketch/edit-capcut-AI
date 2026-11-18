@@ -52,6 +52,26 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
   CapCut đã kiểm đủ dấu: CapCut Sans, Montserrat Bold, Anton, Coiny, Sigmar One, Amatic SC, Source Serif 4; font CapCut họ
   "ZY…", Corben, DynaPuff, Bounce House **thiếu dấu tiếng Việt — cấm dùng**.
 
+## KHO CHỮ CAPCUT CỦA TEAM — 82 kiểu thật (19/11/2026)
+- `kho/kho-text.md`: 82 kiểu chữ lấy từ 21 dự án team đã edit trong CapCut (job 11B14 → 11B18, có cả chỉnh tay), 6 nhóm:
+  **H** Hook / tiêu đề mở đầu · **K** Từ khoá TO · **T** Ý chính / tính năng · **M** Mô tả / phụ đề · **N** Nhãn có nền / CTA ·
+  **D** Chữ đặc biệt (ART vàng 3D, neon, bong bóng). Mỗi kiểu là chữ CapCut thật: font, màu, viền, bóng, hiệu ứng chữ, hoạt ảnh.
+  CHỈ ĐỌC phần danh mục + "Quy tắc chọn chữ" ở đầu file (phần `<!--KHO ...-->` cuối file là dữ liệu cho công cụ).
+- Tra nhanh: `PY -I SK/scripts/kho_text.py ds [H|K|T|M|N|D]` · `kho_text.py xem <mã>` · `kho_text.py cau <từ khoá>`.
+- DÙNG: trong `nhan` của cau-hinh.json thêm `"kho": "<mã>"` (vd `{"khi": "...", "kieu": "chinh", "chu": [...], "kho": "H02"}`)
+  → `dung.py` nhân bản ĐÚNG kiểu đó cho chữ (giữ nội dung, thời gian, vị trí do bố cục chọn; tự thu nhỏ khi chữ dài hơn mẫu;
+  dùng hoạt ảnh của kiểu, không gắn hoạt ảnh xoay vòng). Chữ không ghi `kho` vẫn theo bộ kiểu chữ `bo_chu` như cũ.
+- Chọn theo quy tắc của kho: 1 Hook (H) phủ câu mở đầu → 3–5 Ý chính (T) / Từ khoá (K) dồn vào 2/3 đầu → Nhãn/CTA (N);
+  cả video giữ 1 họ font + 1 màu thương hiệu; nhóm D chỉ cho tên quán / khẩu hiệu, 1–2 lần / video. Màu của kiểu là màu
+  thương hiệu của dự án gốc — chọn kiểu có màu hợp thương hiệu đang dựng (hoặc chỉ dùng kiểu trắng / đen).
+- Font: font cài riêng trên máy người làm kho được thay bằng font kèm skill (đủ dấu tiếng Việt): Montserrat* → Montserrat
+  Bold · Be Vietnam Pro / Lexend Deca / Phudu / Helvetica / SVN-Gilroy / UTM Flavour → Be Vietnam Pro cùng độ đậm (Black →
+  900). Font / hiệu ứng / hoạt ảnh có mã thư viện CapCut thì CapCut tự tải trên máy khác.
+- Bản MP4 xem thử vẫn vẽ chữ theo `bo_chu` (không có kiểu kho) — kiểu kho chỉ hiện đúng trong project CapCut.
+- **Câu chữ mẫu** (gộp chung trong `kho/kho-text.md`, mục `## CÂU CHỮ MẪU` cuối file): 1.691 câu chữ trên màn hình của 81 dự
+  án (hook, tên SP, CTA theo từng clip). Không đọc cả mục — tra `PY -I SK/scripts/kho_text.py cau <từ khoá>` (ngành / sản phẩm /
+  "giỏ hàng"…) để viết chữ nhấn cùng giọng team. Nội dung của khách: chỉ học cách viết, KHÔNG chép nguyên văn cho thương hiệu khác.
+
 ## QUY CHUẨN DỰ ÁN V3 (18/11/2026 — áp dụng mặc định)
 - **1 dự án = 1 project CapCut**, tên = `-` + tên folder dự án (vd folder `11B17.2 -STV T11_400K` → project `-11B17.2 -STV T11_400K`).
   Mọi video của dự án nối tiếp trên cùng timeline, **ngăn cách bằng điểm đánh dấu** (tên = mã video); nhân sự tự xuất từng

@@ -241,6 +241,8 @@ def patch_fonts(draft_dir, font_path, by_text=None):
                 txt = json.loads(t["content"]).get("text", "")
             except Exception:
                 txt = ""
+            if txt in by_text and by_text[txt] is None:
+                continue                  # chữ theo kho chữ team: giữ font kho đã gắn
             fpath, ften = by_text.get(txt, (font_path, "Be Vietnam Pro SemiBold"))
             fp = Path(fpath).as_posix()
             t.update(font_path=fp, font_resource_id="", font_source_platform=0, font_title=ften,

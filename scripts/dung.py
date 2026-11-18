@@ -1606,9 +1606,17 @@ def main():
                     by_text["\n".join(tc.lines(n))] = (fw, tc.FONT_TEN[tc.FONT_W[k_]])
                 for txt_, w_ in thumb_font.items():
                     by_text[txt_] = (tc.project_font(P, w_) or fp, tc.FONT_TEN[w_])
+                for n in nhans:            # chữ theo KHO CHỮ team: giữ font của kho (kho_text.ap_kho tự gắn font)
+                    if n.get("kho"):
+                        by_text["\n".join(tc.lines(n))] = None
                 print(f"Font: Be Vietnam Pro cho {tc.patch_fonts(res['draft_path'], fp, by_text)} chữ")
             else:
                 print("! Chưa có font Be Vietnam Pro (chạy: font_viet.py tai be-vietnam-pro) — CapCut dùng font mặc định")
+            # KHO CHỮ TEAM (kho/kho-text.md): chữ nhấn ghi "kho": "<mã>" -> nhân bản đúng kiểu (font, màu, viền, hiệu ứng, hoạt ảnh)
+            kho_muc = [{"text": "\n".join(tc.lines(n)), "start": n["a"], "kho": n["kho"]} for n in nhans if n.get("kho")]
+            if kho_muc:
+                import kho_text
+                print(f"Kho chữ team: {kho_text.ap_kho(res['draft_path'], kho_muc, P)}/{len(kho_muc)} chữ theo kiểu kho")
             # hiệu ứng chữ vào/ra có sẵn của CapCut cho từng chữ nhấn
             dc = json.loads((Path(res["draft_path"]) / "draft_content.json").read_text(encoding="utf-8"))
             mat = {t["id"]: json.loads(t["content"]).get("text", "") for t in dc["materials"].get("texts", [])}
@@ -1616,6 +1624,8 @@ def main():
                       for tr in dc["tracks"] if tr["type"] == "text" for sg in tr["segments"]]
             na = 0
             for n in nhans:
+                if n.get("kho"):
+                    continue            # kiểu kho đã có hoạt ảnh riêng
                 txt = "\n".join(tc.lines(n))
                 hit = [sid for sid, tx, st in segs_t if tx == txt and abs(st - n["a"]) < 0.05]
                 if not hit:

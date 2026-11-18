@@ -44,6 +44,7 @@ Tóm tắt:
 |---|---|
 | `SKILL.md` | Quy trình + quy tắc cho Claude |
 | `scripts/dung.py` | Dựng: cắt, cảnh trám, chữ, hiệu ứng, tiếng, MP4, project CapCut, kiểm tra |
+| `scripts/kho_text.py` + `kho/kho-text.md` | Kho 82 kiểu chữ CapCut thật của team (6 nhóm H/K/T/M/N/D); chữ nhấn ghi `"kho": "<mã>"` được nhân bản đúng kiểu. gộp chung 1.691 câu chữ mẫu (`kho_text.py cau <từ khoá>`) |
 | `scripts/cat_sach.py` | CẮT SẠCH: khớp kịch bản (giữ lần nói đầy đủ cuối), dò vấp bằng tiếng thật, bảng đọc lại, trang duyệt nghe trước/sau, tự nghe lại bản cắt |
 | `scripts/cat_vap.py` | Tìm chỗ nói vấp / nói lại / tiếng đệm từ phiên âm, đề xuất đoạn giữ (không cần bộ công cụ ngoài) |
 | `scripts/chuan_bi.py` | Chuyển footage, phiên âm, bảng ảnh, tra brief |

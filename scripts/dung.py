@@ -785,6 +785,18 @@ def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None, chon=None)
                 keep[-1] = x
             continue
         keep.append(x)
+    # THƯA TIẾNG CHUYỂN CẢNH (góp ý O-5 20/11: "âm thanh chuyển cảnh lặp đi lặp lại nhiều quá"): KHÔNG gắn tiếng cho mọi lần
+    # vào / ra cảnh trám — chỉ chỗ có chuyển cảnh thật (đổi bối cảnh rõ), tối đa ~1 tiếng / "sfx_chuyen_cach" giây (mặc định 9).
+    # Vào cảnh trám không có chuyển cảnh: im (bật lại: "sfx_vao_tram": true).
+    cach_ = float(cfg.get("sfx_chuyen_cach", 9.0))
+    moc, keep2 = -99.0, []
+    for x in keep:
+        if x[1] in ("tram", "chuyen"):
+            if (x[1] == "tram" and not cfg.get("sfx_vao_tram", False)) or x[0] - moc < cach_:
+                continue
+            moc = x[0]
+        keep2.append(x)
+    keep = keep2
     if chon is None:
         import kho_tieng
         chon = kho_tieng.BoChon(cfg.get("phong_cach") or "nang_dong", sfx_dir=SFX_DIR, thu_vien=False,

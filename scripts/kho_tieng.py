@@ -135,7 +135,7 @@ class BoChon:
         self.tu_tao = ct.get("tu_tao", {})
         self.thu_vien = thu_vien
         self.da_dang = da_dang
-        self.dem, self.truoc = {}, None
+        self.dem, self.truoc, self.da_dung = {}, None, {}
         kho = xem_kho() if thu_vien else []
         self.tv = {}
         for v in VAI:
@@ -157,14 +157,24 @@ class BoChon:
         # chữ: tiếng LUÔN cùng họ với kiểu chữ hiện (góp ý 16/11), xoay trong họ; chỗ khác: theo vai, trừ khi đa dạng thấp
         if goi_y and (vai == "chu" or self.da_dang != "cao" or not pool):
             pool = ho or [goi_y]
+        if vai != "chu" and pool and all(self.da_dung.get(x, 0) for x in pool):
+            # đã dùng hết danh sách -> mượn tiếng cùng loại (danh sách chung của vai, rồi vai gần nghĩa) trước khi lặp
+            gan = {"chuyen": ["tram"], "tram": ["chuyen"], "gia": ["cta"], "cta": ["gia"], "ket": ["san_pham"],
+                   "san_pham": ["ket"]}.get(vai, [])
+            for v2 in [vai] + gan:
+                for x in self.tu_tao.get(v2, {}).get("_", []):
+                    if x not in pool:
+                        pool = pool + [x]
         pool = [x for x in pool if self._co(x)] or ([goi_y] if goi_y and self._co(goi_y) else ["pop"])
+        # KHÔNG LẶP trong cả video khi còn tiếng khác (góp ý O-5 20/11): lấy tiếng DÙNG ÍT NHẤT trong danh sách,
+        # hoà thì theo thứ tự xoay vòng; không bao giờ 2 lần liền giống nhau
         k = ("t", tuple(pool))
         i = self.dem.get(k, 0)
-        n = pool[i % len(pool)]
-        if n == self.truoc and len(pool) > 1:
-            i += 1
-            n = pool[i % len(pool)]
+        thu_tu = [pool[(i + j) % len(pool)] for j in range(len(pool))]
+        ung = [x for x in thu_tu if x != self.truoc] or thu_tu
+        n = min(ung, key=lambda x: self.da_dung.get(x, 0))
         self.dem[k] = i + 1
+        self.da_dung[n] = self.da_dung.get(n, 0) + 1
         self.truoc = n
         return n
 

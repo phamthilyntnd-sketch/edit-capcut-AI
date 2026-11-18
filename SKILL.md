@@ -60,6 +60,9 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
 - **Tiếng nhấn theo VAI** (`scripts/kho_tieng.py`, bảng `kho/cong-thuc.json` "tieng"): chu · tram · chuyen · san_pham · gia
   (chữ có giá / % / giảm…) · cta · hoi · cao_trao · ket. Mỗi vai có danh sách theo phong cách, xoay vòng, không lặp liền nhau;
   tiếng của chữ luôn cùng HỌ với kiểu chữ hiện (pop → pop / pop-2 / bubble…). 26 tiếng tự tạo (`tao_sfx.py`, không bản quyền).
+  **THƯA tiếng chuyển cảnh** (góp ý O-5 20/11 "âm thanh chuyển cảnh lặp nhiều quá"): vào cảnh trám KHÔNG có chuyển cảnh thì im;
+  chỉ chỗ có chuyển cảnh thật mới có tiếng, tối đa ~1 tiếng / 9s (`"sfx_chuyen_cach"`; bật lại tiếng mọi lần vào cảnh trám:
+  `"sfx_vao_tram": true`). Mỗi lần chọn lấy tiếng DÙNG ÍT NHẤT trong video — chỉ lặp khi đã dùng hết tiếng cùng loại.
 - **Tiếng THƯ VIỆN CAPCUT** (có mã, CapCut tự tải trên máy khác): skill KHÔNG bịa cấu trúc — học từ draft thật. Người dùng thả
   20–30 tiếng từ CapCut (Âm thanh › Hiệu ứng âm thanh) vào 1 project (tên gợi ý "-KHO TIENG"), lưu, ĐÓNG CapCut, rồi chạy
   `PY -I SK/scripts/kho_tieng.py thu` → `kho/tieng-capcut.json` (mẫu material chép nguyên, vai đoán theo tên — sửa khoá "vai"

@@ -1,0 +1,1343 @@
+{
+ "nguon": "Ảnh bìa TikTok Việt Nam, trang Khám phá + hashtag, 18/11/2026 (chỉ tham khảo, không lưu ảnh)",
+ "nhom": {
+  "1": {
+   "ten": "Phụ đề trắng / câu kể",
+   "mo_ta": "Chữ trắng đậm vừa, bóng mờ hoặc viền mảnh, câu kể tự nhiên (pov, vlog).",
+   "capcut": "CapCut Sans Text Bold trắng, Bóng đổ 50%. Vào: Fade In / Typewriter."
+  },
+  "2": {
+   "ten": "Hộp trắng (hoặc màu) – chữ đen",
+   "mo_ta": "Nền trắng/vàng bo góc ôm dòng chữ đen đậm; có kiểu 2 hộp trên–dưới.",
+   "capcut": "Chữ đen + Nền chữ trắng bo góc ~20; dòng nhấn nền vàng #FFE14D. Vào: Pop Up."
+  },
+  "3": {
+   "ten": "Thẻ trả lời bình luận",
+   "mo_ta": "Thẻ trắng nhỏ giả bình luận khách, dòng tên xám, câu hỏi đen.",
+   "capcut": "1 lớp, dòng 1 nhỏ xám, dòng 2 đen đậm, Nền chữ trắng bo góc, góc trên."
+  },
+  "4": {
+   "ten": "Chữ có chân sang trọng",
+   "mo_ta": "Tên thương hiệu serif in hoa trắng/vàng kim + dòng nhỏ giãn chữ.",
+   "capcut": "Source Serif 4 Bold Italic (đủ dấu) trắng/vàng #E9C46A + bóng; dòng nhỏ CapCut Sans."
+  },
+  "5": {
+   "ten": "Viết tay + dòng nhỏ",
+   "mo_ta": "Tên sản phẩm viết tay mềm, kèm dòng mô tả nhỏ.",
+   "capcut": "Font viết tay đủ dấu trong CapCut (kiểm trước) + bóng mờ. Vào: Fade In / Blur."
+  },
+  "6": {
+   "ten": "Ghép viết tay + in đậm",
+   "mo_ta": "Dòng viết tay nhỏ (màu nhấn) chồng lên dòng in hoa đậm to – kiểu tạp chí.",
+   "capcut": "2 lớp: viết tay vàng/trắng + Montserrat Bold/Anton; vào lệch 0,2s."
+  },
+  "7": {
+   "ten": "In hoa đậm viền đen",
+   "mo_ta": "Chữ trắng rất to, viền đen dày – kiểu ảnh bìa, đọc từ xa.",
+   "capcut": "Anton / Montserrat Bold trắng, Viền đen 8–12. Vào: Zoom Out."
+  },
+  "8": {
+   "ten": "Chữ phồng dễ thương",
+   "mo_ta": "Chữ tròn phồng pastel/màu tươi, viền trắng dày, sticker tim/lấp lánh.",
+   "capcut": "Coiny màu pastel + Viền trắng dày + bóng; sticker từ kho Sticker CapCut. Vào: Bounce In."
+  },
+  "9": {
+   "ten": "Số / giá cực to",
+   "mo_ta": "Giá, số tiền, diện tích chiếm 1/3 khung, dòng phụ nhỏ.",
+   "capcut": "Anton cỡ lớn, viền dày; dòng phụ vàng/viết tay. Vào: Zoom Out / Pop Up."
+  },
+  "10": {
+   "ten": "Nhãn nền màu + tiêu đề",
+   "mo_ta": "Nhãn nhỏ nền màu (loại SP, Ghé thăm) + tên to; hoặc khung màu bọc tiêu đề.",
+   "capcut": "2 lớp: Nền chữ màu bo góc + tiêu đề Anton/Montserrat. Vào: Wipe Right."
+  },
+  "11": {
+   "ten": "Top N / danh sách",
+   "mo_ta": "Số to (5, Top 10) + chữ in hoa, nhãn đỏ/vàng.",
+   "capcut": "Số Anton màu nhấn; chữ Montserrat Bold viền đen; mỗi ý hiện lần lượt."
+  },
+  "12": {
+   "ten": "Tối giản giãn chữ",
+   "mo_ta": "Chữ in hoa nhỏ vừa, giãn chữ, trắng/kem + dòng phụ nhỏ. Sạch, cao cấp.",
+   "capcut": "Montserrat Bold / Source Serif trắng, Letter spacing rộng. Vào: Fade In."
+  },
+  "13": {
+   "ten": "Nhãn tập / series",
+   "mo_ta": "Mẹ bầu tập 2, Phần 13, Phần 34 – đánh số loạt video.",
+   "capcut": "Chữ trắng in hoa + nhãn số nền màu; lưu thành Mẫu chữ để dùng lại."
+  },
+  "14": {
+   "ten": "Câu hỏi gây tò mò",
+   "mo_ta": "Câu hỏi/lời hứa ở đầu video, chữ trắng in hoa + dòng nhấn vàng.",
+   "capcut": "Montserrat Bold trắng; dòng nhấn Nền chữ vàng chữ đen; sticker mắt từ kho CapCut."
+  },
+  "15": {
+   "ten": "Nhãn chỉ tên sản phẩm",
+   "mo_ta": "Tên từng món đặt cạnh sản phẩm khi so sánh.",
+   "capcut": "Mỗi tên 1 lớp chữ trắng đậm + bóng, đặt cạnh từng món."
+  },
+  "16": {
+   "ten": "Ảnh bìa kiểu YouTube",
+   "mo_ta": "Review viết tay + tên SP in hoa 2 màu + thông số nhỏ.",
+   "capcut": "3 lớp: viết tay, Anton 2 màu, thông số nhỏ; 1/3 dưới, không che mặt."
+  },
+  "17": {
+   "ten": "Vàng / đỏ viền đậm (bán hàng nóng)",
+   "mo_ta": "Chữ vàng hoặc đỏ, viền đen/trắng dày, nhiều dấu chấm hỏi – đồ ăn, khuyến mãi.",
+   "capcut": "Montserrat Bold/Anton vàng #FFD60A viền đen 10 hoặc đỏ viền trắng. Lặp: Pulse."
+  },
+  "18": {
+   "ten": "Bảng chữ dày (thẻ học / thông tin)",
+   "mo_ta": "Cả khung là bảng chữ: từ vựng, danh sách song ngữ, infographic.",
+   "capcut": "Nhiều lớp chữ CapCut Sans trên Nền chữ trắng/màu; chia cột; dùng cho video học."
+  },
+  "19": {
+   "ten": "Chữ hoạt hình cho trẻ em",
+   "mo_ta": "Chữ phồng nhiều màu, viền dày, kèm nhân vật hoạt hình.",
+   "capcut": "Coiny / Sigmar One nhiều màu + viền trắng dày; sticker từ kho CapCut."
+  },
+  "21": {
+   "ten": "Tiêu đề nhiều tầng nhấn 1 dòng",
+   "mo_ta": "3 dòng xếp chồng, dòng giữa đổi màu (vàng) – lịch trình, tên địa điểm.",
+   "capcut": "1 lớp, tô màu dòng giữa bằng tô màu từng đoạn; Montserrat Bold trắng + bóng."
+  }
+ },
+ "mau": [
+  {
+   "id": 1,
+   "nhom": 3,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 2,
+   "nhom": 1,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 3,
+   "nhom": 5,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 4,
+   "nhom": 8,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 5,
+   "nhom": 10,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 6,
+   "nhom": 8,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 7,
+   "nhom": 5,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 8,
+   "nhom": 8,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 9,
+   "nhom": 4,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 10,
+   "nhom": 5,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 11,
+   "nhom": 1,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 12,
+   "nhom": 10,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 13,
+   "nhom": 10,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 14,
+   "nhom": 12,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 15,
+   "nhom": 8,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 16,
+   "nhom": 8,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 17,
+   "nhom": 12,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 18,
+   "nhom": 1,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 19,
+   "nhom": 8,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 20,
+   "nhom": 4,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 21,
+   "nhom": 8,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 22,
+   "nhom": 5,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 23,
+   "nhom": 15,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 24,
+   "nhom": 12,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 25,
+   "nhom": 6,
+   "nganh": "Ẩm thực",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 26,
+   "nhom": 4,
+   "nganh": "Ẩm thực",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 27,
+   "nhom": 9,
+   "nganh": "Ẩm thực",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 28,
+   "nhom": 17,
+   "nganh": "Ẩm thực",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 29,
+   "nhom": 7,
+   "nganh": "Gia dụng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 30,
+   "nhom": 2,
+   "nganh": "Gia dụng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 31,
+   "nhom": 12,
+   "nganh": "Gia dụng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 32,
+   "nhom": 12,
+   "nganh": "Gia dụng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 33,
+   "nhom": 5,
+   "nganh": "Gia dụng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 34,
+   "nhom": 2,
+   "nganh": "Gia dụng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 35,
+   "nhom": 12,
+   "nganh": "Gia dụng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 36,
+   "nhom": 12,
+   "nganh": "Gia dụng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 37,
+   "nhom": 5,
+   "nganh": "Thời trang",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 38,
+   "nhom": 1,
+   "nganh": "Thời trang",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 39,
+   "nhom": 2,
+   "nganh": "Thời trang",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 40,
+   "nhom": 2,
+   "nganh": "Thời trang",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 41,
+   "nhom": 2,
+   "nganh": "Thời trang",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 42,
+   "nhom": 7,
+   "nganh": "Thời trang",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 43,
+   "nhom": 12,
+   "nganh": "Thời trang",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 44,
+   "nhom": 6,
+   "nganh": "Công nghệ",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 45,
+   "nhom": 2,
+   "nganh": "Công nghệ",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 46,
+   "nhom": 16,
+   "nganh": "Công nghệ",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 47,
+   "nhom": 13,
+   "nganh": "Công nghệ",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 48,
+   "nhom": 11,
+   "nganh": "Công nghệ",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 49,
+   "nhom": 10,
+   "nganh": "Công nghệ",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 50,
+   "nhom": 12,
+   "nganh": "Mẹ và bé",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 51,
+   "nhom": 5,
+   "nganh": "Mẹ và bé",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 52,
+   "nhom": 12,
+   "nganh": "Mẹ và bé",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 53,
+   "nhom": 13,
+   "nganh": "Mẹ và bé",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 54,
+   "nhom": 5,
+   "nganh": "Mẹ và bé",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 55,
+   "nhom": 7,
+   "nganh": "Mẹ và bé",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 56,
+   "nhom": 10,
+   "nganh": "Mẹ và bé",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 57,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 58,
+   "nhom": 6,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 59,
+   "nhom": 6,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 60,
+   "nhom": 1,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 61,
+   "nhom": 6,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 62,
+   "nhom": 17,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 63,
+   "nhom": 17,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 64,
+   "nhom": 10,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 65,
+   "nhom": 5,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 66,
+   "nhom": 4,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 67,
+   "nhom": 10,
+   "nganh": "Spa – làm đẹp",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 68,
+   "nhom": 11,
+   "nganh": "Du lịch",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 69,
+   "nhom": 6,
+   "nganh": "Du lịch",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 70,
+   "nhom": 6,
+   "nganh": "Du lịch",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 71,
+   "nhom": 12,
+   "nganh": "Du lịch",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 72,
+   "nhom": 21,
+   "nganh": "Du lịch",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 73,
+   "nhom": 7,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 74,
+   "nhom": 2,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 75,
+   "nhom": 4,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 76,
+   "nhom": 9,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 77,
+   "nhom": 7,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 78,
+   "nhom": 7,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 79,
+   "nhom": 10,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 80,
+   "nhom": 9,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 81,
+   "nhom": 10,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 82,
+   "nhom": 14,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 83,
+   "nhom": 1,
+   "nganh": "Nhà – bất động sản",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 84,
+   "nhom": 1,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 85,
+   "nhom": 12,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 86,
+   "nhom": 1,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 87,
+   "nhom": 12,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 88,
+   "nhom": 1,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 89,
+   "nhom": 12,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 90,
+   "nhom": 5,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 91,
+   "nhom": 6,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 92,
+   "nhom": 12,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 93,
+   "nhom": 8,
+   "nganh": "Quán cafe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 94,
+   "nhom": 9,
+   "nganh": "Xe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 95,
+   "nhom": 1,
+   "nganh": "Xe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 96,
+   "nhom": 14,
+   "nganh": "Xe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 97,
+   "nhom": 6,
+   "nganh": "Xe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 98,
+   "nhom": 9,
+   "nganh": "Xe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 99,
+   "nhom": 10,
+   "nganh": "Xe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 100,
+   "nhom": 3,
+   "nganh": "Xe",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 101,
+   "nhom": 7,
+   "nganh": "Thực phẩm chức năng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 102,
+   "nhom": 12,
+   "nganh": "Thực phẩm chức năng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 103,
+   "nhom": 7,
+   "nganh": "Thực phẩm chức năng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 104,
+   "nhom": 12,
+   "nganh": "Thực phẩm chức năng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 105,
+   "nhom": 5,
+   "nganh": "Thực phẩm chức năng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 106,
+   "nhom": 6,
+   "nganh": "Thực phẩm chức năng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 107,
+   "nhom": 12,
+   "nganh": "Thực phẩm chức năng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 108,
+   "nhom": 8,
+   "nganh": "Thực phẩm chức năng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 109,
+   "nhom": 12,
+   "nganh": "Thực phẩm chức năng",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 110,
+   "nhom": 15,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 111,
+   "nhom": 4,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 112,
+   "nhom": 6,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 113,
+   "nhom": 6,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 114,
+   "nhom": 5,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 115,
+   "nhom": 6,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 116,
+   "nhom": 4,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 117,
+   "nhom": 6,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 118,
+   "nhom": 5,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 119,
+   "nhom": 5,
+   "nganh": "Trang sức",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 120,
+   "nhom": 18,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 121,
+   "nhom": 19,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 122,
+   "nhom": 7,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 123,
+   "nhom": 7,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 124,
+   "nhom": 18,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 125,
+   "nhom": 18,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 126,
+   "nhom": 18,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 127,
+   "nhom": 19,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 128,
+   "nhom": 18,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 129,
+   "nhom": 18,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 130,
+   "nhom": 12,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 131,
+   "nhom": 18,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 132,
+   "nhom": 18,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 133,
+   "nhom": 18,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 134,
+   "nhom": 19,
+   "nganh": "Giáo dục",
+   "loai": "Bài học"
+  },
+  {
+   "id": 135,
+   "nhom": 7,
+   "nganh": "TikTok Shop",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 136,
+   "nhom": 2,
+   "nganh": "TikTok Shop",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 137,
+   "nhom": 7,
+   "nganh": "TikTok Shop",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 138,
+   "nhom": 11,
+   "nganh": "TikTok Shop",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 139,
+   "nhom": 1,
+   "nganh": "TikTok Shop",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 140,
+   "nhom": 2,
+   "nganh": "TikTok Shop",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 141,
+   "nhom": 17,
+   "nganh": "Ẩm thực",
+   "loai": "Mẹo / Hướng dẫn"
+  },
+  {
+   "id": 142,
+   "nhom": 11,
+   "nganh": "Ẩm thực",
+   "loai": "Mẹo / Hướng dẫn"
+  },
+  {
+   "id": 143,
+   "nhom": 1,
+   "nganh": "Ẩm thực",
+   "loai": "Mẹo / Hướng dẫn"
+  },
+  {
+   "id": 144,
+   "nhom": 1,
+   "nganh": "Ẩm thực",
+   "loai": "Mẹo / Hướng dẫn"
+  },
+  {
+   "id": 145,
+   "nhom": 9,
+   "nganh": "Ẩm thực",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 146,
+   "nhom": 7,
+   "nganh": "Ẩm thực",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 147,
+   "nhom": 10,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 148,
+   "nhom": 17,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 149,
+   "nhom": 8,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 150,
+   "nhom": 8,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 151,
+   "nhom": 9,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 152,
+   "nhom": 17,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 153,
+   "nhom": 10,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 154,
+   "nhom": 4,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 155,
+   "nhom": 8,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 156,
+   "nhom": 7,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 157,
+   "nhom": 1,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 158,
+   "nhom": 2,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 159,
+   "nhom": 8,
+   "nganh": "Đồ uống",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 160,
+   "nhom": 5,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 161,
+   "nhom": 12,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 162,
+   "nhom": 2,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 163,
+   "nhom": 7,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 164,
+   "nhom": 5,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 165,
+   "nhom": 2,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 166,
+   "nhom": 17,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 167,
+   "nhom": 4,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 168,
+   "nhom": 8,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 169,
+   "nhom": 10,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 170,
+   "nhom": 11,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 171,
+   "nhom": 5,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 172,
+   "nhom": 10,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 173,
+   "nhom": 3,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 174,
+   "nhom": 12,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 175,
+   "nhom": 13,
+   "nganh": "Mỹ phẩm",
+   "loai": "Review sản phẩm / địa điểm"
+  },
+  {
+   "id": 176,
+   "nhom": 12,
+   "nganh": "Thời trang",
+   "loai": "Lookbook / Phối đồ"
+  },
+  {
+   "id": 177,
+   "nhom": 12,
+   "nganh": "Thời trang",
+   "loai": "Lookbook / Phối đồ"
+  },
+  {
+   "id": 178,
+   "nhom": 2,
+   "nganh": "Thời trang",
+   "loai": "Lookbook / Phối đồ"
+  },
+  {
+   "id": 179,
+   "nhom": 1,
+   "nganh": "Thời trang",
+   "loai": "Lookbook / Phối đồ"
+  },
+  {
+   "id": 180,
+   "nhom": 9,
+   "nganh": "Thời trang",
+   "loai": "Lookbook / Phối đồ"
+  },
+  {
+   "id": 181,
+   "nhom": 6,
+   "nganh": "Thời trang",
+   "loai": "Lookbook / Phối đồ"
+  },
+  {
+   "id": 182,
+   "nhom": 10,
+   "nganh": "Thời trang",
+   "loai": "Lookbook / Phối đồ"
+  },
+  {
+   "id": 183,
+   "nhom": 1,
+   "nganh": "Thời trang",
+   "loai": "Lookbook / Phối đồ"
+  },
+  {
+   "id": 184,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 185,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 186,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 187,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 188,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 189,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 190,
+   "nhom": 10,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 191,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 192,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 193,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 194,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 195,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 196,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 197,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 198,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 199,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 200,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 201,
+   "nhom": 17,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 202,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 203,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 204,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 205,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  },
+  {
+   "id": 206,
+   "nhom": 1,
+   "nganh": "Mẹ và bé",
+   "loai": "Chia sẻ / Vlog"
+  }
+ ]
+}

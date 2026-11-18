@@ -33,6 +33,25 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
 - Máy có CapCut Pro (`may.json` `"capcut_pro": true`, mặc định) được dùng cả hiệu ứng Pro; máy miễn phí đặt `false`.
 - Tắt kho cho 1 video: `"kho_capcut": false`. Gói Basic vẫn giữ đúng 3 chữ + 3 tiếng, không cảnh trám / hiệu ứng cảnh.
 
+## BỘ KIỂU CHỮ + KHO MẪU CHỮ TIKTOK (19/11/2026)
+- **Kho mẫu thật** `kho/mau-chu-tiktok.json`: 206 mẫu chữ lọc từ 326 ảnh bìa video TikTok Việt Nam (16 ngành, 5 loại video),
+  chia **20 nhóm kiểu chữ**, mỗi nhóm có mô tả + **cách dựng lại trong CapCut**. Chỉ lưu nhóm / ngành / loại video, KHÔNG lưu ảnh
+  của người khác (trang xem ảnh `KHO-MAU-CHU-TIKTOK.html` chỉ ở máy người dùng, không đưa vào repo).
+- Tra cứu: `PY -I SK/scripts/mau_chu.py goi-y <ngành>` (vd `my-pham`, `"Ẩm thực"`) → nhóm hay dùng ở ngành + bộ nên dùng ·
+  `mau_chu.py nhom <số>` → công thức 1 nhóm · `mau_chu.py bo` → các bộ skill dựng tự động.
+- **Bộ kiểu chữ** (`chu.BO_CHU`) — vẫn CHỈ 2 KIỂU / video (`chinh` + `nen`), bộ chỉ đổi DÁNG; đều là chữ CapCut thật, font
+  Be Vietnam Pro kèm skill (đủ dấu):
+  `thuong_hieu` (mặc định — màu thương hiệu viền trắng + nhãn nền màu) · `tiktok` (phụ đề trắng bóng mờ + hộp trắng chữ đen) ·
+  `hop_trang` (hộp trắng chữ đen + hộp vàng) · `vien_den` (in hoa trắng viền đen kiểu ảnh bìa + nhãn màu) · `ban_hang_nong`
+  (vàng viền đen + nhãn đỏ — đồ ăn, khuyến mãi) · `toi_gian` (trắng không viền, sang — trang sức, spa, thời trang).
+- Chọn: `"bo_chu": "<tên>"` trong cau-hinh.json (1 video) hoặc hồ sơ thương hiệu (mọi video); `"bo_chu": "tu_dong"` = chọn theo
+  ngành (`"nganh"` của cau-hinh / hồ sơ). Không ghi = `thuong_hieu` (giữ đúng brief cũ — SANTAV không đổi).
+  Người dùng nói "chữ kiểu TikTok / hộp trắng / viền đen / sang / bán hàng…" → đặt bộ tương ứng, không hỏi lại.
+- Nhóm cần font/khung ngoài Be Vietnam Pro (viết tay, chữ phồng dễ thương, chữ có chân, chữ hoạt hình, bảng chữ dày): skill
+  KHÔNG tự dựng; ghi công thức của nhóm (từ `mau_chu.py nhom <số>`) vào báo cáo cuối để nhân sự làm tay trong CapCut. Font
+  CapCut đã kiểm đủ dấu: CapCut Sans, Montserrat Bold, Anton, Coiny, Sigmar One, Amatic SC, Source Serif 4; font CapCut họ
+  "ZY…", Corben, DynaPuff, Bounce House **thiếu dấu tiếng Việt — cấm dùng**.
+
 ## QUY CHUẨN DỰ ÁN V3 (18/11/2026 — áp dụng mặc định)
 - **1 dự án = 1 project CapCut**, tên = `-` + tên folder dự án (vd folder `11B17.2 -STV T11_400K` → project `-11B17.2 -STV T11_400K`).
   Mọi video của dự án nối tiếp trên cùng timeline, **ngăn cách bằng điểm đánh dấu** (tên = mã video); nhân sự tự xuất từng
@@ -123,7 +142,7 @@ Chép `_mau.json` → `<ma>.json`, điền: `mau_chinh` / `mau_dam` / `mau_vien`
 
 ## Style cố định (đã có trong `scripts/dung.py`)
 - **KHÔNG chạy phụ đề suốt video** — chỉ **chữ nhấn nhá** (`nhan`) đúng lúc nói. `"phu_de": true` mới bật phụ đề.
-- **CHỈ 2 KIỂU CHỮ** (nhiều kiểu thì rối): `chinh` = chữ MÀU CHÍNH IN HOA, viền trắng + bóng (câu nhấn, câu hỏi, câu chốt) · `nen` = chữ trắng trên nền màu chính bo góc (tên sản phẩm, lợi ích, liệt kê). Không emoji, không tô màu từ khoá, không đổi font. Font Be Vietnam Pro (kèm trong `fonts/`, OFL).
+- **CHỈ 2 KIỂU CHỮ** (nhiều kiểu thì rối): `chinh` = chữ MÀU CHÍNH IN HOA, viền trắng + bóng (câu nhấn, câu hỏi, câu chốt) · `nen` = chữ trắng trên nền màu chính bo góc (tên sản phẩm, lợi ích, liệt kê). Dáng của 2 kiểu đổi theo **bộ kiểu chữ** (`bo_chu`, xem mục BỘ KIỂU CHỮ ở trên). Không emoji, không tô màu từ khoá, không đổi font. Font Be Vietnam Pro (kèm trong `fonts/`, OFL).
 - **CHỮ LÀ CHỮ CAPCUT THẬT** (sửa được): chữ nhấn, thumbnail, nút kêu gọi, nhãn QC, dòng pháp lý; chỉ logo là ảnh. Máy CapCut vẽ chữ lỗi ("Input text") thì đặt `"chu_capcut": false` trong `SK/may.json` → chữ thành ảnh PNG.
 - Thumbnail ở khung đầu (`thumb`, `thumb_dur` 2s, `thumb_size`): dòng 1 = chữ trắng trên dải màu thương hiệu bo góc, các dòng sau = chữ TO màu thương hiệu ExtraBold viền trắng dày + bóng (2 chữ CapCut thật: track Thumbnail + Thumbnail 2). Mỗi dòng ≤ ~14 ký tự; câu dài thì `thumb_size` 48–56. Không chạy MP4 vẫn có ảnh `out_thumb` (khung đầu + logo + chữ). Logo góc trái trên, nhãn "Hợp tác quảng cáo" góc phải trên.
 - Track CapCut: Hinh chinh (A-roll tắt tiếng xen cảnh trám) · Giong (giọng GỐC, không lọc) · Logo · Thumbnail · Nhan nha 1..n · Gio hang · Nhan quang cao · Dong phap ly · SFX (+ SFX 2… khi chồng) · (Nhac nen nếu bật).

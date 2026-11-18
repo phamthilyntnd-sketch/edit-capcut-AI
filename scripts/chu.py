@@ -72,6 +72,94 @@ CSS = """
 """.replace("GREEN", GREEN)
 
 
+# ---------------------------------------------------------------- BỘ KIỂU CHỮ (19/11/2026)
+# Rút từ kho 206 mẫu chữ TikTok thật (kho/mau-chu-tiktok.json, xem scripts/mau_chu.py). Vẫn CHỈ 2 KIỂU / video
+# (chinh + nen) — bộ kiểu chỉ đổi DÁNG của 2 kiểu đó. Tất cả dựng bằng chữ CapCut thật + font Be Vietnam Pro kèm skill
+# (đủ dấu tiếng Việt, không phụ thuộc font trên máy). Chọn: "bo_chu" trong cau-hinh.json / hồ sơ thương hiệu,
+# hoặc "bo_chu": "tu_dong" -> theo ngành (mau_chu.bo_cho_nganh).
+#   vien = (màu viền, độ dày CapCut 0–1) · nen = (màu nền chữ, độ đục) · bong = độ đậm bóng (0 = tắt)
+BO_CHU = {
+    "thuong_hieu": {"ten": "Màu thương hiệu (mặc định)", "nhom": [8, 10],
+                    "chinh": dict(px=86, color="BRAND", upper=True, w=800, vien=("#FFFFFF", 0.06), nen=None, bong=0.45),
+                    "nen": dict(px=58, color="#FFFFFF", upper=False, w=700, vien=None, nen=("BRAND", 1.0), bong=0.3)},
+    "tiktok": {"ten": "Phụ đề trắng kiểu TikTok + hộp trắng", "nhom": [1, 2, 3, 15],
+               "chinh": dict(px=76, color="#FFFFFF", upper=False, w=700, vien=None, nen=None, bong=0.65),
+               "nen": dict(px=60, color="#111111", upper=False, w=700, vien=None, nen=("#FFFFFF", 1.0), bong=0.2)},
+    "hop_trang": {"ten": "Hộp trắng chữ đen + hộp vàng", "nhom": [2, 14, 18],
+                  "chinh": dict(px=70, color="#111111", upper=False, w=800, vien=None, nen=("#FFFFFF", 1.0), bong=0.25),
+                  "nen": dict(px=60, color="#111111", upper=False, w=700, vien=None, nen=("#FFE14D", 1.0), bong=0.2)},
+    "vien_den": {"ten": "In hoa trắng viền đen (kiểu ảnh bìa)", "nhom": [7, 9, 11, 13, 16, 21],
+                 "chinh": dict(px=92, color="#FFFFFF", upper=True, w=800, vien=("#111111", 0.08), nen=None, bong=0.4),
+                 "nen": dict(px=60, color="#FFFFFF", upper=False, w=700, vien=None, nen=("BRAND", 1.0), bong=0.3)},
+    "ban_hang_nong": {"ten": "Vàng viền đen + nhãn đỏ (bán hàng, đồ ăn)", "nhom": [17, 9],
+                      "chinh": dict(px=92, color="#FFD60A", upper=True, w=800, vien=("#111111", 0.08), nen=None, bong=0.4),
+                      "nen": dict(px=62, color="#FFFFFF", upper=True, w=800, vien=None, nen=("#E53935", 1.0), bong=0.3)},
+    "toi_gian": {"ten": "Tối giản sang (trắng, không viền)", "nhom": [12, 4, 5, 6],
+                 "chinh": dict(px=72, color="#FFFFFF", upper=True, w=700, vien=None, nen=None, bong=0.55),
+                 "nen": dict(px=52, color="#FFFFFF", upper=False, w=600, vien=None, nen=None, bong=0.6)},
+}
+BO = "thuong_hieu"
+
+
+def _mau(c):
+    return GREEN if c == "BRAND" else c
+
+
+def _css_bo(b):
+    c, e = b["chinh"], b["nen"]
+    out = [".t{position:absolute;left:40px;right:40px;top:0;text-align:center;white-space:nowrap;font-family:'Be Vietnam Pro';font-weight:600}",
+           f".t-chinh{{font-size:{c['px']}px;line-height:1.14;letter-spacing:.5px;font-weight:{c['w']}}}",
+           ".t-chinh .l{position:relative;display:block}",
+           f".t-chinh .fg{{position:relative;color:{_mau(c['color'])}}}"]
+    if c["vien"]:
+        out.append(f".t-chinh .bg{{position:absolute;left:0;right:0;top:0;color:{_mau(c['vien'][0])};"
+                   f"-webkit-text-stroke:{round(c['vien'][1] * 400)}px {_mau(c['vien'][0])};"
+                   f"filter:drop-shadow(4px 6px 6px rgba(0,0,0,{c['bong']}))}}")
+    else:
+        out.append(".t-chinh .bg{display:none}")
+        if c["bong"] and not c["nen"]:
+            out.append(f".t-chinh .fg{{text-shadow:2px 4px 10px rgba(0,0,0,{c['bong']})}}")
+    if c["nen"]:
+        out.append(f".t-chinh .l{{width:max-content;margin:0 auto 12px;background:{_mau(c['nen'][0])};border-radius:20px;"
+                   f"padding:6px 28px 12px;box-shadow:3px 5px 10px rgba(0,0,0,{c['bong']})}}")
+    out.append(f".t-nen{{font-size:{e['px']}px;line-height:1.2;font-weight:{e['w']}}}")
+    if e["nen"]:
+        out.append(f".t-nen .l{{display:block;margin:0 auto 12px;width:max-content;background:{_mau(e['nen'][0])};"
+                   f"color:{_mau(e['color'])};border-radius:22px;padding:8px 30px 12px;box-shadow:3px 5px 10px rgba(0,0,0,{e['bong']})}}")
+    else:
+        out.append(f".t-nen .l{{display:block;color:{_mau(e['color'])};text-shadow:2px 4px 10px rgba(0,0,0,{e['bong']})}}")
+    out.append(".t i{font-style:italic;font-weight:700}")
+    return "\n".join(out)
+
+
+def _capcut_style(s):
+    st = {"alignment": 1}
+    if s["vien"]:
+        st.update(borderColor=_mau(s["vien"][0]), borderWidth=s["vien"][1], borderAlpha=1.0)
+    if s["nen"]:
+        st.update(bgColor=_mau(s["nen"][0]), bgAlpha=s["nen"][1], bgStyle=1, bgRoundRadius=0.35,
+                  bgWidth=0.14, bgHeight=0.14, bgHOffset=0.0, bgVOffset=0.0)
+    if s["bong"]:
+        st.update(shadow=True, shadowColor="#000000", shadowAlpha=s["bong"], shadowDistance=5 if s["vien"] else 4,
+                  shadowAngle=-45, shadowSmoothing=0.45 if s["vien"] else 0.5)
+    return st
+
+
+def dat_bo(ten):
+    """Chọn bộ kiểu chữ cho video (đổi STYLE / CSS / độ đậm của 2 kiểu chinh + nen). Trả tên bộ đã dùng."""
+    global BO, CSS
+    if ten not in BO_CHU:
+        print(f"! Không có bộ kiểu chữ '{ten}' -> dùng 'thuong_hieu'. Có: {', '.join(BO_CHU)}")
+        ten = "thuong_hieu"
+    BO = ten
+    b = BO_CHU[ten]
+    for k in ("chinh", "nen"):
+        STYLE[k] = {"px": b[k]["px"], "color": _mau(b[k]["color"]), "upper": b[k]["upper"]}
+        FONT_W[k] = b[k]["w"]
+    CSS = _css_bo(b)
+    return ten
+
+
 def kieu(n):
     return KIEU_MAP.get(n.get("kieu", "chinh"), "chinh")
 
@@ -102,15 +190,8 @@ def capcut_text(n, cx, cy, scale=1.0):
     st = STYLE[k]
     item = {"text": "\n".join(lines(n)), "fontSize": round(st["px"] * scale / PX_PER_SIZE, 1), "color": st["color"],
             "x": round((cx - W / 2) / (W / 2), 4), "y": round(1 - 2 * cy / H, 4)}
-    if k == "chinh":   # viền trắng dày 20 (thang CapCut 0–100 -> 0.04) + bóng, đúng brief
-        style = {"alignment": 1, "borderColor": "#FFFFFF", "borderWidth": 0.06, "borderAlpha": 1.0,
-                 "shadow": True, "shadowColor": "#000000", "shadowAlpha": 0.45, "shadowDistance": 5,
-                 "shadowAngle": -45, "shadowSmoothing": 0.45}
-    else:              # nền xanh bo góc
-        style = {"alignment": 1, "bgColor": GREEN, "bgAlpha": 1.0, "bgStyle": 1, "bgRoundRadius": 0.35,
-                 "bgWidth": 0.14, "bgHeight": 0.14, "bgHOffset": 0.0, "bgVOffset": 0.0,
-                 "shadow": True, "shadowColor": "#000000", "shadowAlpha": 0.3, "shadowDistance": 4,
-                 "shadowAngle": -45, "shadowSmoothing": 0.5}
+    # dáng theo bộ kiểu chữ đang chọn (mặc định "thuong_hieu" = chinh viền trắng + bóng, nen nền màu thương hiệu)
+    style = _capcut_style(BO_CHU[BO][k])
     return item, style
 
 

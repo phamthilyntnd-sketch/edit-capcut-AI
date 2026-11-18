@@ -394,7 +394,8 @@ CSS2 = """
 .nh{white-space:nowrap}
 .nh .big .fg,.nh .big .bg{width:max-content;margin:0 auto}
 """.replace("GREEN", GREEN).replace("DARKC", DARK)
-CSS = CSS + CSS2 + tc.CSS
+CSS_GOC = CSS + CSS2
+CSS = CSS_GOC + tc.CSS
 
 # chuyển động theo kiểu: (phóng [(giây, tỉ lệ)], hiện [(giây, độ đục)]) — phóng quanh tâm khung, giống nhau ở MP4 và CapCut
 ANIM = {"pop": ([(0, 0.86), (0.12, 1.05), (0.22, 1.0)], [(0, 0.0), (0.12, 1.0)]),
@@ -943,6 +944,16 @@ def _scale_expr(kf):
 def main():
     P = Path(sys.argv[1]).resolve()
     cfg = json.loads((P / "cau-hinh.json").read_text(encoding="utf-8"))
+    # BỘ KIỂU CHỮ (kho mẫu chữ TikTok, 19/11/2026): "bo_chu" trong cau-hinh.json / hồ sơ thương hiệu;
+    # "tu_dong" = chọn theo ngành (scripts/mau_chu.py). Mặc định "thuong_hieu" (giữ đúng style brief cũ).
+    global CSS
+    bo_chu = cfg.get("bo_chu") or TH.get("bo_chu") or "thuong_hieu"
+    if bo_chu == "tu_dong":
+        import mau_chu
+        bo_chu = mau_chu.bo_cho_nganh(cfg.get("nganh") or TH.get("nganh"))
+    bo_chu = tc.dat_bo(bo_chu)
+    CSS = CSS_GOC + tc.CSS
+    print(f"Bộ kiểu chữ: {bo_chu} — {tc.BO_CHU[bo_chu]['ten']}")
     # MẶC ĐỊNH chỉ làm PROJECT CAPCUT (nhân sự tự xuất trong CapCut — góp ý 16/11). MP4 xem thử + kiểm bản ra:
     # thêm --mp4 --qa, hoặc "xuat_mp4": true trong cau-hinh.json.
     flags = set(sys.argv[2:]) or ({"--pngs", "--mp4", "--capcut", "--qa"} if cfg.get("xuat_mp4") else {"--pngs", "--capcut"})

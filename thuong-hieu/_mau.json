@@ -1,6 +1,7 @@
 {
   "_huong_dan": "Hồ sơ thương hiệu MẪU. Chép thành thuong-hieu/<ma>.json rồi sửa; khoá nào không ghi sẽ lấy từ file này. Dự án chọn bằng \"thuong_hieu\": \"<ma>\" trong cau-hinh.json.",
   "ten": "THƯƠNG HIỆU",
+  "_mau_chinh": "Hồ sơ KHÔNG ghi mau_chinh -> skill TỰ CHỌN màu chữ theo logo + bao bì + cảnh sản phẩm + nền video (scripts/mau_tu_dong.py). Ghi mau_chinh = giữ đúng màu thương hiệu; thêm \"mau_tu_dong\": true để vẫn tự chọn (màu hồ sơ là 1 nguồn).",
   "mau_chinh": "#6CBE45",
   "mau_dam": "#2F6B1F",
   "mau_vien": "#4F8F33",

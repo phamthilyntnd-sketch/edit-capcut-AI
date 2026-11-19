@@ -60,6 +60,13 @@ def tai_thuong_hieu(project_dir=None, ma=None):
         out["logo"] = cfg_logo
     if out.get("logo") and not Path(out["logo"]).is_absolute():
         out["logo"] = str((p.parent / out["logo"]).resolve())
+    if project_dir:                    # MÀU CHỮ TỰ CHỌN theo logo + sản phẩm + nền video (mau_tu_dong.py)
+        try:
+            sys.path.insert(0, str(Path(__file__).parent))
+            import mau_tu_dong
+            out = mau_tu_dong.ap(project_dir, out, th)
+        except Exception as e:
+            print(f"! Bỏ qua tự chọn màu: {e}")
     return out
 
 

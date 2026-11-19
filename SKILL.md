@@ -113,6 +113,19 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
   tên dự án; trong video xoay vòng kiểu của từng vai, 2 chữ liền nhau không cùng kiểu. Chọn bộ: `"bo_kho": "<tên>"`.
 - Hồ sơ SANTAV nay cũng `bo_chu: kho_team` (kiểu kho, màu xanh SANTAV). Muốn kiểu cũ: `"bo_chu": "thuong_hieu"` trong cau-hinh.
 
+## MÀU CHỮ TỰ CHỌN THEO THƯƠNG HIỆU · SẢN PHẨM · VIDEO (20/11/2026)
+Người dùng: "skill tự nhận diện màu sản phẩm, video, thương hiệu để chọn màu cho phù hợp". `scripts/mau_tu_dong.py`
+(tự gọi khi nạp hồ sơ): gom màu có sắc rõ từ **logo** (x3), **màu bao bì** `mau_san_pham` + màu hồ sơ (x2–3), **cảnh trám /
+cận sản phẩm** đang dùng trong `broll` (vùng giữa khung, x2); bỏ trắng / đen / xám / da người. **Nền video** (A-roll) là
+đối trọng: sắc độ nào phủ nhiều trên nền bị trừ mạnh (chữ trùng nền sẽ chìm). Chọn sắc điểm cao nhất, GIỮ tính cách màu gốc
+(hồng pastel vẫn hồng) nhưng kẹp độ đậm / sáng để đọc rõ → `mau_chinh`, `mau_dam`, `mau_vien`. Không có màu sản phẩm /
+thương hiệu rõ (vd gọng kính trong) → màu TƯƠNG PHẢN nền (nền ấm → xanh dương, nền lạnh → vàng).
+- Khi nào tự chọn: hồ sơ thương hiệu KHÔNG ghi `mau_chinh`; hoặc hồ sơ `"mau_tu_dong": true`; hoặc cau-hinh `"mau": "tu_dong"`.
+  Hồ sơ đã ghi màu (vd SANTAV #6CBE45) → giữ đúng màu brief. Ép tay: cau-hinh `"mau": "#RRGGBB"`; giữ màu hồ sơ: `"mau": "thuong_hieu"`.
+- Kết quả: `projects/<du-an>/mau.json` (lý do + nguồn; xoá để dò lại) + `mau.jpg` (dải sắc độ nguồn / nền + ô màu). XEM `mau.jpg`
+  khi báo kết quả. Chữ kho team đổi màu nhấn sang màu này (`kho_doi_mau`).
+- Thử 20/11: EYEMEDI Kb4 (gọng trong, kệ gỗ ấm) → xanh dương #2F7AEB; Kb5 (hộp kính hồng) → hồng #CC5B65.
+
 ## KHO CHỮ CAPCUT CỦA TEAM — 82 kiểu thật (19/11/2026)
 - `kho/kho-text.md`: 82 kiểu chữ lấy từ 21 dự án team đã edit trong CapCut (job 11B14 → 11B18, có cả chỉnh tay), 6 nhóm:
   **H** Hook / tiêu đề mở đầu · **K** Từ khoá TO · **T** Ý chính / tính năng · **M** Mô tả / phụ đề · **N** Nhãn có nền / CTA ·

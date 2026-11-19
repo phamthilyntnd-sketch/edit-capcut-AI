@@ -252,6 +252,41 @@ def mo_tieng_vet_cat(draft_dir, vao_us=15000, ra_us=20000):
     return n
 
 
+def mike_diem_nhan(cfg, m, fr):
+    """ĐIỂM NHẤN MIKE (20/11/2026): cau-hinh "mike_diem_nhan": ["<thư mục dự án Mike nhỏ>", ...] — mỗi dự án Mike dựng
+    vài câu đắt giá (chữ sau đầu, cảnh đồ hoạ...) bằng /edit-video-mike-2 với edl = đúng các đoạn giữ của câu đó trong
+    video này. Bản render của Mike phủ lên đúng giây tương ứng (lớp "Mike" trong CapCut, tắt tiếng — giọng vẫn là của
+    timeline chính); chữ nhấn của skill trùng khung giờ đó tự bỏ (Mike đã có chữ riêng). Không chép mã Mike: chỉ đọc
+    segments.json + bản render Mike xuất ra."""
+    out = []
+    for i, d in enumerate(cfg.get("mike_diem_nhan") or []):
+        D = Path(d)
+        segf = D / "segments.json"
+        rs = sorted([r for r in (D / "renders").glob("*.mp4") if not re.search(r"-(phone|raw)\.mp4$", r.name)],
+                    key=lambda r: r.stat().st_mtime) if (D / "renders").exists() else []
+        if not segf.exists() or not rs:
+            print(f"! Điểm nhấn Mike {D.name}: chưa có segments.json / bản render -> bỏ qua")
+            continue
+        fps = 60
+        try:
+            fps = json.loads((D / "work" / "editor-map.json").read_text(encoding="utf-8")).get("fps", 60)
+        except Exception:
+            pass
+        for j, sg in enumerate(json.loads(segf.read_text(encoding="utf-8"))):
+            a_src = sg.get("src_in", sg["in"]); b_src = sg.get("src_out", sg["out"])
+            dur = sg["frames"] / fps
+            t0 = m(a_src, "start"); t1 = m(b_src, "end")
+            if abs((t1 - t0) - dur) > 0.15:
+                print(f"! Điểm nhấn Mike {D.name}/{sg.get('id')}: đoạn {a_src:.2f}-{b_src:.2f}s không khớp vết cắt của video "
+                      f"({t1 - t0:.2f}s vs {dur:.2f}s) -> bỏ; dựng Mike với edl = đúng các đoạn giữ (keeps)")
+                continue
+            out.append({"path": str(rs[-1]), "start": fr(t0), "duration": fr(dur), "from": round(sg["frame"] / fps, 4),
+                        "ref": f"mike{i}_{j}", "mike": True})
+    if out:
+        print(f"Điểm nhấn Mike: {len(out)} đoạn, {sum(x['duration'] for x in out):.1f}s")
+    return out
+
+
 def mapper(pieces):
     def m(t, side="start"):
         for p in pieces:
@@ -1060,6 +1095,18 @@ def main():
     # CÔNG THỨC DỰNG (kho/cong-thuc.json): ngành x loại video x yêu cầu -> điền các thông số còn trống (không ghi đè)
     import cong_thuc
     cfg, _ = cong_thuc.ap(cfg, TH, P)
+    # MƯỢN NHỊP CẮT CỦA MIKE (20/11/2026): "mike_cat": "<thư mục dự án Mike của CÙNG clip A-roll>" -> dùng các đoạn giữ Mike
+    # đã chọn (edl.json: lần nói sạch cuối, bỏ khoảng lặng > 0,45s, mỗi shot >= 1,5s) thay cho keeps. Chỉ đọc edl.json.
+    if cfg.get("mike_cat"):
+        edl_f = Path(cfg["mike_cat"]) / "edl.json"
+        if edl_f.exists():
+            edl = json.loads(edl_f.read_text(encoding="utf-8"))
+            clip0 = edl[0].get("clip") if edl else None
+            cfg["keeps"] = [[e["in"], e["out"]] for e in edl if e.get("clip") == clip0]
+            cfg["cat_tieng"] = []
+            print(f"Nhịp cắt theo Mike: {len(cfg['keeps'])} đoạn giữ từ {edl_f}")
+        else:
+            print(f"! mike_cat: không thấy {edl_f} -> giữ keeps của cấu hình")
     bo_chu = cfg.get("bo_chu") or TH.get("bo_chu") or "thuong_hieu"
     if bo_chu == "kho_team":          # chữ theo kho team (đã gắn "kho" theo vai, MP4 xem thử vẽ theo kho); chữ khác theo kiểu thương hiệu
         bo_chu = "thuong_hieu"
@@ -1102,6 +1149,22 @@ def main():
                                  cam=cfg.get("cat_tieng", []),
                                  tho=(float(cfg["cho_giua_cau"]) / 2 if cfg.get("cho_giua_cau") else None))
     m = mapper(pieces)
+    # ĐIỂM NHẤN MIKE — bước 1: xuất edl cho Mike đúng các đoạn giữ của video này trong các khoảng giây nguồn đã chọn
+    #   dung.py projects/<du-an> --mike-edl "3.2-8.5,40-46" [--mike-clip c1]  -> projects/<du-an>/mike-edl.json
+    if "--mike-edl" in sys.argv:
+        k = sys.argv.index("--mike-edl")
+        spans = [tuple(float(x) for x in sp.split("-")) for sp in sys.argv[k + 1].split(",")]
+        clip_id = sys.argv[sys.argv.index("--mike-clip") + 1] if "--mike-clip" in sys.argv else "c1"
+        edl = []
+        for p_ in pieces:
+            for a0, b0 in spans:
+                lo, hi = max(p_["s"], a0), min(p_["e"], b0)
+                if hi - lo > 0.3:
+                    edl.append({"id": f"d{len(edl)}", "clip": clip_id, "in": round(lo, 3), "out": round(hi, 3),
+                                "zoom": 1.0, "cx": 0.5, "cy": 0.45})
+        (P / "mike-edl.json").write_text(json.dumps(edl, ensure_ascii=False, indent=1), encoding="utf-8")
+        print(f"mike-edl.json: {len(edl)} đoạn, {sum(e['out'] - e['in'] for e in edl):.1f}s -> chép làm edl.json của dự án Mike")
+        return
     cues = make_cues(segs, cfg, pieces, m)
     total = fr(total)
     # V2 (góp ý 17/11): KHÔNG chỉnh màu, KHÔNG làm mịn da / làm đẹp — giữ nguyên hình gốc. Chỉnh màu (nếu cần) làm
@@ -1191,6 +1254,7 @@ def main():
         broll[0]["from"] = max(0.0, broll[0]["from"] - broll[0]["start"])
         broll[0]["duration"] = fr(broll[0]["duration"] + broll[0]["start"])
         broll[0]["start"] = 0.0
+    mike_ds = mike_diem_nhan(cfg, m, fr)
     trans = chon_chuyen_canh(cfg, broll, total, hat=P.name)
     calls = []
     for i, c in enumerate(cfg["callouts"]):
@@ -1238,6 +1302,11 @@ def main():
         if nxt and "den" not in nxt and nxt["b"] - need >= 1.2 and nxt["a"] < need <= nxt["a"] + 0.25:
             nxt["a"] = fr(need)
             n["b"] = fr(need)
+    if mike_ds:
+        trung = [n for n in nhans if any(n["a"] < x["start"] + x["duration"] and n["b"] > x["start"] for x in mike_ds)]
+        if trung:
+            print("Bỏ chữ nhấn trùng điểm nhấn Mike (Mike đã có chữ riêng):", [n["chu"] for n in trung])
+            nhans = [n for n in nhans if n not in trung]
     dropped = [n["chu"] for n in nhans if "den" not in n and n["b"] - n["a"] < 1.2]
     nhans = [n for n in nhans if "den" in n or n["b"] - n["a"] >= 1.2]
     if dropped:
@@ -1269,7 +1338,7 @@ def main():
             import bo_cuc as bc
             # gói Basic quay 1 shot, nhiều cảnh cận tay thao tác sản phẩm: mặt + sản phẩm vẫn cấm tuyệt đối, tay/thân chỉ trừ nhẹ
             bc.W_NGUOI = float(cfg.get("trong_so_nguoi", 0.4 if basic else 20))
-            inp, fv = base_video(aroll_v, pieces, broll, punch, with_audio=False)
+            inp, fv = base_video(aroll_v, pieces, broll + mike_ds, punch, with_audio=False)
             print("Dò mặt / sản phẩm để đặt chữ...")
             frames = bc.clean_frames(";".join(fv).replace("[base]", "[v]"), inp, total, P / "_nhap_bo_cuc.npz")
             person = bc.person_masks(frames, P / "_nguoi.npz")
@@ -1469,7 +1538,7 @@ def main():
     # ------------------------------------------------ MP4
     if "--mp4" in flags:
         out = Path(cfg["out_mp4"])
-        inp, f = base_video(aroll_v, pieces, broll, punch, trans=trans)
+        inp, f = base_video(aroll_v, pieces, broll + mike_ds, punch, trans=trans)
         args = ["ffmpeg", "-v", "error", "-y"] + inp
         for name, a, b in overlays:
             if name in anim:
@@ -1480,7 +1549,7 @@ def main():
             args += ["-i", str(P / "nhac-nen.wav")]
         for _, n, _ in sfx:
             args += ["-i", str(P / "sfx" / f"{n}.wav")]
-        nb, no = len(broll), len(overlays)
+        nb, no = len(broll + mike_ds), len(overlays)
         last = "base"
         for j, (name, a, b) in enumerate(overlays):
             k = 1 + nb + j
@@ -1544,6 +1613,10 @@ def main():
         tracks = [{"type": "video", "name": "Hinh chinh", "items": main}]
         if phu:
             tracks.append({"type": "video", "name": "Canh tram", "items": phu})
+        if mike_ds:   # điểm nhấn Mike: lớp riêng trên cảnh trám, tắt tiếng (bật / tắt cả lớp trong CapCut)
+            tracks.append({"type": "video", "name": "Mike", "items": [
+                {"path": x["path"], "start": x["start"], "duration": x["duration"], "sourceStart": x["from"], "volume": 0,
+                 "ref": x["ref"]} for x in mike_ds]})
         # chuyển cảnh: chỉ giữa 2 cảnh trám nối liền trên lớp phủ (chỗ vào/ra cảnh trám: cảnh trám phủ lên, cắt thẳng)
         trans_ops = []
         for x, y in zip(phu, phu[1:]):

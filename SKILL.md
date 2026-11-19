@@ -114,6 +114,32 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
   tên dự án; trong video xoay vòng kiểu của từng vai, 2 chữ liền nhau không cùng kiểu. Chọn bộ: `"bo_kho": "<tên>"`.
 - Hồ sơ SANTAV nay cũng `bo_chu: kho_team` (kiểu kho, màu xanh SANTAV). Muốn kiểu cũ: `"bo_chu": "thuong_hieu"` trong cau-hinh.
 
+## CHẾ ĐỘ MIKE — GỌI /edit-video-mike-2, KHÔNG CHÉP MIKE (20/11/2026)
+Người dùng muốn dùng hệ sinh thái Mike mà vẫn chỉ gọi `/edit-capcut-ai` và sửa trong CapCut. **Giấy phép Mike: 1 người dùng,
+cấm chia sẻ / đăng tải file Mike và cấm dùng mã / thiết kế Mike làm skill khác** → repo này KHÔNG chứa file, mã hay hiệu ứng
+nào của Mike, không viết lại hiệu ứng Mike; chỉ GỌI Mike đã cài trên máy (`~/.claude/skills/edit-video-mike-2`, có
+`LICENSE-INFO.txt`) và ĐỌC kết quả Mike xuất ra. Máy chưa có Mike → bỏ qua mọi bước Mike, dựng CapCut như thường, báo 1 dòng.
+Bộ cài (bước 6b) hỏi file ZIP Mike của CHÍNH người dùng máy đó; mỗi người dùng cần bản quyền Mike riêng.
+Chọn chế độ trong cau-hinh `"mike"` (hoặc theo lời người dùng; mặc định TẮT — Mike nặng máy, ~1–1,5 GB / video):
+- **`"diem_nhan"` (khuyên dùng cho video chủ lực)**: dựng CapCut như thường, Mike chỉ làm 2–4 câu đắt giá (câu mở đầu với chữ
+  sau đầu, 1–2 cảnh đồ hoạ, câu chốt). Quy trình:
+  1. Sau `cat_sach --chot` + viết `nhan`: chọn câu (giây nguồn), `PY -I SK/scripts/dung.py projects/<du-an> --mike-edl
+     "3.2-8.5,40-46"` → `projects/<du-an>/mike-edl.json` = đúng các đoạn giữ của video này trong những câu đó.
+  2. Làm theo SKILL.md của Mike cho 1 dự án nhỏ `<projectsDir Mike>/<du-an>-diem-nhan`: `takes.py` với CHÍNH clip A-roll
+     gốc (đổi `clip` trong mike-edl.json đúng mã clip takes.py đặt, thường `c1`), chép mike-edl.json thành `edl.json` (KHÔNG tự
+     chọn lại đoạn — lệch là không ghép được), rồi các bước aroll → storyboard (chỉ các câu đó) → build → render → finish.
+  3. cau-hinh `"mike_diem_nhan": ["<thư mục dự án Mike nhỏ>"]` → dựng lại: đoạn render Mike phủ đúng giây (lớp **"Mike"** trong
+     CapCut, tắt tiếng; MP4 cũng phủ); chữ nhấn của skill trùng khung đó tự bỏ; đoạn nào không khớp vết cắt (> 0,15s) bị bỏ và in
+     cảnh báo.
+- **`"cat"` (mượn nhịp cắt)**: đã có dự án Mike của CÙNG clip A-roll → `"mike_cat": "<thư mục dự án Mike>"`: dùng edl.json của
+  Mike làm `keeps` (lần nói sạch cuối, bỏ lặng > 0,45s, shot ≥ 1,5s). Không vẽ gì thêm, không nặng máy.
+- **`"tron"` (Mike trọn video)**: dựng cả video bằng `/edit-video-mike-2` (đủ hiệu ứng, chữ sau đầu, editor Mike), rồi (CapCut đóng)
+  `PY -I SK/scripts/mike_capcut.py "<dự án Mike>" [--chu-capcut]` → project CapCut `<tên>-capcut`: A-roll theo vết cắt Mike ·
+  B-roll · "Hieu ung Mike" (đoạn đồ hoạ từ bản render, chỉ cắt / dời / xoá được) · phụ đề (ảnh đúng kiểu Mike, hoặc chữ CapCut
+  Be Vietnam Pro với `--chu-capcut`) · nhạc nền · SFX. Không bao giờ ghi đè draft (tạo `-v2`, `-v3`…).
+- Đã thử 20/11 (EYEMEDI Kb4): `mike_capcut.py --check` OK (A-roll 10 · B-roll 9 · hiệu ứng 8 · phụ đề 48); `mike_diem_nhan` với
+  dự án Mike cũ của Kb4: 9/10 đoạn khớp vết cắt, 1 đoạn lệch 0,2s bị bỏ đúng như thiết kế.
+
 ## 25 KIỂU CHỮ TIKTOK DỰNG ĐƯỢC + CHỌN FONT THEO TÌNH HUỐNG (20/11/2026)
 Người dùng: "sưu tầm nhiều kiểu đẹp mà lúc edit không dùng" + "có phân được khi nào dùng font nào không". `kho/kieu-tiktok.json`
 = 25 kiểu chữ CapCut THẬT (mã `TT01`…`TT27`) dựng từ 23 nhóm kho 1.035 mẫu TikTok; `kho_text.py` sinh vật liệu chữ CapCut

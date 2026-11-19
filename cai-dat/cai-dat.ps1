@@ -113,6 +113,33 @@ if (Test-Path $venvPy) {
     & $venvPy -I (Join-Path $ThuMuc "scripts\kiem_may.py")
     $kq = $LASTEXITCODE
 } else { $kq = 1 }
+Buoc "6b. Mike (/edit-video-mike-2) - tuỳ chọn, bản quyền riêng của bạn"
+# edit-capcut-ai GỌI Mike khi có (chế độ Mike: điểm nhấn / mượn nhịp cắt / trọn video -> CapCut). Mike KHÔNG đi kèm skill:
+# giấy phép Mike là 1 người dùng, cấm chia sẻ file. Mỗi máy cài từ file ZIP Mike của chính người dùng máy đó.
+$mikeDir = Join-Path $env:USERPROFILE ".claude\skills\edit-video-mike-2"
+if (Test-Path (Join-Path $mikeDir "SKILL.md")) {
+    Ok "Đã có Mike"
+    if (-not $KiemTra) { & py -3 (Join-Path $mikeDir "scripts\setup.py") | Out-Host }
+} elseif ($KiemTra) { Canh "Chưa có Mike (tuỳ chọn: skill vẫn chạy, chỉ không có chế độ Mike)" }
+else {
+    Write-Host "   Mike KHÔNG đi kèm skill (giấy phép Mike: 1 người dùng). Đã mua Mike thì chọn file ZIP Mike của bạn; không có thì bấm Cancel."
+    Add-Type -AssemblyName System.Windows.Forms
+    $dlg = New-Object System.Windows.Forms.OpenFileDialog
+    $dlg.Filter = "ZIP Mike (*.zip)|*.zip"; $dlg.Title = "Chọn file ZIP edit-video-mike-2 bạn đã mua"
+    if ($dlg.ShowDialog() -eq "OK") {
+        $tmp = Join-Path $env:TEMP ("mike-" + [guid]::NewGuid())
+        Expand-Archive $dlg.FileName $tmp -Force
+        $sk = Get-ChildItem $tmp -Recurse -Filter SKILL.md | Where-Object { (Get-Content $_.FullName -TotalCount 3) -match "edit-video-mike-2" } | Select-Object -First 1
+        if ($sk) {
+            New-Item -ItemType Directory -Force (Split-Path $mikeDir) | Out-Null
+            Move-Item $sk.DirectoryName $mikeDir
+            Ok "Đã cài Mike"
+            & py -3 (Join-Path $mikeDir "scripts\setup.py") | Out-Host
+        } else { Canh "File ZIP này không phải Mike" }
+        Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
+    } else { Canh "Bỏ qua Mike: skill vẫn chạy, chỉ không có chế độ Mike" }
+}
+
 Buoc "7. Lối tắt cập nhật trên Desktop"
 $cmdFile = Join-Path $ThuMuc "cai-dat\CAI-DAT.cmd"
 if (-not $KiemTra -and (Test-Path $cmdFile)) {

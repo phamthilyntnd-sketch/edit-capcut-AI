@@ -1262,6 +1262,23 @@ def main():
         broll[0]["duration"] = fr(broll[0]["duration"] + broll[0]["start"])
         broll[0]["start"] = 0.0
     mike_ds = mike_diem_nhan(cfg, m, fr, P)
+    # CẢNH TRÁM ƯU TIÊN HƠN ĐIỂM NHẤN MIKE (góp ý 19/11 "chưa lấy đủ cảnh trám phù hợp nội dung"): chỗ có cảnh trám khớp lời
+    # thì cắt đoạn Mike ra, cảnh trám hiện; phần Mike còn lại giữ nguyên (đúng khung, đúng giây)
+    if mike_ds and broll:
+        con = []
+        for x in mike_ds:
+            pcs = [(x["start"], x["start"] + x["duration"])]
+            for b_ in broll:
+                b0, b1 = b_["start"], b_["start"] + b_["duration"]
+                pcs = [q for a0, a1 in pcs for q in ((a0, min(a1, b0)), (max(a0, b1), a1)) if q[1] - q[0] > 0.05]
+            for a0, a1 in pcs:
+                if a1 - a0 >= 0.5:
+                    con.append(dict(x, start=fr(a0), duration=fr(a1 - a0), from_=0,
+                                    **{"from": round(x["from"] + a0 - x["start"], 4), "ref": f"{x['ref']}_{len(con)}"}))
+        bot = sum(x["duration"] for x in mike_ds) - sum(x["duration"] for x in con)
+        if bot > 0.05:
+            print(f"Cảnh trám phủ lên {bot:.1f}s của điểm nhấn Mike (cảnh trám ưu tiên); Mike còn {len(con)} đoạn")
+        mike_ds = [{k: v for k, v in x.items() if k != "from_"} for x in con]
     if mike_ds and mike_ds[0]["start"] < 0.05 and cfg.get("thumb_dur", 2) > 0.1:
         # câu mở đầu đã do Mike làm (có chữ riêng) -> thumbnail chỉ còn ở khung đầu (ảnh bìa), không chồng chữ Mike
         cfg["thumb_dur"] = 0.04

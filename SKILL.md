@@ -143,6 +143,9 @@ Chọn chế độ trong cau-hinh `"mike"` (hoặc theo lời người dùng; m�
   trong `projects/<du-an>/mike-*` (không để ở thư mục dự án Mike chung); bản render tự chép vào `projects/<du-an>/mike/`.
   Câu mở đầu là điểm nhấn Mike → thumbnail chỉ còn ở khung đầu (ảnh bìa). Tạp âm nền: `"loc_tap_am": 2` cho MP4; trong CapCut
   bật "Giảm tiếng ồn" trên đoạn giọng (hoặc tạo project mẫu `-MAU` để skill tự bật).
+- **Cảnh trám ƯU TIÊN hơn điểm nhấn Mike** (góp ý 19/11 "chưa lấy đủ cảnh trám phù hợp nội dung"): chỗ có cảnh trám khớp lời,
+  đoạn Mike tự cắt ra cho cảnh trám hiện (Mike còn lại giữ đúng giây); chữ nhấn của skill chỉ bỏ ở phần Mike còn hiện. Vẫn phải
+  xếp ĐỦ cảnh trám theo lời (mỗi ý có cảnh quay tương ứng → 1 cảnh; nâng `tram_toi_da` khi clip quay nhiều ý).
 - Đã thử 20/11 (EYEMEDI Kb4): `mike_capcut.py --check` OK (A-roll 10 · B-roll 9 · hiệu ứng 8 · phụ đề 48); `mike_diem_nhan` với
   dự án Mike cũ của Kb4: 9/10 đoạn khớp vết cắt, 1 đoạn lệch 0,2s bị bỏ đúng như thiết kế.
 

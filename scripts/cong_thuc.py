@@ -169,6 +169,11 @@ def ap(cfg, TH, P=None, in_ra=True, ghi=True):
             trung.append(hit[0])
             for k, v in e["dat"].items():
                 dat(k, v, f"yêu cầu «{hit[0]}»")
+    # ---- MẶC ĐỊNH CHỮ = KHO CHỮ TEAM (người dùng 19/11: video phải ra kiểu chữ như trong kho). Bộ chữ gợi ý theo ngành / loại
+    # video chỉ là 6 bộ dáng đơn giản -> thay bằng kho team (kiểu theo vai + bảng kho riêng của ngành). Chỉ giữ bộ khác khi
+    # yêu cầu bằng lời hoặc hồ sơ thương hiệu khoá ("_ro") chọn; cau-hinh ghi "bo_chu" vẫn thắng (bước điền bên dưới).
+    if not str(nguon.get("bo_chu", "")).startswith(("yêu cầu", "hồ sơ")):
+        p["bo_chu"] = "kho_team"; nguon["bo_chu"] = "mặc định: kho chữ team theo vai, đổi sang màu thương hiệu"
     # ---- mức ĐA DẠNG (20/11): thap | thuong | cao -> cộng thêm chuyển cảnh / mặt nạ (kho/cong-thuc.json "da_dang")
     dd = cfg.get("da_dang") or p.get("da_dang") or "thuong"
     if dd in ct.get("da_dang", {}):

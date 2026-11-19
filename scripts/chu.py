@@ -9,6 +9,7 @@ Chữ cố định khác (thumbnail, GIỎ HÀNG, nhãn QC, dòng pháp lý) cũ
 Máy CapCut vẽ chữ lỗi ("Input text"): đặt "chu_capcut": false trong may.json (máy đó) hoặc cau-hinh.json
 -> dùng lại ảnh PNG như cũ.
 """
+import os as _os
 import json, os, shutil
 from pathlib import Path
 
@@ -58,18 +59,38 @@ STYLE = {
 # vùng an toàn TikTok: không lên trên 220px (thanh trạng thái), không xuống dưới ~1500px (chữ mô tả + nút của TikTok)
 ROWS = {"tren": [260, 340, 430], "duoi": [1120, 1240]}
 
+
+def _vien(mau, r):
+    """Viền chữ đều bằng vòng text-shadow (thay -webkit-text-stroke: nét lớn vỡ thành mảng vuông ở chữ có dấu)."""
+    import math
+    r = max(1, int(r))
+    pts = []
+    for rr in sorted({r, max(1, round(r * 0.66)), max(1, round(r * 0.33))}):
+        n = max(12, int(2 * math.pi * rr / 2))
+        pts += [f"{rr * math.cos(2 * math.pi * k / n):.1f}px {rr * math.sin(2 * math.pi * k / n):.1f}px 0 {mau}" for k in range(n)]
+    return "text-shadow:" + ",".join(pts) + ";"
+
+
+def sang_vien(css):
+    """Đổi mọi -webkit-text-stroke trong CSS sang viền vòng text-shadow (_vien)."""
+    import re
+    css = re.sub(r"-webkit-text-stroke:\s*(\d+)px\s+([^;}]+);?", lambda m: _vien(m.group(2).strip(), int(m.group(1)) // 2), css)
+    return re.sub(r"-webkit-text-stroke-color:\s*([^;}]+);?", lambda m: _vien(m.group(1).strip(), 11), css)
+
+
+
 CSS = """
 .t{position:absolute;left:40px;right:40px;top:0;text-align:center;white-space:nowrap;font-family:'Be Vietnam Pro';font-weight:600}
 .t-chinh{font-size:86px;line-height:1.12;letter-spacing:.5px;font-weight:800}
 .t-chinh .l{position:relative;display:block}
-.t-chinh .bg{position:absolute;left:0;right:0;top:0;color:#fff;-webkit-text-stroke:24px #fff;
+.t-chinh .bg{position:absolute;left:0;right:0;top:0;color:#fff;VIEN12
   filter:drop-shadow(4px 6px 6px rgba(0,0,0,.45))}
 .t-chinh .fg{position:relative;color:GREEN}
 .t-nen{font-size:58px;line-height:1.2;font-weight:700}
 .t-nen .l{display:block;margin:0 auto 12px;width:max-content;background:GREEN;color:#fff;border-radius:22px;
   padding:8px 30px 12px;box-shadow:3px 5px 10px rgba(0,0,0,.28)}
 .t i{font-style:italic;font-weight:700}
-""".replace("GREEN", GREEN)
+""".replace("GREEN", GREEN).replace("VIEN12", _vien("#fff", 12))
 
 
 # ---------------------------------------------------------------- BỘ KIỂU CHỮ (19/11/2026)
@@ -113,7 +134,7 @@ def _css_bo(b):
            f".t-chinh .fg{{position:relative;color:{_mau(c['color'])}}}"]
     if c["vien"]:
         out.append(f".t-chinh .bg{{position:absolute;left:0;right:0;top:0;color:{_mau(c['vien'][0])};"
-                   f"-webkit-text-stroke:{round(c['vien'][1] * 400)}px {_mau(c['vien'][0])};"
+                   + _vien(_mau(c['vien'][0]), round(c['vien'][1] * 200)) +
                    f"filter:drop-shadow(4px 6px 6px rgba(0,0,0,{c['bong']}))}}")
     else:
         out.append(".t-chinh .bg{display:none}")
@@ -182,6 +203,64 @@ def html(n):
     else:
         body = "".join(f'<span class="l">{l}</span>' for l in ls)
     return f'<div class="t t-{k}" style="top:40px">{body}</div>'
+
+
+def html_kho(n, mau=None):
+    """Bản MP4 xem thử cho chữ theo KHO CHỮ TEAM (n["kho"] = mã): vẽ lại đúng font / màu / viền / bóng / nền của kiểu kho
+    (cùng cách kho_text.ap_kho dựng chữ CapCut: chữ 2 màu, đổi màu nhấn sang màu thương hiệu, thu nhỏ khi dài hơn mẫu)."""
+    import json as _j, math as _m
+    import kho_text as kt
+    row = kt._rows().get(n.get("kho"))
+    if not row:
+        return html(n)
+    mat = row["mat"]
+    c = _j.loads(mat["content"])
+    old = sorted(c["styles"], key=lambda s: s["range"][0])
+    ls = lines(n)
+    text = chr(10).join(ls)
+    mau_goc = c.get("text", "") or text
+    sc = row["seg"]["clip"]["scale"]["x"] * min(1.0, max(0.72, kt._rong(mau_goc) / max(kt._rong(text), 1)))
+
+    def rgba(col, a=1.0):
+        if mau and kt._nhan(col):
+            col = kt._rgb(mau)
+        r, g, b = [round(x * 255) for x in col[:3]]
+        return f"rgba({r},{g},{b},{a})"
+
+    def css(s):
+        f = kt.font_thay(_os.path.basename(s.get("font", {}).get("path", "") or "x-Bold"))
+        fam, w = (("'Montserrat K'", 700) if f.startswith("montserrat") else
+                  ("'Be Vietnam Pro K'", 900) if "900" in f else ("'Be Vietnam Pro'", int(f.split("-")[-1][:3])))
+        px = s.get("size", 15) * sc * PX_PER_SIZE
+        sol = s.get("fill", {}).get("content", {}).get("solid")
+        out = f"font-family:{fam};font-weight:{w};font-size:{px:.0f}px;color:{rgba(sol['color'], s['fill'].get('alpha', 1)) if sol else '#fff'};"
+        if s.get("italic") or "italic" in (s.get("font", {}).get("path", "").lower()):
+            out += "font-style:italic;"
+        sh = []
+        for st in s.get("strokes", []):
+            so = st.get("content", {}).get("solid")
+            if so and st.get("width", 0) > 0:
+                r = max(1, round(st["width"] * px * 1.1))
+                for rr in sorted({r, max(1, round(r * .6))}):
+                    k_ = max(12, int(2 * _m.pi * rr / 2))
+                    sh += [f"{rr*_m.cos(2*_m.pi*i/k_):.1f}px {rr*_m.sin(2*_m.pi*i/k_):.1f}px 0 {rgba(so['color'])}" for i in range(k_)]
+        for sd in s.get("shadows", []):
+            so = sd.get("content", {}).get("solid")
+            if so:
+                d, a = sd.get("distance", 5) * .8, _m.radians(sd.get("angle", -45))
+                sh.append(f"{d*_m.cos(a):.1f}px {-d*_m.sin(a):.1f}px {sd.get('feather', .3)*14:.0f}px {rgba(so['color'], sd.get('alpha', .6))}")
+        return out + ("text-shadow:" + ",".join(sh) + ";" if sh else "")
+
+    # chữ 2 màu: dòng 1 kiểu đầu, các dòng sau kiểu cuối (như ap_kho)
+    st = [css(old[0])] + [css(old[-1] if len(old) > 1 else old[0])] * (len(ls) - 1)
+    body = "".join(f'<span class="l" style="display:block;line-height:1.15"><span class="fg" style="{st[i]}">{l}</span></span>'
+                   for i, l in enumerate(ls))
+    box = ""
+    if mat.get("background_style") and mat.get("background_alpha", 0) > 0 and str(mat.get("background_color", "")).startswith("#"):
+        bc = kt._rgb(mat["background_color"])
+        box = (f"display:inline-block;background:{rgba(bc, mat['background_alpha'])};"
+               f"border-radius:{mat.get('background_round_radius', 0) * 60:.0f}px;padding:10px 30px 14px;")
+    return (f'<div class="t t-kho" style="top:40px"><div style="{box}">{body}</div></div>')
 
 
 def capcut_text(n, cx, cy, scale=1.0):

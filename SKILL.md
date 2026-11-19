@@ -98,10 +98,16 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
 - **AI ĐỌC `projects/<du-an>/cong-thuc.md` TRƯỚC KHI VIẾT `nhan`**: mật độ chữ gợi ý (chữ / phút), khung video theo loại, lưu ý
   ngành, **gợi ý chữ theo sản phẩm** (giá → số to, ưu đãi → nhãn, thông số → chữ to / danh sách, thành phần → danh sách — rút
   từ lời nói + kịch bản). Chạy `cong_thuc.py xem` sau khi có transcript để có file này trước khi viết chữ.
-- `"bo_chu": "kho_team"` (hoặc người dùng nói "dùng kiểu chữ của team"): mỗi chữ nhấn tự gắn kiểu kho team theo VAI (hook ·
-  ý chính · từ khoá / thông số · danh sách · mô tả · tên SP · giá · ưu đãi · CTA; kiểu theo ngành trong cong-thuc.json) và
-  **đổi màu nhấn của kiểu sang màu thương hiệu** đang dựng (trắng / đen giữ nguyên). Chữ đã ghi `"kho"` thì giữ.
-- Hồ sơ SANTAV ghi rõ `bo_chu: thuong_hieu` + `phong_cach: sang_trong` → video SANTAV giữ đúng kiểu cũ.
+- **MẶC ĐỊNH `"bo_chu": "kho_team"`** (người dùng 19/11: "edit chưa ra được các text như trong kho"): mỗi chữ nhấn tự gắn
+  kiểu kho team theo VAI (hook · ý chính · từ khoá / thông số · danh sách · mô tả · tên SP · giá · ưu đãi · CTA; kiểu theo
+  ngành trong cong-thuc.json) và **đổi màu nhấn của kiểu sang màu thương hiệu** đang dựng (trắng / đen giữ nguyên). Chữ đã
+  ghi `"kho"` thì giữ. Bộ chữ gợi ý theo ngành / loại video KHÔNG còn thay kho; chỉ đổi khi cau-hinh ghi `bo_chu` khác,
+  yêu cầu bằng lời ("hộp trắng", "chốt đơn"…) hoặc hồ sơ khoá (`_ro`). **MP4 xem thử cũng vẽ đúng kiểu kho**
+  (`chu.html_kho`: font, màu, viền, bóng, nền; hiệu ứng chữ 3D / neon / phụ đề giải trí và hoạt ảnh chỉ thấy trong CapCut).
+  Chữ dài hơn mẫu tự co nhưng không dưới 72%. Font kho không có trên máy → luôn thay bằng font kèm skill đủ dấu (xoá mã font
+  thư viện của máy làm kho — trước đây máy khác bị lỗi font). Xem 82 kiểu: trang demo `KHO-TEXT-TEAM-DEMO.html` hoặc dự án
+  CapCut "-KHO TEXT".
+- Hồ sơ SANTAV nay cũng `bo_chu: kho_team` (kiểu kho, màu xanh SANTAV). Muốn kiểu cũ: `"bo_chu": "thuong_hieu"` trong cau-hinh.
 
 ## KHO CHỮ CAPCUT CỦA TEAM — 82 kiểu thật (19/11/2026)
 - `kho/kho-text.md`: 82 kiểu chữ lấy từ 21 dự án team đã edit trong CapCut (job 11B14 → 11B18, có cả chỉnh tay), 6 nhóm:

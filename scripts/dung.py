@@ -558,7 +558,7 @@ def stroked(cls, inner):
 
 def html_page(body):
     return (f'<!doctype html><html><head><meta charset="utf-8"><base href="{FONTS.as_uri()}/">'
-            f'<link rel="stylesheet" href="fonts.css"><style>{CSS}</style></head><body>{body}'
+            f'<link rel="stylesheet" href="fonts.css"><style>{tc.sang_vien(CSS)}</style></head><body>{body}'
             f'<div style="font-family:\'Be Vietnam Pro\';font-weight:700;position:absolute;opacity:0">ạ<i>ạ</i></div>'
             # chữ nhấn không rớt dòng: dòng nào quá rộng thì co cỡ chữ cả khối
             '<script>document.fonts.ready.then(()=>{document.querySelectorAll(".nh,.t").forEach(el=>{'
@@ -1061,7 +1061,7 @@ def main():
     import cong_thuc
     cfg, _ = cong_thuc.ap(cfg, TH, P)
     bo_chu = cfg.get("bo_chu") or TH.get("bo_chu") or "thuong_hieu"
-    if bo_chu == "kho_team":          # chữ theo kho team (đã gắn "kho" theo vai); bản MP4 xem thử vẽ theo kiểu thương hiệu
+    if bo_chu == "kho_team":          # chữ theo kho team (đã gắn "kho" theo vai, MP4 xem thử vẽ theo kho); chữ khác theo kiểu thương hiệu
         bo_chu = "thuong_hieu"
     if bo_chu == "tu_dong":
         import mau_chu
@@ -1259,8 +1259,8 @@ def main():
             jobs.append((c["name"], stroked("call", "<br>".join(c["lines"]))))
         if nqc:
             jobs += [("nhan", f'<div class="nhan">{nqc["tag"]}</div>'), ("phaply", f'<div class="phaply">{nqc["phaply"].replace(" · ", "<br>")}</div>')]
-        for n in nhans:
-            jobs.append((n["name"], tc.html(n)))
+        for n in nhans:            # chữ theo kho team: bản xem thử vẽ đúng kiểu kho (font, màu, viền, nền)
+            jobs.append((n["name"], tc.html_kho(n, GREEN if cfg.get("kho_doi_mau") else None) if n.get("kho") else tc.html(n)))
         if phu_de:
             for i, c in enumerate(cues):
                 jobs.append((f"sub{i:03d}", stroked("sub", keep_nbsp(c["text"]))))

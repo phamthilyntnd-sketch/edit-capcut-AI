@@ -74,7 +74,7 @@ def _rgb(h):
 def _nhan(c):
     """Màu NHẤN (có sắc, không phải trắng / đen / xám) -> được đổi sang màu thương hiệu."""
     r, g, b = c[:3]
-    return max(r, g, b) - min(r, g, b) > 0.18
+    return max(r, g, b) - min(r, g, b) > 0.12
 
 
 def _rong(t):
@@ -127,7 +127,14 @@ def ap_kho(draft_dir, muc, P, mau=None):
                     s0["range"] = [0, _u16(a)]; s1["range"] = [_u16(a), _u16(text)]; c["styles"] = [s0, s1]
                 else:
                     s0 = copy.deepcopy(old[0]); s0["range"] = [0, _u16(text)]; c["styles"] = [s0]
-                co_ma_font = bool(nm.get("font_resource_id"))
+                # font của máy làm kho (kể cả font thư viện CapCut nằm trong cache máy đó) không có ở máy khác -> luôn thay bằng
+                # font kèm skill đủ dấu tiếng Việt, xoá mã font thư viện để CapCut không tìm file cũ (lỗi font ở máy khác 19/11)
+                co_ma_font = False
+                if nm.get("font_path") and not os.path.exists(nm["font_path"]):
+                    for k_ in ("font_resource_id", "font_id", "font_third_resource_id", "font_url"):
+                        if k_ in nm:
+                            nm[k_] = ""
+                    nm["fonts"] = []
                 for s_ in c["styles"]:
                     p = s_.get("font", {}).get("path", "")
                     if p and not os.path.exists(p) and not co_ma_font:
@@ -172,7 +179,7 @@ def ap_kho(draft_dir, muc, P, mau=None):
                 sg["extra_material_refs"] = giu + refs
                 # cỡ: theo mẫu của kho, thu nhỏ khi chữ dài hơn mẫu (giữ vị trí bố cục đã chọn)
                 mau = json.loads(row["mat"]["content"]).get("text", "") or text
-                sc = row["seg"]["clip"]["scale"]["x"] * min(1.0, _rong(mau) / max(_rong(text), 1))
+                sc = row["seg"]["clip"]["scale"]["x"] * min(1.0, max(0.72, _rong(mau) / max(_rong(text), 1)))   # không co quá 72% (chữ nhỏ quá khó đọc)
                 sg["clip"]["scale"] = {"x": round(sc, 4), "y": round(sc, 4)}
                 dem += 1
         f.write_text(json.dumps(j, ensure_ascii=False), encoding="utf-8")

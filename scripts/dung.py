@@ -252,7 +252,7 @@ def mo_tieng_vet_cat(draft_dir, vao_us=15000, ra_us=20000):
     return n
 
 
-def mike_diem_nhan(cfg, m, fr):
+def mike_diem_nhan(cfg, m, fr, P=None):
     """ĐIỂM NHẤN MIKE (20/11/2026): cau-hinh "mike_diem_nhan": ["<thư mục dự án Mike nhỏ>", ...] — mỗi dự án Mike dựng
     vài câu đắt giá (chữ sau đầu, cảnh đồ hoạ...) bằng /edit-video-mike-2 với edl = đúng các đoạn giữ của câu đó trong
     video này. Bản render của Mike phủ lên đúng giây tương ứng (lớp "Mike" trong CapCut, tắt tiếng — giọng vẫn là của
@@ -267,9 +267,16 @@ def mike_diem_nhan(cfg, m, fr):
         if not segf.exists() or not rs:
             print(f"! Điểm nhấn Mike {D.name}: chưa có segments.json / bản render -> bỏ qua")
             continue
-        fps = 60
+        src_r = rs[-1]
+        if P is not None:   # chép bản render vào dự án: project CapCut không phụ thuộc thư mục Mike (mất / dọn vẫn mở được)
+            dst = Path(P) / "mike" / f"{D.name}.mp4"
+            dst.parent.mkdir(exist_ok=True)
+            if not dst.exists() or dst.stat().st_mtime < src_r.stat().st_mtime:
+                shutil.copy2(src_r, dst)
+            src_r = dst
+        fps = 30   # mốc khung trong segments.json của Mike tính theo 30 khung/giây
         try:
-            fps = json.loads((D / "work" / "editor-map.json").read_text(encoding="utf-8")).get("fps", 60)
+            fps = json.loads((D / "work" / "editor-map.json").read_text(encoding="utf-8")).get("fps", 30)
         except Exception:
             pass
         for j, sg in enumerate(json.loads(segf.read_text(encoding="utf-8"))):
@@ -280,7 +287,7 @@ def mike_diem_nhan(cfg, m, fr):
                 print(f"! Điểm nhấn Mike {D.name}/{sg.get('id')}: đoạn {a_src:.2f}-{b_src:.2f}s không khớp vết cắt của video "
                       f"({t1 - t0:.2f}s vs {dur:.2f}s) -> bỏ; dựng Mike với edl = đúng các đoạn giữ (keeps)")
                 continue
-            out.append({"path": str(rs[-1]), "start": fr(t0), "duration": fr(dur), "from": round(sg["frame"] / fps, 4),
+            out.append({"path": str(src_r), "start": fr(t0), "duration": fr(dur), "from": round(sg["frame"] / fps, 4),
                         "ref": f"mike{i}_{j}", "mike": True})
     if out:
         print(f"Điểm nhấn Mike: {len(out)} đoạn, {sum(x['duration'] for x in out):.1f}s")
@@ -1254,7 +1261,11 @@ def main():
         broll[0]["from"] = max(0.0, broll[0]["from"] - broll[0]["start"])
         broll[0]["duration"] = fr(broll[0]["duration"] + broll[0]["start"])
         broll[0]["start"] = 0.0
-    mike_ds = mike_diem_nhan(cfg, m, fr)
+    mike_ds = mike_diem_nhan(cfg, m, fr, P)
+    if mike_ds and mike_ds[0]["start"] < 0.05 and cfg.get("thumb_dur", 2) > 0.1:
+        # câu mở đầu đã do Mike làm (có chữ riêng) -> thumbnail chỉ còn ở khung đầu (ảnh bìa), không chồng chữ Mike
+        cfg["thumb_dur"] = 0.04
+        print("Điểm nhấn Mike ở câu mở đầu -> thumbnail chỉ ở khung đầu (ảnh bìa)")
     trans = chon_chuyen_canh(cfg, broll, total, hat=P.name)
     calls = []
     for i, c in enumerate(cfg["callouts"]):

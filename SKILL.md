@@ -137,6 +137,12 @@ Chọn chế độ trong cau-hinh `"mike"` (hoặc theo lời người dùng; m�
   `PY -I SK/scripts/mike_capcut.py "<dự án Mike>" [--chu-capcut]` → project CapCut `<tên>-capcut`: A-roll theo vết cắt Mike ·
   B-roll · "Hieu ung Mike" (đoạn đồ hoạ từ bản render, chỉ cắt / dời / xoá được) · phụ đề (ảnh đúng kiểu Mike, hoặc chữ CapCut
   Be Vietnam Pro với `--chu-capcut`) · nhạc nền · SFX. Không bao giờ ghi đè draft (tạo `-v2`, `-v3`…).
+- **Luật dựng điểm nhấn Mike (góp ý người dùng 19/11 sau bản thử 1):** KHÔNG dùng khung vuông chụp vào mặt (`locked_on`);
+  KHÔNG dùng cảnh phủ kín khung (canvas, old_to_new, two_cards…) ở câu nói về CHI TIẾT SẢN PHẨM — sản phẩm trên tay phải luôn
+  thấy; chữ đặt TRÊN ĐẦU (`Reel(place='top')`) hoặc SAU ĐẦU ('back'), biển LED sau đầu cho tên thương hiệu. Dự án Mike nhỏ đặt
+  trong `projects/<du-an>/mike-*` (không để ở thư mục dự án Mike chung); bản render tự chép vào `projects/<du-an>/mike/`.
+  Câu mở đầu là điểm nhấn Mike → thumbnail chỉ còn ở khung đầu (ảnh bìa). Tạp âm nền: `"loc_tap_am": 2` cho MP4; trong CapCut
+  bật "Giảm tiếng ồn" trên đoạn giọng (hoặc tạo project mẫu `-MAU` để skill tự bật).
 - Đã thử 20/11 (EYEMEDI Kb4): `mike_capcut.py --check` OK (A-roll 10 · B-roll 9 · hiệu ứng 8 · phụ đề 48); `mike_diem_nhan` với
   dự án Mike cũ của Kb4: 9/10 đoạn khớp vết cắt, 1 đoạn lệch 0,2s bị bỏ đúng như thiết kế.
 

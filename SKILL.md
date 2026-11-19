@@ -107,6 +107,10 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
   Chữ dài hơn mẫu tự co nhưng không dưới 72%. Font kho không có trên máy → luôn thay bằng font kèm skill đủ dấu (xoá mã font
   thư viện của máy làm kho — trước đây máy khác bị lỗi font). Xem 82 kiểu: trang demo `KHO-TEXT-TEAM-DEMO.html` hoặc dự án
   CapCut "-KHO TEXT".
+- **Không lặp 1 kiểu** (người dùng 19/11: "nhiều kiểu đẹp mà toàn dùng 1 kiểu rất xấu"): mỗi video tự chọn 1 BỘ KIỂU kho
+  (`cong_thuc.BO_KHO`: dam_vien_den · hai_mau_nau · do_trang · neon_nghieng (chỉ ẩm thực / đồ uống / du lịch); ít dùng:
+  trang_vien_mau · pastel_vien_kem) — các kiểu cùng 1 dự án team (đồng bộ font / viền / bóng), đổi bộ giữa các video theo
+  tên dự án; trong video xoay vòng kiểu của từng vai, 2 chữ liền nhau không cùng kiểu. Chọn bộ: `"bo_kho": "<tên>"`.
 - Hồ sơ SANTAV nay cũng `bo_chu: kho_team` (kiểu kho, màu xanh SANTAV). Muốn kiểu cũ: `"bo_chu": "thuong_hieu"` trong cau-hinh.
 
 ## KHO CHỮ CAPCUT CỦA TEAM — 82 kiểu thật (19/11/2026)

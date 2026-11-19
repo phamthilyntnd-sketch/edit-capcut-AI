@@ -33,6 +33,42 @@ BIDANH = {"thuc-pham": "am-thuc", "do-an": "am-thuc", "spa": "spa-tham-my", "tpc
           "dien-tu": "cong-nghe", "thuong-mai": "gia-dung", "tiktok-shop": "gia-dung"}
 
 
+# BỘ KIỂU KHO (người dùng 19/11: "nhiều kiểu đẹp mà toàn dùng 1 kiểu"): mỗi bộ = các kiểu cùng 1 dự án team đã edit thật
+# (cùng font / viền / bóng -> đồng bộ trong video). Mỗi video chọn 1 bộ (đổi giữa các video), trong video xoay vòng kiểu
+# của từng vai để 2 chữ liền nhau không giống hệt. Vai thiếu trong bộ -> bảng vai mặc định / ngành. Bộ "it_dung" (ít kiểu,
+# ý chính chỉ 1 kiểu -> lặp) không tự chọn, chỉ dùng khi cau-hinh ghi "bo_kho".
+BO_KHO = {
+    "dam_vien_den": {"ten": "Montserrat đậm viền đen + bóng, 2 màu (kiểu Anlene)",
+                     "hook": ["H05", "T01"], "y": ["T01", "T06", "T18"], "tu_khoa": ["K01"], "gia": ["K01"],
+                     "danh_sach": ["T06"], "ten_sp": ["N03"], "cta": ["N05"], "uu_dai": ["N03"], "mo_ta": ["T06"]},
+    "hai_mau_nau": {"ten": "Montserrat đậm 2 màu viền nâu + bóng (kiểu video giày)",
+                    "hook": ["T02"], "y": ["T11", "T14", "T02"], "tu_khoa": ["T16", "K01"], "gia": ["K01"],
+                    "danh_sach": ["T11"], "ten_sp": ["N15"], "cta": ["N08"], "uu_dai": ["N19"], "mo_ta": ["T14"]},
+    "do_trang": {"ten": "Chữ đậm 2 màu đỏ / trắng viền đen (kiểu app dịch vụ)",
+                 "hook": ["H03", "H02"], "y": ["T07", "H03"], "tu_khoa": ["K02", "H02"], "gia": ["K01"],
+                 "danh_sach": ["T07"], "ten_sp": ["N02"], "cta": ["N06", "N07"], "uu_dai": ["N10"], "mo_ta": ["M05", "M07"]},
+    "trang_vien_mau": {"ten": "Chữ đen / màu trên viền trắng + bóng (kiểu Sim)", "it_dung": True,
+                       "hook": ["T05"], "y": ["T05"], "tu_khoa": ["K01"], "gia": ["K01"], "danh_sach": ["T05"],
+                       "ten_sp": ["N04"], "cta": ["N04"], "uu_dai": ["N04"], "mo_ta": ["M13", "M17"]},
+    "neon_nghieng": {"ten": "Chữ nghiêng đậm neon viền tối (kiểu quán / booking)", "chi_nganh": ["am-thuc", "do-uong", "du-lich"],
+                     "hook": ["K01", "T09"], "y": ["T09", "T12", "T13"], "tu_khoa": ["K01", "K02", "K03"], "gia": ["K01"],
+                     "danh_sach": ["T04"], "ten_sp": ["K03"], "cta": ["M14"], "uu_dai": ["K02"], "mo_ta": ["M14", "M19"]},
+    "pastel_vien_kem": {"ten": "Chữ đậm màu dịu viền kem (kiểu Noé)", "it_dung": True,
+                        "hook": ["H01"], "y": ["T03", "T08"], "tu_khoa": ["T03"], "gia": ["K01"], "danh_sach": ["T08"],
+                        "ten_sp": ["N01"], "cta": ["N12"], "uu_dai": ["N13"], "mo_ta": ["M18"]},
+}
+
+
+def chon_bo_kho(cfg, ng, P=None):
+    """Bộ kiểu kho cho 1 video: cau-hinh "bo_kho" thắng; không thì chọn theo tên dự án (mỗi video 1 bộ, đổi giữa các video)."""
+    if cfg.get("bo_kho") in BO_KHO:
+        return cfg["bo_kho"]
+    ds = [k for k, v in BO_KHO.items() if not v.get("it_dung") and (not v.get("chi_nganh") or ng in v["chi_nganh"])]
+    import zlib
+    seed = str(cfg.get("draft") or cfg.get("title") or (Path(P).name if P else "")) or "x"
+    return ds[zlib.crc32(seed.encode("utf-8")) % len(ds)]
+
+
 def _kd(s):
     return unicodedata.normalize("NFC", (s or "").lower())
 
@@ -203,12 +239,24 @@ def ap(cfg, TH, P=None, in_ra=True, ghi=True):
         vai_map = dict(ct["vai_kho_mac_dinh"])
         if ng:
             vai_map.update(ct["nganh"][ng].get("kho", {}))
+        bk = chon_bo_kho(cfg, ng, P)
+        cfg["bo_kho"] = bk
+        gan.append(f"- Bộ kiểu: **{bk}** — {BO_KHO[bk]['ten']} (đổi bằng \"bo_kho\": {' | '.join(BO_KHO)})")
+        dem_vai = {}
         nh = sorted(enumerate(cfg.get("nhan", [])), key=lambda x: float(x[1].get("sau", 0)))
+        truoc = None
         for j, (i, n) in enumerate(nh):
             if n.get("kho"):
+                truoc = n["kho"]
                 continue
             v = vai_chu(n, j == 0, TH)
-            n["kho"] = vai_map.get(v, vai_map["y"])
+            pool = BO_KHO[bk].get(v) or [vai_map.get(v, vai_map["y"])]
+            k = dem_vai.get(v, 0)
+            ma = pool[k % len(pool)]
+            if ma == truoc and len(pool) > 1:          # 2 chữ liền nhau không cùng 1 kiểu
+                k += 1; ma = pool[k % len(pool)]
+            dem_vai[v] = k + 1
+            n["kho"] = truoc = ma
             gan.append(f"- «{' / '.join(n.get('chu', []))[:40]}» -> vai {v} -> {n['kho']}")
         cfg.setdefault("kho_doi_mau", True)
     # ---- báo cáo

@@ -310,6 +310,45 @@ Chép `_mau.json` → `<ma>.json`, điền: `mau_chinh` / `mau_dam` / `mau_vien`
 11. **Nguyên tắc TikTok:** chữ trong vùng an toàn (y 220–1520, không sát mép phải); hook 3s đầu; nhãn "Hợp tác quảng cáo"; không từ cấm/claim y tế; số liệu chỉ từ `facts`; 9:16 1080×1920; -14 LUFS.
 12. **Sửa TẠI CHỖ project đang góp ý, không tạo v2/v3:** `--capcut` mặc định cập nhật project ghi trong `du-an.json` (`cap_nhat.py`: dựng vào `<tên>__moi`, chuyển bản cũ — không xoá — sang `projects/<du-an>/_draft-cu/`, giữ draft_id, sửa danh sách CapCut). Chỉ giữ 1 bản sao lưu gần nhất. `--moi` = tạo project mới (lần đầu). CapCut phải ĐÓNG HẲN (kể cả khay) — nhờ người dùng, không tự tắt. Ổ đĩa phải còn ≥ 2 GB; thiếu thì báo, không tự xoá project khác.
 
+## NHẬN DIỆN NỘI DUNG TỪNG CÂU → CHỌN HIỆU ỨNG (20/11/2026)
+Người dùng: "nhận diện nội dung video để chọn hiệu ứng cho phù hợp". `scripts/noi_dung.py` đọc lời nói (chỉ phần giữ lại,
+tách câu theo dấu câu / khoảng lặng > 0,6s) và gắn LOẠI cho từng câu, khớp NGUYÊN TỪ ("đêm" không phải "êm", "như" không
+phải "hư"), bỏ phủ định ("không sợ bị biến dạng" không phải vấn đề), nhận tên thương hiệu cả khi Whisper nghe thiếu chữ đầu.
+`PY -I SK/scripts/noi_dung.py projects/<du-an>` → `noi-dung.md` (+ `.json`). `dung.py` tự chạy nó (qua `cong_thuc.ap`);
+tắt bằng `"nhan_dien": false`.
+
+| Loại câu | Chữ (vai → kiểu TT theo ngành) | Vị trí chữ | Cảnh trám nên dùng | Tiếng | Mike (nếu bật) |
+|---|---|---|---|---|---|
+| mở đầu / câu hỏi | hook | theo bố cục | giữ người nói (hook 3s) | hỏi | chữ to trên / sau đầu |
+| vấn đề | hook | theo bố cục | người đang gặp vấn đề | chữ | — |
+| so sánh / đổi sang | ý | theo bố cục | trước / sau | chuyển | cảnh cũ → mới (không khi đang cầm SP) |
+| CHI TIẾT SẢN PHẨM | tên SP | **TRÊN ĐẦU** | **cận sản phẩm** | lấp lánh | KHÔNG phủ kín |
+| thông số / hướng dẫn | từ khoá / danh sách | **TRÊN ĐẦU** | cận SP / thao tác tay | chữ | — |
+| lợi ích | ý | theo bố cục | đang dùng SP | chữ | 1 từ khoá sau đầu |
+| dịch vụ | ý | theo bố cục | nhân viên / cửa hàng | chữ | — |
+| giá / ưu đãi | giá / ưu đãi | theo bố cục | quà / SP | tiền | — |
+| thương hiệu / slogan | tên SP | theo bố cục | logo / cửa hàng | lấp lánh | biển LED sau đầu |
+| kêu gọi | cta | theo bố cục | cửa hàng / giỏ hàng | cta | — |
+| câu nối / cảm nhận | không đặt chữ | — | — | — | — |
+
+Cách dùng khi dựng (AI làm, không hỏi người dùng):
+1. Sau `cat_sach --chot`: chạy `noi_dung.py`, **ĐỌC `noi-dung.md`** trước khi viết `nhan`, `broll`, Mike.
+2. `nhan`: chỉ đặt chữ cho câu có loại (không đặt cho câu nối / cảm nhận); `dung.py` tự gắn `loai` cho từng chữ, đổi vai chữ
+   chung chung (ý / mô tả) theo loại câu, đặt `vi_tri: "tren"` cho câu chi tiết / thông số / hướng dẫn (không ghi đè `vi_tri`
+   đã viết), tiếng nhấn theo loại. Xem dòng "câu …" trong `cong-thuc.md`.
+3. `broll`: mỗi câu có cột "cảnh trám nên dùng" → chọn clip trám khớp (`tim_trong` khoanh đúng đoạn quay việc đó).
+4. Mike điểm nhấn: cuối `noi-dung.md` có lệnh `--mike-edl "…"` (tối đa 3 câu: mở đầu > thương hiệu > lợi ích, KHÔNG chọn câu
+   chi tiết sản phẩm) — dùng thẳng cho bước 1 của chế độ `diem_nhan`.
+Đã thử 20/11: EYEMEDI Kb4 (22 câu), Kb5 (13), SANTAV T-5 (17) — đúng loại ở các câu chính (chi tiết gọng / tư vấn / ưu đãi /
+slogan / kêu gọi); câu Whisper nghe sai nặng có thể ra "câu nối" → AI sửa tay trong `nhan` nếu cần.
+
+## TÓM TẮT: KHI NÀO GỌI MIKE, KHI NÀO KHÔNG (20/11/2026)
+- Video thường / hàng loạt: KHÔNG Mike — kho chữ TikTok + nhận diện nội dung + hiệu ứng CapCut là đủ, nhẹ máy, sửa được hết.
+- Video chủ lực cần chữ sau đầu / đồ hoạ: `"mike": "diem_nhan"` với 2–3 câu từ `noi-dung.md`.
+- Đã có dự án Mike cùng clip: `"mike_cat"` (mượn nhịp cắt, không nặng máy).
+- Muốn đủ look Mike: `/edit-video-mike-2` trọn video rồi `mike_capcut.py`.
+- Luôn: không khung vuông vào mặt, không phủ kín khi nói chi tiết sản phẩm, cảnh trám thắng Mike, giấy phép Mike = gọi, không chép.
+
 ## Quy trình
 1. **Footage + kịch bản:** tìm thư mục footage (trống thì tìm .MOV mới ở Downloads/Desktop rồi chép — không di chuyển). Brief: `PY -I SK/scripts/chuan_bi.py brief "<mã>" --th <ma>`.
 2. **Chuẩn bị:** `PY -I SK/scripts/chuan_bi.py footage "<thư mục>" <du-an> --th <ma> [--aroll IMG_x]` (chạy nền) → raw/ 1080×1920 30fps, transcript.json (in số đoạn), khoảng lặng, bảng ảnh `xem/`. XEM bảng ảnh từng clip; ghi chú giây nào đẹp/khớp lời.

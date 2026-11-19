@@ -812,8 +812,12 @@ def sfx_events(cfg, broll, calls, cta_a, total, nhans=(), trans=None, chon=None)
             ev.append((t, "chu", "=" + n["sfx"], -8 + L, True))
         elif n in cuoi:
             ev.append((t, "ket", None, -8 + L, True))
-        elif n.get("san_pham"):
+        elif n.get("san_pham") or n.get("loai") in ("chi_tiet", "thuong_hieu"):   # câu nói về sản phẩm / thương hiệu: tiếng lấp lánh
             ev.append((t, "san_pham", None, -7 + L, True))
+        elif n.get("loai") in ("gia", "uu_dai"):
+            ev.append((t, "gia", None, -8 + L, True))
+        elif n.get("loai") in ("cau_hoi", "mo_dau") and tc.kieu(n) == "chinh":
+            ev.append((t, "hoi", None, -9 + L, True))
         elif GIA_RE.search(chu_):
             ev.append((t, "gia", None, -8 + L, True))
         elif any(c.rstrip().endswith("?") for c in n["chu"]):

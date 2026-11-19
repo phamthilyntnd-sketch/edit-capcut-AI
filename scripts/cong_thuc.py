@@ -191,6 +191,33 @@ def vai_chu(n, dau_tien, TH):
     return "y"
 
 
+def _noi_dung(cfg, TH, P, gan):
+    """Nhận diện nội dung từng câu (noi_dung.py) -> noi-dung.md; [] nếu thiếu transcript / tắt bằng "nhan_dien": false."""
+    if not P or cfg.get("nhan_dien") is False or not (Path(P) / "transcript.json").exists():
+        return []
+    try:
+        import noi_dung
+        nd = noi_dung.phan_tich(P, cfg, TH)
+    except Exception as e:
+        gan.append(f"- (bỏ qua nhận diện nội dung: {e})")
+        return []
+    from collections import Counter
+    gan.append(f"- Nhận diện nội dung: {len(nd)} câu " + str(dict(Counter(x['loai'] for x in nd)))
+               + " -> noi-dung.md (cảnh trám / Mike gợi ý theo từng câu)")
+    return nd
+
+
+def _cau_tai(nd, n):
+    if not nd:
+        return None
+    try:
+        t = float(n.get("sau", -1))
+    except (TypeError, ValueError):
+        return None
+    import noi_dung
+    return noi_dung.vai_tai(nd, t + 0.2)
+
+
 def ap(cfg, TH, P=None, in_ra=True, ghi=True):
     ct = json.loads(CT.read_text(encoding="utf-8"))
     text = _van_ban(cfg, P)
@@ -282,13 +309,22 @@ def ap(cfg, TH, P=None, in_ra=True, ghi=True):
         ten_bo = "kiểu chữ TikTok theo ngành (kho 1.035 mẫu)" if bk == "tiktok" else BO_KHO[bk]["ten"]
         gan.append(f"- Bộ kiểu: **{bk}** — {ten_bo} (đổi bằng \"bo_kho\": tiktok | {' | '.join(BO_KHO)})")
         dem_vai = {}
+        nd = _noi_dung(cfg, TH, P, gan)
         nh = sorted(enumerate(cfg.get("nhan", [])), key=lambda x: float(x[1].get("sau", 0)))
         truoc = None
         for j, (i, n) in enumerate(nh):
+            c = _cau_tai(nd, n)
+            if c:
+                n.setdefault("loai", c["loai"])
+                if c.get("vi_tri") and not n.get("vi_tri"):
+                    n["vi_tri"] = c["vi_tri"]      # câu chi tiết sản phẩm / thông số / hướng dẫn: chữ TRÊN ĐẦU, không che sản phẩm
             if n.get("kho"):
                 truoc = n["kho"]
                 continue
             v = vai_chu(n, j == 0, TH)
+            # NỘI DUNG CÂU ĐANG NÓI quyết định vai khi chữ tự nó không nói rõ (ý / từ khoá / mô tả)
+            if c and v in ("y", "mo_ta") and c["vai"] != "mo_ta" and c["loai"] != "ke":
+                v = c["vai"]
             pool = BO_TT.get(v) if bk == "tiktok" else BO_KHO[bk].get(v)
             pool = pool or [vai_map.get(v, vai_map["y"])]
             k = dem_vai.get(v, 0)
@@ -297,7 +333,8 @@ def ap(cfg, TH, P=None, in_ra=True, ghi=True):
                 k += 1; ma = pool[k % len(pool)]
             dem_vai[v] = k + 1
             n["kho"] = truoc = ma
-            gan.append(f"- «{' / '.join(n.get('chu', []))[:40]}» -> vai {v} -> {n['kho']}")
+            gan.append(f"- «{' / '.join(n.get('chu', []))[:40]}» -> vai {v} -> {n['kho']}"
+                       + (f" · câu {n['loai']}" if n.get("loai") else "") + (" · trên đầu" if n.get("vi_tri") == "tren" else ""))
         cfg.setdefault("kho_doi_mau", True)
     # ---- báo cáo
     bc += [f"**Ngành:** {ct['nganh'][ng]['ten'] if ng else 'không rõ (dùng mặc định)'} — {ng_ly_do}",

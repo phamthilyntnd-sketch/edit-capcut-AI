@@ -27,7 +27,67 @@ FPS = 30
 
 def _rows():
     t = KHO_MD.read_text(encoding="utf-8")
-    return {r["code"]: r for r in (json.loads(m) for m in re.findall(r"^<!--KHO (\{.*\})-->$", t, re.M))}
+    rows = {r["code"]: r for r in (json.loads(m) for m in re.findall(r"^<!--KHO (\{.*\})-->$", t, re.M))}
+    rows.update(_rows_tiktok(rows))
+    return rows
+
+
+# ---- 25 KIỂU CHỮ TIKTOK (kho/kieu-tiktok.json, 20/11/2026): dựng từ 23 nhóm kho mẫu TikTok, font kèm skill đủ dấu
+BRAND_GIA = "#FFD60A"       # màu nhấn tạm của kiểu (đổi sang màu chữ video khi kho_doi_mau)
+
+
+def _hex_rgb(h):
+    h = BRAND_GIA if h == "BRAND" else h
+    return [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+
+
+def _style_tt(fill, font, size, stroke=None, shadow=True, neon=None):
+    st = {"fill": {"content": {"render_type": "solid", "solid": {"color": _hex_rgb(fill)}}},
+          "font": {"path": "THIEU/" + font, "id": ""}, "size": size, "useLetterColor": True, "range": [0, 1],
+          "italic": False, "bold": False, "underline": False}
+    if stroke:
+        st["strokes"] = [{"content": {"render_type": "solid", "solid": {"color": _hex_rgb(stroke[0])}}, "width": stroke[1], "mode": 0}]
+    if shadow:
+        st["shadows"] = [{"thickness_projection_angle": -45, "thickness_projection_enable": False, "diffuse": 0.2, "alpha": 0.45,
+                          "distance": 4, "content": {"render_type": "solid", "solid": {"color": [0, 0, 0]}}, "angle": -45,
+                          "thickness_projection_distance": 0}]
+    if neon:
+        st["shadows"] = [{"thickness_projection_angle": -45, "thickness_projection_enable": False, "diffuse": 0.9, "alpha": 0.95,
+                          "distance": 0, "content": {"render_type": "solid", "solid": {"color": _hex_rgb(neon)}}, "angle": -45,
+                          "thickness_projection_distance": 0}]
+    return st
+
+
+def _rows_tiktok(rows):
+    f = SK / "kho" / "kieu-tiktok.json"
+    if not f.exists() or "T01" not in rows:
+        return {}
+    out = {}
+    for code, k in json.loads(f.read_text(encoding="utf-8"))["kieu"].items():
+        r = copy.deepcopy(rows["T01"])
+        r["code"] = code
+        m = r["mat"]
+        styles = []
+        if k.get("dong1"):
+            d1 = k["dong1"]
+            styles.append(_style_tt(d1.get("fill", "#FFFFFF"), d1.get("font", k["font"]), d1.get("size", k["size"]),
+                                    k.get("stroke"), k.get("shadow", False)))
+        styles.append(_style_tt(k.get("fill", "#FFFFFF"), k["font"], k["size"], k.get("stroke"), k.get("shadow", False),
+                                "BRAND" if k.get("neon") else None))
+        m["content"] = json.dumps({"text": k["ten"], "styles": styles}, ensure_ascii=False)
+        m.update(font_path="THIEU/" + k["font"], font_size=k["size"], font_resource_id="", font_id="", fonts=[],
+                 text_color="#ffffff", border_width=(k.get("stroke") or [0, 0])[1],
+                 border_color=(k["stroke"][0] if k.get("stroke") else "").replace("BRAND", BRAND_GIA),
+                 has_shadow=bool(k.get("shadow")), letter_spacing=k.get("gian_chu", 0.0))
+        bg = k.get("bg")
+        m.update(background_style=1 if bg else 0, background_color=(bg[0] if bg else "#000000").replace("BRAND", BRAND_GIA),
+                 background_alpha=bg[1] if bg else 1.0, background_round_radius=bg[2] if bg else 0.0)
+        r["seg"]["clip"]["scale"] = {"x": 1.0, "y": 1.0}
+        r["refs"] = copy.deepcopy(rows.get(k.get("anim", "H02"), rows["T01"])["refs"])
+        r.update(upper=bool(k.get("upper")), giu_mau=bool(k.get("giu_mau")), dong1_rieng=bool(k.get("dong1")),
+                 tiktok=k)
+        out[code] = r
+    return out
 
 
 def _bang():
@@ -43,6 +103,8 @@ def _bang():
 
 def font_thay(ten):
     """Tên file font gốc -> file font kèm skill (đủ dấu tiếng Việt)."""
+    if (FONTS / os.path.basename(ten)).exists():      # font kèm skill (Anton, Playfair, Dancing Script...)
+        return os.path.basename(ten)
     n = ten.lower()
     if "montserrat" in n:
         return "montserrat-bold.otf"
@@ -121,12 +183,14 @@ def ap_kho(draft_dir, muc, P, mau=None):
                 c = json.loads(nm["content"])
                 old = c["styles"]
                 text = unicodedata.normalize("NFC", txt)
+                if row.get("upper"):
+                    text = text.upper()
                 if len(old) > 1 and "\n" in text:     # chữ 2 màu: dòng 1 kiểu đầu, phần sau kiểu cuối
                     a = text.split("\n", 1)[0] + "\n"
                     s0, s1 = copy.deepcopy(old[0]), copy.deepcopy(old[-1])
                     s0["range"] = [0, _u16(a)]; s1["range"] = [_u16(a), _u16(text)]; c["styles"] = [s0, s1]
                 else:
-                    s0 = copy.deepcopy(old[0]); s0["range"] = [0, _u16(text)]; c["styles"] = [s0]
+                    s0 = copy.deepcopy(old[-1] if row.get("dong1_rieng") else old[0]); s0["range"] = [0, _u16(text)]; c["styles"] = [s0]
                 # font của máy làm kho (kể cả font thư viện CapCut nằm trong cache máy đó) không có ở máy khác -> luôn thay bằng
                 # font kèm skill đủ dấu tiếng Việt, xoá mã font thư viện để CapCut không tìm file cũ (lỗi font ở máy khác 19/11)
                 co_ma_font = False
@@ -139,10 +203,10 @@ def ap_kho(draft_dir, muc, P, mau=None):
                     p = s_.get("font", {}).get("path", "")
                     if p and not os.path.exists(p) and not co_ma_font:
                         s_["font"] = {"path": _font_du_an(P, font_thay(os.path.basename(p))), "id": ""}
-                if mau_th:                               # đổi màu nhấn (không phải trắng / đen) sang màu thương hiệu đang dựng
+                if mau_th and not row.get("giu_mau"):    # đổi màu nhấn (không phải trắng / đen) sang màu thương hiệu đang dựng
                     for s_ in c["styles"]:
-                        for key in ("fill",):
-                            sol = s_.get(key, {}).get("content", {}).get("solid", {})
+                        for sol in ([s_.get("fill", {}).get("content", {}).get("solid", {})] +
+                                    [x.get("content", {}).get("solid", {}) for x in s_.get("strokes", []) + s_.get("shadows", [])]):
                             if sol.get("color") and _nhan(sol["color"]):
                                 sol["color"] = _rgb(mau_th)
                         for bg in ([s_["background"]] if isinstance(s_.get("background"), dict) else []):
@@ -151,7 +215,7 @@ def ap_kho(draft_dir, muc, P, mau=None):
                                 sol["color"] = _rgb(mau_th)
                     if nm.get("text_color") and _nhan(_rgb(nm["text_color"])):
                         nm["text_color"] = mau_th.lower()
-                    for key in ("background_color",):
+                    for key in ("background_color", "border_color"):
                         if isinstance(nm.get(key), str) and nm[key].startswith("#") and _nhan(_rgb(nm[key])):
                             nm[key] = mau_th.lower()
                 c["text"] = text

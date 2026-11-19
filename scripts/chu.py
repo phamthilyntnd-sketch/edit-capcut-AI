@@ -185,12 +185,24 @@ def kieu(n):
     return KIEU_MAP.get(n.get("kieu", "chinh"), "chinh")
 
 
+_TT_UPPER = None
+
+
 def lines(n):
+    """Dòng chữ. Kiểu TikTok (kho TTxx) tự quyết in hoa theo kiểu (viết tay / chữ có chân giữ chữ thường)."""
+    global _TT_UPPER
     st = STYLE[kieu(n)]
+    up = st["upper"]
+    if str(n.get("kho", "")).startswith("TT"):
+        if _TT_UPPER is None:
+            import json as _j
+            f = Path(__file__).resolve().parent.parent / "kho" / "kieu-tiktok.json"
+            _TT_UPPER = {k: bool(v.get("upper")) for k, v in _j.loads(f.read_text(encoding="utf-8"))["kieu"].items()} if f.exists() else {}
+        up = _TT_UPPER.get(n["kho"], up)
     out = []
     for c in n["chu"]:
         c = c.replace("*", "")
-        out.append(c.upper() if st["upper"] else c)
+        out.append(c.upper() if up else c)
     return out
 
 
@@ -205,6 +217,14 @@ def html(n):
     return f'<div class="t t-{k}" style="top:40px">{body}</div>'
 
 
+# font kèm skill -> họ font trong fonts.css (bản MP4 xem thử)
+FONT_KHO = {"anton.ttf": ("'Anton'", 400), "coiny.ttf": ("'Coiny'", 400), "sigmar-one.ttf": ("'Sigmar One'", 400),
+            "amatic-sc-bold.ttf": ("'Amatic SC'", 700), "dancing-script.ttf": ("'Dancing Script'", 400),
+            "lobster.ttf": ("'Lobster'", 400), "playfair-display.ttf": ("'Playfair Display'", 400),
+            "baloo2-extrabold.ttf": ("'Baloo 2'", 800), "paytone-one.ttf": ("'Paytone One'", 400),
+            "chakra-petch.ttf": ("'Chakra Petch'", 400)}
+
+
 def html_kho(n, mau=None):
     """Bản MP4 xem thử cho chữ theo KHO CHỮ TEAM (n["kho"] = mã): vẽ lại đúng font / màu / viền / bóng / nền của kiểu kho
     (cùng cách kho_text.ap_kho dựng chữ CapCut: chữ 2 màu, đổi màu nhấn sang màu thương hiệu, thu nhỏ khi dài hơn mẫu)."""
@@ -217,6 +237,10 @@ def html_kho(n, mau=None):
     c = _j.loads(mat["content"])
     old = sorted(c["styles"], key=lambda s: s["range"][0])
     ls = lines(n)
+    if row.get("upper"):
+        ls = [x.upper() for x in ls]
+    if row.get("giu_mau"):
+        mau = None
     text = chr(10).join(ls)
     mau_goc = c.get("text", "") or text
     sc = row["seg"]["clip"]["scale"]["x"] * min(1.0, max(0.72, kt._rong(mau_goc) / max(kt._rong(text), 1)))
@@ -229,7 +253,7 @@ def html_kho(n, mau=None):
 
     def css(s):
         f = kt.font_thay(_os.path.basename(s.get("font", {}).get("path", "") or "x-Bold"))
-        fam, w = (("'Montserrat K'", 700) if f.startswith("montserrat") else
+        fam, w = (FONT_KHO[f] if f in FONT_KHO else ("'Montserrat K'", 700) if f.startswith("montserrat") else
                   ("'Be Vietnam Pro K'", 900) if "900" in f else ("'Be Vietnam Pro'", int(f.split("-")[-1][:3])))
         px = s.get("size", 15) * sc * PX_PER_SIZE
         sol = s.get("fill", {}).get("content", {}).get("solid")
@@ -248,11 +272,15 @@ def html_kho(n, mau=None):
             so = sd.get("content", {}).get("solid")
             if so:
                 d, a = sd.get("distance", 5) * .8, _m.radians(sd.get("angle", -45))
-                sh.append(f"{d*_m.cos(a):.1f}px {-d*_m.sin(a):.1f}px {sd.get('feather', .3)*14:.0f}px {rgba(so['color'], sd.get('alpha', .6))}")
+                sh.append(f"{d*_m.cos(a):.1f}px {-d*_m.sin(a):.1f}px {sd.get('feather', sd.get('diffuse', .3))*14:.0f}px {rgba(so['color'], sd.get('alpha', .6))}")
         return out + ("text-shadow:" + ",".join(sh) + ";" if sh else "")
 
     # chữ 2 màu: dòng 1 kiểu đầu, các dòng sau kiểu cuối (như ap_kho)
+    if row.get("dong1_rieng") and len(ls) == 1:       # kiểu TikTok có dòng đầu riêng: 1 dòng thì dùng kiểu chính
+        old = old[-1:]
     st = [css(old[0])] + [css(old[-1] if len(old) > 1 else old[0])] * (len(ls) - 1)
+    if mat.get("letter_spacing"):
+        st = [x + f"letter-spacing:{mat['letter_spacing']:.2f}em;" for x in st]
     body = "".join(f'<span class="l" style="display:block;line-height:1.15"><span class="fg" style="{st[i]}">{l}</span></span>'
                    for i, l in enumerate(ls))
     box = ""

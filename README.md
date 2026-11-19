@@ -58,3 +58,6 @@ Tóm tắt:
 | `vi-du/cau-hinh-mau.json` | Cấu hình 1 video mẫu |
 
 **Bảo mật:** không đưa footage, brief, logo của khách lên repo này — để trên máy và trỏ đường dẫn trong hồ sơ / cấu hình dự án.
+
+Font kèm skill (thư mục `fonts/`, giấy phép SIL Open Font License — tự do dùng & phân phối kèm phần mềm): Be Vietnam Pro, Montserrat,
+Anton, Coiny, Sigmar One, Amatic SC, Dancing Script, Lobster, Playfair Display, Baloo 2, Paytone One, Chakra Petch.

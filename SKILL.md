@@ -114,6 +114,23 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
   tên dự án; trong video xoay vòng kiểu của từng vai, 2 chữ liền nhau không cùng kiểu. Chọn bộ: `"bo_kho": "<tên>"`.
 - Hồ sơ SANTAV nay cũng `bo_chu: kho_team` (kiểu kho, màu xanh SANTAV). Muốn kiểu cũ: `"bo_chu": "thuong_hieu"` trong cau-hinh.
 
+## 25 KIỂU CHỮ TIKTOK DỰNG ĐƯỢC + CHỌN FONT THEO TÌNH HUỐNG (20/11/2026)
+Người dùng: "sưu tầm nhiều kiểu đẹp mà lúc edit không dùng" + "có phân được khi nào dùng font nào không". `kho/kieu-tiktok.json`
+= 25 kiểu chữ CapCut THẬT (mã `TT01`…`TT27`) dựng từ 23 nhóm kho 1.035 mẫu TikTok; `kho_text.py` sinh vật liệu chữ CapCut
+(font, màu, viền, bóng, nền, giãn chữ, chữ 2 tầng, hoạt ảnh mượn từ kho team), `chu.html_kho` vẽ đúng kiểu cho MP4 xem thử.
+- **MẶC ĐỊNH `bo_kho: "tiktok"`**: mỗi chữ nhấn gắn kiểu theo VAI (`cong_thuc.VAI_NHOM`: hook · ý chính · từ khoá · giá · ưu đãi ·
+  tên SP · CTA · danh sách · mô tả); trong mỗi vai, nhóm nào **ngành đó dùng nhiều nhất trong kho mẫu thật** được chọn trước
+  (`cong_thuc.bo_tiktok(ngành)`), mỗi vai 1 kiểu (ý chính 2 kiểu xoay vòng) → video gọn ~3–4 họ font. Các bộ kho team cũ vẫn chọn
+  được bằng `"bo_kho": "dam_vien_den"|...`; ép từng chữ: `"kho": "TT09"`.
+- **Font theo tình huống** (font kèm skill trong `fonts/`, OFL, đã kiểm đủ dấu tiếng Việt — máy khác cập nhật là có):
+  Anton = giá / số to, câu hook in hoa viền đen · Playfair Display = sang trọng (mỹ phẩm cao cấp, trang sức, spa, BĐS hạng sang,
+  nhà hàng) · Dancing Script = viết tay mềm (son phấn, cafe, quà, thời trang nữ) · Lobster = chữ "Review" ảnh bìa ·
+  Coiny / Baloo 2 = dễ thương (mẹ bé, trà sữa, đồ ăn vặt, nail) · Sigmar One = trẻ em · Chakra Petch = công nghệ / xe / game ·
+  Paytone One = neon / khai trương · Amatic SC = handmade, vintage · Montserrat Bold = tối giản giãn chữ, tiêu đề 2 tầng ·
+  Be Vietnam Pro 600–900 = phụ đề, nhãn, hộp chữ, câu hỏi, bán hàng nóng. Viết tay / chữ có chân giữ chữ thường, còn lại in hoa.
+- Màu nhấn của kiểu đổi sang màu chữ video (`kho_doi_mau`, kể cả viền / quầng neon); `TT17` bán hàng nóng giữ vàng viền đen.
+- Bảng so 25 kiểu với mẫu thật: chạy lại `KIEU-CHU-TIKTOK-DUNG-*.jpg` (máy người dùng).
+
 ## MÀU CHỮ TỰ CHỌN THEO THƯƠNG HIỆU · SẢN PHẨM · VIDEO (20/11/2026)
 Người dùng: "skill tự nhận diện màu sản phẩm, video, thương hiệu để chọn màu cho phù hợp". `scripts/mau_tu_dong.py`
 (tự gọi khi nạp hồ sơ): gom màu có sắc rõ từ **logo** (x3), **màu bao bì** `mau_san_pham` + màu hồ sơ (x2–3), **cảnh trám /

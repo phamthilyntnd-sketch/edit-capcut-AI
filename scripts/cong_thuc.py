@@ -59,10 +59,47 @@ BO_KHO = {
 }
 
 
+# BỘ "tiktok" (mặc định, 20/11/2026 — người dùng: "sưu tầm nhiều kiểu đẹp mà lúc edit không dùng"): kiểu chữ theo VAI lấy từ
+# 25 kiểu dựng từ kho 1.035 mẫu TikTok (kho/kieu-tiktok.json, mã TTxx); trong mỗi vai, nhóm nào NGÀNH ĐÓ dùng nhiều nhất
+# (đếm trong kho/mau-chu-tiktok.json) thì chọn trước. Mỗi vai lấy 1 nhóm (ý chính 2 nhóm xoay vòng) -> tối đa ~4 họ font / video.
+VAI_NHOM = {"hook": [14, 7, 21, 16, 6, 4, 17, 8, 12, 5], "y": [25, 2, 8, 7, 12, 22, 21],
+            "tu_khoa": [7, 9, 8, 17, 22, 12], "gia": [9, 17], "uu_dai": [17, 9, 10], "ten_sp": [10, 15, 4, 6, 5, 12],
+            "cta": [10, 2, 13], "danh_sach": [11, 18, 2], "mo_ta": [1, 25, 2, 18]}
+NGANH_THEM = {"cong-nghe": {"hook": "TT26", "ten_sp": "TT26"}, "xe": {"hook": "TT26", "ten_sp": "TT26"}}
+
+
+def bo_tiktok(ng):
+    """{vai: [mã TTxx]} cho ngành ng theo số mẫu thật trong kho TikTok."""
+    import mau_chu
+    try:
+        _, dem, _ = mau_chu.thong_ke(ng) if ng else (None, {}, None)
+    except Exception:
+        dem = {}
+    dem = {int(k): v for k, v in dict(dem).items()}
+    tt = json.loads((SK / "kho" / "kieu-tiktok.json").read_text(encoding="utf-8"))["kieu"]
+    co = {v["nhom"]: k for k, v in tt.items() if v.get("nhom")}
+    out = {}
+    for vai, ds in VAI_NHOM.items():
+        ds = [g for g in ds if g in co]
+        xep = sorted(ds, key=lambda g: (-dem.get(g, 0), ds.index(g)))
+        out[vai] = [co[g] for g in xep[:2 if vai == "y" else 1]]
+    for vai, ma in NGANH_THEM.get(ng, {}).items():
+        out[vai] = [ma]
+    # ý chính / mô tả không trùng kiểu câu mở đầu (đỡ lặp, đỡ quá nhiều chữ viết tay)
+    for vai in ("y", "mo_ta"):
+        con = [m for m in out[vai] if m not in out["hook"]]
+        if not con:
+            con = [co[g] for g in VAI_NHOM[vai] if g in co and co[g] not in out["hook"]][:1]
+        out[vai] = con
+    return out
+
+
 def chon_bo_kho(cfg, ng, P=None):
     """Bộ kiểu kho cho 1 video: cau-hinh "bo_kho" thắng; không thì chọn theo tên dự án (mỗi video 1 bộ, đổi giữa các video)."""
-    if cfg.get("bo_kho") in BO_KHO:
+    if cfg.get("bo_kho") in BO_KHO or cfg.get("bo_kho") == "tiktok":
         return cfg["bo_kho"]
+    if not cfg.get("bo_kho"):
+        return "tiktok"
     ds = [k for k, v in BO_KHO.items() if not v.get("it_dung") and (not v.get("chi_nganh") or ng in v["chi_nganh"])]
     import zlib
     seed = str(cfg.get("draft") or cfg.get("title") or (Path(P).name if P else "")) or "x"
@@ -240,8 +277,10 @@ def ap(cfg, TH, P=None, in_ra=True, ghi=True):
         if ng:
             vai_map.update(ct["nganh"][ng].get("kho", {}))
         bk = chon_bo_kho(cfg, ng, P)
+        BO_TT = bo_tiktok(ng) if bk == "tiktok" else {}
         cfg["bo_kho"] = bk
-        gan.append(f"- Bộ kiểu: **{bk}** — {BO_KHO[bk]['ten']} (đổi bằng \"bo_kho\": {' | '.join(BO_KHO)})")
+        ten_bo = "kiểu chữ TikTok theo ngành (kho 1.035 mẫu)" if bk == "tiktok" else BO_KHO[bk]["ten"]
+        gan.append(f"- Bộ kiểu: **{bk}** — {ten_bo} (đổi bằng \"bo_kho\": tiktok | {' | '.join(BO_KHO)})")
         dem_vai = {}
         nh = sorted(enumerate(cfg.get("nhan", [])), key=lambda x: float(x[1].get("sau", 0)))
         truoc = None
@@ -250,7 +289,8 @@ def ap(cfg, TH, P=None, in_ra=True, ghi=True):
                 truoc = n["kho"]
                 continue
             v = vai_chu(n, j == 0, TH)
-            pool = BO_KHO[bk].get(v) or [vai_map.get(v, vai_map["y"])]
+            pool = BO_TT.get(v) if bk == "tiktok" else BO_KHO[bk].get(v)
+            pool = pool or [vai_map.get(v, vai_map["y"])]
             k = dem_vai.get(v, 0)
             ma = pool[k % len(pool)]
             if ma == truoc and len(pool) > 1:          # 2 chữ liền nhau không cùng 1 kiểu

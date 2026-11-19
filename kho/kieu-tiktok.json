@@ -1,0 +1,382 @@
+{
+ "_huong_dan": "25 kiểu chữ CapCut dựng từ 23 nhóm kho mẫu TikTok (kho/mau-chu-tiktok.json). kho_text.py sinh vật liệu chữ CapCut từ các thông số này (font kèm skill đủ dấu tiếng Việt). BRAND = màu chữ của video; dong1 = kiểu riêng cho dòng đầu (chữ 2 tầng).",
+ "kieu": {
+  "TT01": {
+   "nhom": 1,
+   "ten": "Phụ đề trắng / câu kể",
+   "font": "be-vietnam-pro-700.ttf",
+   "size": 11,
+   "fill": "#FFFFFF",
+   "shadow": true,
+   "anim": "N01",
+   "dung": "lời kể, câu dẫn, vlog — mọi ngành"
+  },
+  "TT02": {
+   "nhom": 2,
+   "ten": "Hộp trắng – chữ đen",
+   "font": "be-vietnam-pro-800.ttf",
+   "size": 10,
+   "fill": "#111111",
+   "bg": [
+    "#FFFFFF",
+    1,
+    0.35
+   ],
+   "anim": "H02",
+   "dung": "nhận xét nhanh, review gia dụng / TikTok Shop"
+  },
+  "TT03": {
+   "nhom": 3,
+   "ten": "Thẻ trả lời bình luận",
+   "font": "be-vietnam-pro-700.ttf",
+   "size": 8,
+   "fill": "#111111",
+   "bg": [
+    "#FFFFFF",
+    1,
+    0.2
+   ],
+   "dong1": {
+    "fill": "#8A8A8A",
+    "font": "be-vietnam-pro-600.ttf",
+    "size": 6
+   },
+   "anim": "N01",
+   "dung": "trả lời câu hỏi khách"
+  },
+  "TT04": {
+   "nhom": 4,
+   "ten": "Chữ có chân sang trọng",
+   "font": "playfair-display.ttf",
+   "size": 14,
+   "fill": "#FFFFFF",
+   "upper": true,
+   "shadow": true,
+   "anim": "T01",
+   "dung": "mỹ phẩm cao cấp, trang sức, spa, BĐS hạng sang, nhà hàng",
+   "stroke": [
+    "#111111",
+    0.02
+   ]
+  },
+  "TT05": {
+   "nhom": 5,
+   "ten": "Viết tay + dòng nhỏ",
+   "font": "lobster.ttf",
+   "size": 17,
+   "fill": "#FFFFFF",
+   "shadow": true,
+   "anim": "T01",
+   "dung": "son, phấn, quán cafe, quà, thời trang nữ",
+   "stroke": [
+    "#111111",
+    0.03
+   ]
+  },
+  "TT06": {
+   "nhom": 6,
+   "ten": "Ghép viết tay + in đậm",
+   "font": "anton.ttf",
+   "size": 15,
+   "fill": "#FFFFFF",
+   "upper": true,
+   "shadow": true,
+   "dong1": {
+    "fill": "BRAND",
+    "font": "lobster.ttf",
+    "size": 13
+   },
+   "anim": "H03",
+   "dung": "tên quán / sản phẩm kiểu tạp chí"
+  },
+  "TT07": {
+   "nhom": 7,
+   "ten": "In hoa đậm viền đen",
+   "font": "anton.ttf",
+   "size": 16,
+   "fill": "#FFFFFF",
+   "upper": true,
+   "stroke": [
+    "#111111",
+    0.1
+   ],
+   "shadow": true,
+   "anim": "H03",
+   "dung": "câu hook, tiêu đề ảnh bìa"
+  },
+  "TT08": {
+   "nhom": 8,
+   "ten": "Chữ phồng dễ thương",
+   "font": "coiny.ttf",
+   "size": 13,
+   "fill": "BRAND",
+   "stroke": [
+    "#FFFFFF",
+    0.12
+   ],
+   "shadow": true,
+   "anim": "H02",
+   "dung": "mẹ bé, trà sữa, đồ ăn vặt, mỹ phẩm trẻ"
+  },
+  "TT09": {
+   "nhom": 9,
+   "ten": "Số / giá cực to",
+   "font": "anton.ttf",
+   "size": 24,
+   "fill": "BRAND",
+   "upper": true,
+   "stroke": [
+    "#111111",
+    0.08
+   ],
+   "shadow": true,
+   "anim": "H03",
+   "dung": "giá, ưu đãi, diện tích, số liệu"
+  },
+  "TT10": {
+   "nhom": 10,
+   "ten": "Nhãn nền màu + tiêu đề",
+   "font": "be-vietnam-pro-800.ttf",
+   "size": 10,
+   "fill": "#FFFFFF",
+   "bg": [
+    "BRAND",
+    1,
+    0.3
+   ],
+   "anim": "N01",
+   "dung": "tên sản phẩm, nhãn loại SP, địa điểm"
+  },
+  "TT11": {
+   "nhom": 11,
+   "ten": "Top N / danh sách",
+   "font": "montserrat-bold.otf",
+   "size": 10,
+   "fill": "#FFFFFF",
+   "upper": true,
+   "stroke": [
+    "#111111",
+    0.06
+   ],
+   "shadow": true,
+   "dong1": {
+    "fill": "BRAND",
+    "font": "anton.ttf",
+    "size": 16
+   },
+   "anim": "H02",
+   "dung": "top 5, danh sách lợi ích"
+  },
+  "TT12": {
+   "nhom": 12,
+   "ten": "Tối giản giãn chữ",
+   "font": "montserrat-bold.otf",
+   "size": 12,
+   "fill": "#FFFFFF",
+   "upper": true,
+   "shadow": true,
+   "anim": "T01",
+   "gian_chu": 0.15,
+   "dung": "thương hiệu sang, du lịch, nội thất"
+  },
+  "TT13": {
+   "nhom": 13,
+   "ten": "Nhãn tập / series",
+   "font": "be-vietnam-pro-800.ttf",
+   "size": 9,
+   "fill": "#FFFFFF",
+   "upper": true,
+   "bg": [
+    "#111111",
+    1,
+    0.2
+   ],
+   "anim": "N01",
+   "dung": "phần 1, tập 2, mỗi ngày 1 mẹo"
+  },
+  "TT14": {
+   "nhom": 14,
+   "ten": "Câu hỏi gây tò mò",
+   "font": "be-vietnam-pro-900.ttf",
+   "size": 12,
+   "fill": "BRAND",
+   "upper": true,
+   "stroke": [
+    "#111111",
+    0.06
+   ],
+   "shadow": true,
+   "dong1": {
+    "fill": "#FFFFFF",
+    "font": "be-vietnam-pro-900.ttf",
+    "size": 12
+   },
+   "anim": "H02",
+   "dung": "câu hỏi mở đầu"
+  },
+  "TT15": {
+   "nhom": 15,
+   "ten": "Nhãn chỉ tên sản phẩm",
+   "font": "be-vietnam-pro-800.ttf",
+   "size": 11,
+   "fill": "#FFFFFF",
+   "upper": true,
+   "shadow": true,
+   "anim": "N01",
+   "dung": "tên từng món khi so sánh"
+  },
+  "TT16": {
+   "nhom": 16,
+   "ten": "Ảnh bìa kiểu YouTube",
+   "font": "anton.ttf",
+   "size": 17,
+   "fill": "BRAND",
+   "upper": true,
+   "stroke": [
+    "#111111",
+    0.08
+   ],
+   "shadow": true,
+   "dong1": {
+    "fill": "#FFFFFF",
+    "font": "lobster.ttf",
+    "size": 12
+   },
+   "anim": "H03",
+   "dung": "review công nghệ, xe, so sánh"
+  },
+  "TT17": {
+   "nhom": 17,
+   "ten": "Vàng / đỏ viền đậm (bán hàng nóng)",
+   "font": "be-vietnam-pro-900.ttf",
+   "size": 13,
+   "fill": "#FFD60A",
+   "upper": true,
+   "stroke": [
+    "#111111",
+    0.1
+   ],
+   "shadow": true,
+   "anim": "H02",
+   "giu_mau": true,
+   "dung": "đồ ăn, khuyến mãi, chốt đơn"
+  },
+  "TT18": {
+   "nhom": 18,
+   "ten": "Bảng chữ dày (thẻ học / thông tin)",
+   "font": "be-vietnam-pro-700.ttf",
+   "size": 8,
+   "fill": "#111111",
+   "bg": [
+    "#FFFFFF",
+    0.92,
+    0.12
+   ],
+   "anim": "N01",
+   "dung": "bài học, thông số, danh sách dài"
+  },
+  "TT19": {
+   "nhom": 19,
+   "ten": "Chữ hoạt hình cho trẻ em",
+   "font": "sigmar-one.ttf",
+   "size": 13,
+   "fill": "BRAND",
+   "stroke": [
+    "#FFFFFF",
+    0.12
+   ],
+   "shadow": true,
+   "anim": "H02",
+   "dung": "đồ chơi, giáo dục trẻ em"
+  },
+  "TT21": {
+   "nhom": 21,
+   "ten": "Tiêu đề nhiều tầng nhấn 1 dòng",
+   "font": "montserrat-bold.otf",
+   "size": 14,
+   "fill": "BRAND",
+   "upper": true,
+   "stroke": [
+    "#111111",
+    0.06
+   ],
+   "shadow": true,
+   "dong1": {
+    "fill": "#FFFFFF",
+    "font": "be-vietnam-pro-900.ttf",
+    "size": 10
+   },
+   "anim": "H03",
+   "dung": "lịch trình, địa điểm, tiêu đề 2 tầng"
+  },
+  "TT22": {
+   "nhom": 22,
+   "ten": "Chữ trang trí lấp lánh",
+   "font": "baloo2-extrabold.ttf",
+   "size": 12,
+   "fill": "#FFFFFF",
+   "stroke": [
+    "BRAND",
+    0.08
+   ],
+   "shadow": true,
+   "anim": "T01",
+   "dung": "routine, unbox, nail, quà"
+  },
+  "TT24": {
+   "nhom": 24,
+   "ten": "Chữ neon phát sáng",
+   "font": "paytone-one.ttf",
+   "size": 13,
+   "fill": "#FFFFFF",
+   "stroke": [
+    "BRAND",
+    0.04
+   ],
+   "anim": "T01",
+   "dung": "quán đêm, khai trương, sự kiện",
+   "neon": true
+  },
+  "TT25": {
+   "nhom": 25,
+   "ten": "Phụ đề tô màu từ khoá",
+   "font": "be-vietnam-pro-700.ttf",
+   "size": 9,
+   "fill": "BRAND",
+   "shadow": true,
+   "dong1": {
+    "fill": "#FFFFFF",
+    "font": "be-vietnam-pro-700.ttf",
+    "size": 9
+   },
+   "anim": "N01",
+   "dung": "phụ đề có từ khoá nổi bật"
+  },
+  "TT26": {
+   "ten": "Công nghệ – chữ vuông",
+   "font": "chakra-petch.ttf",
+   "size": 12,
+   "fill": "#FFFFFF",
+   "upper": true,
+   "stroke": [
+    "#111111",
+    0.06
+   ],
+   "shadow": true,
+   "anim": "H03",
+   "dung": "công nghệ, xe, game",
+   "nhom": 0
+  },
+  "TT27": {
+   "ten": "Thủ công / vintage",
+   "font": "amatic-sc-bold.ttf",
+   "size": 17,
+   "fill": "#FFFFFF",
+   "upper": true,
+   "shadow": true,
+   "anim": "T01",
+   "dung": "đồ handmade, quán vintage",
+   "nhom": 0
+  }
+ }
+}

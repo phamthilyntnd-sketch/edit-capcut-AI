@@ -34,8 +34,9 @@ skill cũng tự nhận bản sửa mới nhất trên GitHub. (Bộ cài cũng 
 - Tắt kho cho 1 video: `"kho_capcut": false`. Gói Basic vẫn giữ đúng 3 chữ + 3 tiếng, không cảnh trám / hiệu ứng cảnh.
 
 ## BỘ KIỂU CHỮ + KHO MẪU CHỮ TIKTOK (19/11/2026)
-- **Kho mẫu thật** `kho/mau-chu-tiktok.json`: 206 mẫu chữ lọc từ 326 ảnh bìa video TikTok Việt Nam (16 ngành, 5 loại video),
-  chia **20 nhóm kiểu chữ**, mỗi nhóm có mô tả + **cách dựng lại trong CapCut**. Chỉ lưu nhóm / ngành / loại video, KHÔNG lưu ảnh
+- **Kho mẫu thật** `kho/mau-chu-tiktok.json`: **1.035 mẫu chữ** lọc từ ~1.950 ảnh bìa video TikTok Việt Nam (16 ngành, 5 loại
+  video; 18–20/11/2026 — thêm 829 mẫu từ 23 hashtag ngành hàng), chia **23 nhóm kiểu chữ** (thêm 22 trang trí + sticker lấp lánh,
+  24 neon phát sáng, 25 phụ đề tô màu từ khoá), mỗi nhóm có mô tả + **cách dựng lại trong CapCut**. Chỉ lưu nhóm / ngành / loại video, KHÔNG lưu ảnh
   của người khác (trang xem ảnh `KHO-MAU-CHU-TIKTOK.html` chỉ ở máy người dùng, không đưa vào repo).
 - Tra cứu: `PY -I SK/scripts/mau_chu.py goi-y <ngành>` (vd `my-pham`, `"Ẩm thực"`) → nhóm hay dùng ở ngành + bộ nên dùng ·
   `mau_chu.py nhom <số>` → công thức 1 nhóm · `mau_chu.py bo` → các bộ skill dựng tự động.

@@ -1,4 +1,4 @@
-"""KHO MẪU CHỮ TIKTOK — 206 mẫu chữ thật (20 nhóm kiểu) lọc từ 326 ảnh bìa video TikTok Việt Nam, 16 ngành (18/11/2026).
+"""KHO MẪU CHỮ TIKTOK — 1.035 mẫu chữ thật (23 nhóm kiểu) lọc từ ~1.950 ảnh bìa video TikTok Việt Nam, 16 ngành (18–20/11/2026).
 
 Dữ liệu: kho/mau-chu-tiktok.json (chỉ nhóm / ngành / loại video + công thức CapCut; KHÔNG lưu ảnh của người khác).
 Dùng để chọn KIỂU CHỮ hợp ngành trước khi dựng, và tra công thức dựng lại từng nhóm trong CapCut.
@@ -26,7 +26,7 @@ MA_NGANH = {"my-pham": "Mỹ phẩm", "am-thuc": "Ẩm thực", "do-uong": "Đ�
 NHOM_BO = {1: "tiktok", 2: "hop_trang", 3: "tiktok", 4: "toi_gian", 5: "toi_gian", 6: "toi_gian", 7: "vien_den",
            8: "thuong_hieu", 9: "vien_den", 10: "thuong_hieu", 11: "vien_den", 12: "toi_gian", 13: "vien_den",
            14: "hop_trang", 15: "tiktok", 16: "vien_den", 17: "ban_hang_nong", 18: "hop_trang", 19: "thuong_hieu",
-           21: "vien_den"}
+           21: "vien_den", 22: "tiktok", 24: "vien_den", 25: "tiktok"}
 
 
 def _bo_dau(s):

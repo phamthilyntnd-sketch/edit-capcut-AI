@@ -203,7 +203,13 @@ def khop_kich_ban(W, cau, tu_):
             T = UT[u]
             pmax = max((khop(toks(c), T)[1] for c in cau), default=0)
             dai = W[b]["e"] - W[a]["s"]
-            if u < dau or u > cuoi:
+            cta = re.search(r"gio hang|mua ngay|dat hang|dat mua|chot don|nhan (ngay )?vao|bam (ngay )?vao|link|inbox|"
+                            r"tu thuong cho minh", bo_dau(" ".join(W[k]["w"].strip() for k in range(a, b + 1))))
+            lien = W[a]["s"] - W[U[u - 1][1]]["e"]
+            if u > cuoi and ((cta and lien < 3.0) or (quyet.get(u - 1, 0) is None and u - 1 > cuoi and lien < 1.0)):
+                quyet[u] = None              # câu KÊU GỌI cuối video KOC nói thêm (brief không ghi) + câu nói liền sau
+                #                              -> giữ, đánh dấu xem lại (góp ý 18/11 O-5)
+            elif u < dau or u > cuoi:
                 quyet[u] = "ngoài kịch bản (trước câu đầu / sau câu cuối)"
             elif pmax >= 0.4:
                 quyet[u] = "lần nói khác của câu kịch bản — giữ lần đầy đủ cuối"
@@ -246,6 +252,9 @@ def do_tieng(W, bo, db, thr, tu, den):
             vung.append({"a": round(a - 0.02, 2), "b": round(b + 0.02, 2), "ly_do": "tiếng không thành chữ (ậm ừ / vấp)"})
     for k, w in enumerate(W):   # 1 từ (tiếng Việt 1 âm tiết) mà có 2 cụm tiếng tách bởi lặng, cụm đầu ngắn = lắp
         if bo[k] or w["e"] - w["s"] <= 0.6:
+            continue
+        # từ NHIỀU ÂM TIẾT (tiếng nước ngoài: "Vitamin", "Brightening") vốn có nhiều cụm tiếng -> không phải lắp
+        if len(re.findall(r"[aeiouy]+", bo_dau(w["w"]).lower())) >= 2:
             continue
         i0, i1 = int(w["s"] / HOP), int(w["e"] / HOP)
         seg = co[i0:i1]

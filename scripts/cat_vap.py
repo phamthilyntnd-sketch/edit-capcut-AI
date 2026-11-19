@@ -124,6 +124,30 @@ def main(argv=None, segs=None, tra_ve=False):
             continue
         j += 1
 
+    # 1b) LẶP 1 TỪ NGAY LIỀN có ngắt ("Đây, đây là…", "Em… em dùng") — góp ý 19/11 NoeSkin. Từ phổ biến cũng tính (luật 1
+    #     bỏ qua từ phổ biến). Không đụng láy / nhấn liền mạch ("từ từ", "xinh xinh"): cần dấu ngắt hoặc lặng >= 0,15s.
+    if not hoi_thoai:
+        for k in range(len(W) - 1):
+            if bo[k] or bo[k + 1] or W[k]["n"] in DEM or W[k]["n"] != W[k + 1]["n"]:
+                continue
+            if re.search(r"[,.…?!-]$", W[k]["w"].strip()) or W[k + 1]["s"] - W[k]["e"] >= 0.15:
+                danh(k, k + 1, f"lặp 1 từ — bỏ «{W[k]['w'].strip()}» đầu, giữ lần sau")
+
+    # 1c) CỤM BỎ DỞ: 1–3 từ Whisper ghi "…" (nói dở), đứng sau chỗ ngắt câu, sau đó ngừng rồi nói sang ý khác (không lặp lại
+    #     từ nào của cụm trong 6 từ sau) — vd "…tối đa, chuẩn lực 0… không cần chà xát mạnh". Câu nói lại thì luật 1 đã xử.
+    if not hoi_thoai:
+        for k in range(len(W) - 1):
+            if bo[k] or not W[k]["w"].strip().endswith("…") or W[k + 1]["s"] - W[k]["e"] < 0.2:
+                continue
+            b0 = dau_cau(k)
+            if k - b0 + 1 > 3 or (b0 > 0 and not (re.search(r"[.?!…,]$", W[b0 - 1]["w"].strip())
+                                                  or W[b0]["s"] - W[b0 - 1]["e"] >= 0.25)):
+                continue
+            manh = {W[t]["n"] for t in range(b0, k + 1)} - PHO
+            sau = {W[t]["n"] for t in range(k + 1, min(len(W), k + 7))}
+            if manh and not (manh & sau) and not any(bo[t] for t in range(b0, k + 1)):
+                danh(b0, k + 1, f"cụm bỏ dở «{' '.join(W[t]['w'].strip() for t in range(b0, k + 1))}»")
+
     # 2) tiếng đệm (ừ, ờ, à…): chỉ cắt khi có nhịp ngừng quanh nó (>= 0,35s tính cả tiếng đệm) — tiếng đệm lướt nhanh
     #    giữa câu cắt ra chỉ làm hình giật lắt nhắt, giữ lại. Từ kéo dài: chỉ BÁO (thường Whisper nuốt khoảng lặng).
     nghe = []
